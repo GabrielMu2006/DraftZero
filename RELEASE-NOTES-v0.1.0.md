@@ -63,5 +63,5 @@
 
 **资产校验（发布时回填）：**
 
-- `DraftZero-v0.1.0-arm64.zip`：大小 224 MB · SHA-256 `be9f138e4cd4fb53e1b5c679e2d636f01f4639365e2f4fa622d938226b41cb3c`
+- `DraftZero-v0.1.0-arm64.zip`：大小 224 MB · SHA-256 `d69e9d848176e09d082af17f6b2f918dbdb9293db98d8e2ba871fd59b1282c7c`
 - 对应提交：`3ff92d4`（tag `v0.1.0`）

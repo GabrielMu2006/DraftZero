@@ -6,6 +6,7 @@ import DraftZeroCore
 /// 返回后原列表的筛选与滚动位置保持不变。
 struct MainWindowView: View {
     @EnvironmentObject private var model: AppModel
+    @StateObject private var menuStore = ArchiveMenuStore()
 
     var body: some View {
         GeometryReader { geo in
@@ -22,7 +23,14 @@ struct MainWindowView: View {
                     MainArea(width: width)
                 }
             }
+            .overlay {
+                // 档案风格下拉菜单：绘制在主窗口内部的顶层浮层
+                //（不用 .popover——其瞬态窗口创建会触发本机 Metal 崩溃，见 ArchiveMenu.swift）
+                ArchiveMenuOverlay(windowSize: geo.size)
+                    .frame(width: geo.size.width, height: geo.size.height)
+            }
         }
+        .environmentObject(menuStore)
         .background(Color.canvas)
         .frame(minWidth: 820, minHeight: 620)
         .sheet(item: $model.importSession) { session in
