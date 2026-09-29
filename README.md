@@ -21,12 +21,11 @@ GitHub V0.1.0 预览版的发布准备、放行条件和后续工作见 [V0.1.0-
 4. 备份：完全退出应用后，整体拷贝数据目录即为完整备份（含 SQLite 库、WAL 与 PDF 快照）：
 
 数据位置（本机，无账号无云；主应用与桌面组件共享）：
-`~/Library/Group Containers/group.com.draftzero.shared/DraftZero/`（SQLite 库 + PDF 快照目录）
-从旧版本升级时，应用会在首次启动把 `~/Library/Application Support/DraftZero/` 的数据成套迁入并保留原处备份。
+`~/Library/Application Support/DraftZero/`（SQLite 库 + PDF 快照目录）
 
 恢复：退出应用后把备份目录原样拷回即可。不要只拷单个 `.sqlite` 文件。
 
-桌面组件与主应用读写同一份数据；组件条目上的一键状态修改即时写入本机库。桌面组件按 macOS 要求沙盒运行，只能访问上述共享容器。
+桌面组件与主应用读写同一份数据；组件条目上的一键状态修改即时写入本机库。桌面组件按 macOS 要求沙盒运行，经精确的文件访问授权只读写上述数据目录。
 
 ## 深链（draftzero://）与快捷指令
 

@@ -41,14 +41,15 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.draftzero.app
         PRODUCT_NAME: DraftZero
         ARCHS: arm64
-        CODE_SIGN_ENTITLEMENTS: App/DraftZero.entitlements
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_IDENTITY: "-"
         ENABLE_HARDENED_RUNTIME: false
     # V0.1.0 修正（桌面组件不入系统画廊的根因）：WidgetKit 要求组件扩展必须
-    # 沙盒化，系统才会收录并拉起。扩展已接沙盒 + App Group entitlement；
-    # 主应用保持不沙盒（未签名分发取舍），仅接 App Group 与其共享数据容器。
-    # 默认数据位置为 App Group 容器，Core/AppDatabase 会从旧位置成套迁移。
+    # 沙盒化，系统才会收录并拉起。扩展接沙盒 + temporary-exception 文件授权，
+    # 读写主应用共享的 ~/Library/Application Support/DraftZero；
+    # App Group entitlement 在 ad hoc 签名下会被 Xcode 拒绝（要求开发证书），
+    # 故暂不使用；接入开发者证书后可切换为 App Group 方案。
+    # 主应用保持不沙盒、无 entitlements（未签名分发取舍）。
 
   DraftZeroWidget:
     type: app-extension

@@ -2,11 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- macOS 26 的 WidgetKit 只收录沙盒化的组件扩展（实测：未沙盒不入画廊）。
+	     主应用保持不沙盒，数据在其 Application Support/DraftZero；
+	     扩展经 temporary-exception 精确授权读写该目录，与主应用同库。
+	     未来接入开发者证书后，可切换为 App Group 容器方案。 -->
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
-	<key>com.apple.security.application-groups</key>
+	<key>com.apple.security.temporary-exception.files.home-relative-path.read-write</key>
 	<array>
-		<string>group.com.draftzero.shared</string>
+		<string>/Library/Application Support/DraftZero/</string>
 	</array>
 </dict>
 </plist>
