@@ -53,7 +53,8 @@ final class ArchiveMenuStore: ObservableObject {
     }
 }
 
-/// 触发按钮：沿用调用处既有样式；点击时上报按钮在窗口中的位置。
+/// 触发按钮：沿用调用处既有样式；点击时上报按钮在主窗口命名坐标空间中的位置
+///（与 ArchiveMenuOverlay 的浮层同一空间，保证对齐）。
 struct ArchiveDropdownMenu<Label: View>: View {
     @EnvironmentObject private var store: ArchiveMenuStore
     @ViewBuilder var label: () -> Label
@@ -71,13 +72,17 @@ struct ArchiveDropdownMenu<Label: View>: View {
         .background(
             GeometryReader { geo in
                 Color.clear
-                    .onAppear { anchorFrame = geo.frame(in: .global) }
-                    .onChange(of: geo.frame(in: .global)) { _, frame in
+                    .onAppear { anchorFrame = geo.frame(in: .named(ArchiveMenuSpace.name)) }
+                    .onChange(of: geo.frame(in: .named(ArchiveMenuSpace.name))) { _, frame in
                         anchorFrame = frame
                     }
             })
         .accessibilityHint("打开菜单")
     }
+}
+
+enum ArchiveMenuSpace {
+    static let name = "dzMainWindow"
 }
 
 // MARK: - 顶层渲染（MainWindowView 挂载）

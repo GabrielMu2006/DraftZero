@@ -23,6 +23,7 @@ struct MainWindowView: View {
                     MainArea(width: width)
                 }
             }
+            .coordinateSpace(name: ArchiveMenuSpace.name)
             .overlay {
                 // 档案风格下拉菜单：绘制在主窗口内部的顶层浮层
                 //（不用 .popover——其瞬态窗口创建会触发本机 Metal 崩溃，见 ArchiveMenu.swift）

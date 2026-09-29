@@ -134,24 +134,20 @@ struct DraftZeroWidgetEntryView: View {
         .containerBackground(for: .widget) { Color.wCanvas }
     }
 
-    /// 项目行：点击在主应用中打开该项目（只读导航深链，V0.1.0 安全边界允许直接执行）。
+    /// 项目行：纯文字行，点击在主应用中打开该项目（只读导航深链，安全边界允许直接执行）。
     private func projectRow(_ project: WidgetProject, isTodo: Bool) -> some View {
         Link(destination: projectOpenURL(project)) {
             HStack(spacing: 6) {
+                if isTodo {
+                    Circle()
+                        .fill(Color.wText.opacity(0.85))
+                        .frame(width: 5, height: 5)
+                }
                 Text(project.name)
                     .font(.system(size: 12, weight: isTodo ? .medium : .regular, design: .serif))
                     .foregroundStyle(Color.wText)
                     .lineLimit(1)
-                Spacer()
-                if isTodo {
-                    Circle()
-                        .strokeBorder(Color.wText.opacity(0.85), lineWidth: 1.4)
-                        .frame(width: 9, height: 9)
-                } else {
-                    Circle()
-                        .strokeBorder(Color.wRule, lineWidth: 1)
-                        .frame(width: 9, height: 9)
-                }
+                Spacer(minLength: 0)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
