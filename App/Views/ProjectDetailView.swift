@@ -169,19 +169,19 @@ struct ProjectDetailView: View {
                     .font(.system(size: 12))
                     .foregroundStyle(Color.mutedText)
                 Spacer()
-                Menu {
-                    Button("重命名…") {
-                        renameText = liveProject.name
-                        showRename = true
-                    }
-                    Button("删除项目…", role: .destructive) {
-                        showDeleteConfirm = true
-                    }
-                } label: {
+                ArchiveDropdownMenu {
                     Label("更多", systemImage: "ellipsis.circle")
+                } options: {
+                    [
+                        ArchiveMenuOption("重命名…") {
+                            renameText = liveProject.name
+                            showRename = true
+                        },
+                        ArchiveMenuOption("删除项目…", isDestructive: true) {
+                            showDeleteConfirm = true
+                        },
+                    ]
                 }
-                .menuStyle(.borderlessButton)
-                .menuIndicator(.visible)
                 .fixedSize()
             }
             HStack(alignment: .firstTextBaseline, spacing: 12) {
@@ -205,20 +205,18 @@ struct ProjectDetailView: View {
     }
 
     private var statusMenu: some View {
-        Menu {
-            ForEach(ProjectStatus.allCases, id: \.self) { status in
-                Button(status.displayName) {
-                    Task { await model.setProjectStatus(liveProject, status: status) }
-                }
-            }
-        } label: {
+        ArchiveDropdownMenu {
             ArchiveStatusChip(
                 text: liveProject.status.displayName,
                 color: liveProject.status == .archived ? .mutedText : .confirmed,
                 systemImage: liveProject.status.symbolName)
+        } options: {
+            ProjectStatus.allCases.map { status in
+                ArchiveMenuOption(status.displayName, isSelected: status == liveProject.status) {
+                    Task { await model.setProjectStatus(liveProject, status: status) }
+                }
+            }
         }
-        .menuStyle(.borderlessButton)
-        .menuIndicator(.visible)
         .fixedSize()
         .accessibilityLabel("项目状态：\(liveProject.status.displayName)，打开菜单可更改")
     }
@@ -504,18 +502,18 @@ struct ProjectDetailView: View {
                     .fontDesign(.serif)
                     .foregroundStyle(Color.archiveText)
                 Spacer()
-                Menu {
-                    Button("全部类型") { typeFilter = nil }
-                    ForEach(RelationType.allCases, id: \.self) { type in
-                        Button(type.displayName) { typeFilter = type }
-                    }
-                } label: {
+                ArchiveDropdownMenu {
                     Label(typeFilter.map { $0.displayName } ?? "按类型筛选", systemImage: "line.3.horizontal.decrease.circle")
                         .font(.system(size: 12))
                         .foregroundStyle(Color.accent)
+                } options: {
+                    [ArchiveMenuOption("全部类型", isSelected: typeFilter == nil) { typeFilter = nil }] +
+                    RelationType.allCases.map { type in
+                        ArchiveMenuOption(type.displayName, isSelected: typeFilter == type) {
+                            typeFilter = type
+                        }
+                    }
                 }
-                .menuStyle(.borderlessButton)
-                .menuIndicator(.visible)
                 .fixedSize()
             }
             ForEach(filteredEvents, id: \.id) { event in

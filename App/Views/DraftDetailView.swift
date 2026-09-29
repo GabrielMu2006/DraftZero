@@ -146,18 +146,18 @@ struct DraftDetailView: View {
                     }
                     .buttonStyle(ArchiveStrongButtonStyle())
                 }
-                Menu {
-                    Button("删除草稿…", role: .destructive) {
-                        Task {
-                            deleteImpact = await model.deletionImpact(for: draft)
-                            showDeleteConfirm = true
-                        }
-                    }
-                } label: {
+                ArchiveDropdownMenu {
                     Label("更多", systemImage: "ellipsis.circle")
+                } options: {
+                    [
+                        ArchiveMenuOption("删除草稿…", isDestructive: true) {
+                            Task {
+                                deleteImpact = await model.deletionImpact(for: draft)
+                                showDeleteConfirm = true
+                            }
+                        },
+                    ]
                 }
-                .menuStyle(.borderlessButton)
-                .menuIndicator(.visible)
                 .fixedSize()
             }
             HStack(alignment: .firstTextBaseline, spacing: 10) {

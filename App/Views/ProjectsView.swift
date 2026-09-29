@@ -27,14 +27,11 @@ struct ProjectsView: View {
                 index: filter == .todo ? "04" : filter == .archived ? "05" : "03",
                 title: title,
                 subtitle: "\(projects.count) 个项目") {
-                Menu {
-                    Button("新建项目…") { showCreate = true }
-                        .keyboardShortcut("n", modifiers: [.command, .shift])
-                } label: {
+                ArchiveDropdownMenu {
                     Label("添加 / 更多", systemImage: "plus")
+                } options: {
+                    [ArchiveMenuOption("新建项目…") { showCreate = true }]
                 }
-                .menuStyle(.borderlessButton)
-                .menuIndicator(.visible)
                 .fixedSize()
             }
             if filter == nil {

@@ -67,17 +67,15 @@ struct DraftBoxView: View {
             index: "01",
             title: "草稿箱",
             subtitle: subtitleText) {
-            Menu {
-                Button("导入本地文件…") { model.pickAndImport() }
-                    .keyboardShortcut("o")
-                Button("添加链接…") { model.showAddLinkSheet = true }
-                    .keyboardShortcut("l")
-                Button("合并草稿…") { showMergeSheet = true }
-            } label: {
+            ArchiveDropdownMenu {
                 Label("添加 / 更多", systemImage: "plus.viewfinder")
+            } options: {
+                [
+                    ArchiveMenuOption("导入本地文件…", shortcutHint: "⌘O") { model.pickAndImport() },
+                    ArchiveMenuOption("添加链接…", shortcutHint: "⌘L") { model.showAddLinkSheet = true },
+                    ArchiveMenuOption("合并草稿…") { showMergeSheet = true },
+                ]
             }
-            .menuStyle(.borderlessButton)
-            .menuIndicator(.visible)
             .fixedSize()
         }
     }

@@ -18,6 +18,7 @@
 		60714F92412425BFE4274AD6 /* ClueDeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F84F9D7A433BB254B6D8AC8 /* ClueDeskView.swift */; };
 		64B1288B8236F7E479F3846B /* DraftZeroWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 377C74F9B42544A70AB04BF0 /* DraftZeroWidget.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D8B940418C8582F91BDA602 /* VersionCompareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3565CB8294CD0AA15C48B /* VersionCompareSheet.swift */; };
+		6F8D9567245368414CE22C90 /* ArchiveMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289F4DC0B9679D582580837C /* ArchiveMenu.swift */; };
 		71A704D25ED5FCB352D463BF /* QuickSearchSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C07655A9B566B679C2CCD7 /* QuickSearchSheet.swift */; };
 		974A0AF6192AF39B168A88BD /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4929ED73FBDE49EAE63789C /* ProjectsView.swift */; };
 		98E70D8BB372FAD80DCC78F1 /* MergeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F776C210492DD97106F9B37A /* MergeSheet.swift */; };
@@ -70,6 +71,7 @@
 		1BD562BFFE782C1777FAEA0C /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		243ECE2586812F5206BE2ABD /* ImportSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSessionView.swift; sourceTree = "<group>"; };
 		26F922772E1F7A2F7C8721A9 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		289F4DC0B9679D582580837C /* ArchiveMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveMenu.swift; sourceTree = "<group>"; };
 		2BFF068801A183C7B06E1E81 /* SemanticModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticModel.swift; sourceTree = "<group>"; };
 		377C74F9B42544A70AB04BF0 /* DraftZeroWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DraftZeroWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D878C7270203102F4F4998E /* DraftZero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DraftZero.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +143,7 @@
 			children = (
 				CA3F1E60EBE8B10D6436A0F4 /* AddLinkSheet.swift */,
 				0FABBBEEE7CABAC6F35FA28E /* ArchiveComponents.swift */,
+				289F4DC0B9679D582580837C /* ArchiveMenu.swift */,
 				6F84F9D7A433BB254B6D8AC8 /* ClueDeskView.swift */,
 				922A87E9BB81A67D3B306AA7 /* DraftBoxView.swift */,
 				DE2ECF2EAB6EEB715F553481 /* DraftDetailView.swift */,
@@ -294,6 +297,7 @@
 				ABEB1271F7D45E2BF070729A /* AddLinkSheet.swift in Sources */,
 				9BDAD4C4E107D5800F69CB32 /* AppModel.swift in Sources */,
 				BE5A9087665CC9C33880E2BF /* ArchiveComponents.swift in Sources */,
+				6F8D9567245368414CE22C90 /* ArchiveMenu.swift in Sources */,
 				60714F92412425BFE4274AD6 /* ClueDeskView.swift in Sources */,
 				410C93CFC5EEB14998E875AE /* DeepLink.swift in Sources */,
 				B55DFFCD9A105C976537EEAA /* DraftBoxView.swift in Sources */,
