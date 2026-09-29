@@ -181,6 +181,9 @@ final class AppModel: ObservableObject {
     func bootstrap() async {
         guard database == nil else { return }
         do {
+            // V0.1.0：一次性把 Application Support 工作区迁入 App Group 共享容器
+            // （组件扩展已沙盒化，只能访问共享容器）。仅主应用执行，可重试。
+            let migration = AppDatabase.migrateLegacyWorkspaceIfNeeded()
             // 库与快照的定位统一走 Core（含 DZ_WORKSPACE_DIR 隔离覆盖），
             // 与桌面组件扩展的读取/写入同一实现（收尾方案 P4）。
             let dbURL = AppDatabase.defaultDatabaseURL()
@@ -188,6 +191,12 @@ final class AppModel: ObservableObject {
             let pool = try DatabasePool(path: dbURL.path)
             let db = try AppDatabase(pool: pool)
             database = db
+            if let migration {
+                // 快照记录的是绝对路径：迁移后改写前缀，PDF 快照才能继续打开。
+                try? await db.relocateSnapshotPaths(
+                    from: migration.snapshotsOldPrefix,
+                    to: migration.snapshotsNewPrefix)
+            }
             importer = LocalFileImporter(database: db, snapshotsDirectory: snapshotsURL)
             webImporter = WebImporter(database: db)
             gitHubImporter = GitHubImporter(database: db, snapshotsDirectory: snapshotsURL)

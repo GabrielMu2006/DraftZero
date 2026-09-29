@@ -6,9 +6,10 @@
 
 ## 存储位置
 
-- 数据目录：`~/Library/Application Support/DraftZero/`
+- 数据目录：`~/Library/Group Containers/group.com.draftzero.shared/DraftZero/`
   - `DraftZero.sqlite`（含 `-wal`/`-shm`）：草稿正文、版本、项目、标签、关系、候选线索。
   - `snapshots/`：导入 PDF 时的二进制快照。
+- 从旧版本升级：首次启动会把 `~/Library/Application Support/DraftZero/` 的旧数据成套迁入共享容器，原位置保留作备份。
 - 备份：完全退出应用后整体拷贝上述目录；恢复时原样拷回。不要只备份单个 `.sqlite` 文件。
 
 ## 什么会离开你的电脑

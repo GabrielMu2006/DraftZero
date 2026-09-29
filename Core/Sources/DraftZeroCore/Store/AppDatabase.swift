@@ -1,5 +1,6 @@
 import Foundation
 import GRDB
+import os
 
 /// 本机工作区数据库（R-011）。所有草稿正文、版本、项目、关系存于同一 SQLite 库，
 /// 检索索引属可重建数据，后续 T-004 另建，不入此迁移。
@@ -134,15 +135,32 @@ public struct AppDatabase: Sendable {
     }
 
     /// App Group（R-009）：主应用与桌面组件共享同一份本机数据。
-    /// V0.1.0 分发为未签名、未沙盒构建，未接入该 entitlement（见 defaultDatabaseURL）；
-    /// 此常量与下方搬运/改路工具保留给未来启用沙盒 + App Group 的版本。
+    /// V0.1.0 修正：组件扩展被系统强制沙盒运行（未沙盒的扩展不会进入组件画廊），
+    /// 共享数据的唯一可靠位置是 App Group 容器；主应用不沙盒但接入同一
+    /// App Group entitlement（App/DraftZero.entitlements），双端定位一致。
     public static let appGroupId = "group.com.draftzero.shared"
 
+    /// App Group 容器内的共享工作区目录；entitlement 未生效（containerURL 为 nil）
+    /// 时返回 nil，由调用方决定回退（回退时必须记录，不得静默切换）。
+    public static func groupWorkspaceDirectory() -> URL? {
+        guard let group = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: appGroupId) else { return nil }
+        let dir = group.appendingPathComponent("DraftZero", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir
+    }
+
+    public static func groupDatabaseURL() -> URL? {
+        groupWorkspaceDirectory()?.appendingPathComponent("DraftZero.sqlite")
+    }
+
+    public static func groupSnapshotsDirectory() -> URL? {
+        groupWorkspaceDirectory()?.appendingPathComponent("snapshots", isDirectory: true)
+    }
+
     /// 本机工作区目录：应用自己的 Application Support/DraftZero。
-    /// V0.1.0 起 Debug 与 Release、主应用与组件扩展统一使用这一位置——
-    /// 未接入 App Group entitlement 时 `containerURL` 仍会返回共享容器，
-    /// 但该位置对分发包不可依赖（实机出现过 Release 静默切到空库），
-    /// 因此在真正启用沙盒前，App Group 分支不参与默认定位。
+    /// V0.1.0 起为迁移来源与 entitlement 未生效时的回退位置；新数据一律进
+    /// App Group 容器（见 defaultDatabaseURL 与 migrateLegacyWorkspaceIfNeeded）。
     public static func applicationSupportDatabaseURL() -> URL {
         let base = (try? FileManager.default.url(
             for: .applicationSupportDirectory, in: .userDomainMask,
@@ -152,7 +170,7 @@ public struct AppDatabase: Sendable {
         return dir.appendingPathComponent("DraftZero.sqlite")
     }
 
-    /// 本机快照目录（PDF 等二进制快照，与库同目录）。
+    /// 本机快照目录（迁移来源；与库同目录）。
     public static func applicationSupportSnapshotsURL() -> URL {
         applicationSupportDatabaseURL().deletingLastPathComponent()
             .appendingPathComponent("snapshots", isDirectory: true)
@@ -172,22 +190,150 @@ public struct AppDatabase: Sendable {
         return base
     }
 
-    /// 默认库位置：未沙盒分发构建的唯一、可验证定位为 Application Support/DraftZero，
-    /// Debug 与 Release、主应用与组件扩展完全一致（R-009）。不尝试 App Group：
-    /// 权限未接入时不能依赖共享容器，更不可静默切到新空库。未来启用沙盒时，
-    /// 在接入 entitlement 的构建里改为优先 App Group，并用 copyLegacyDatabase +
-    /// relocateSnapshotPaths 成套迁移数据库/WAL/快照，且迁移失败不得覆盖旧数据。
-    /// `DZ_WORKSPACE_DIR` 覆盖优先于一切（QA 隔离；主应用界面会显示隔离提示）。
+    /// 默认库位置：`DZ_WORKSPACE_DIR` 覆盖（QA 隔离）优先，其次 App Group 共享容器
+    /// （主应用与沙盒化的组件扩展双端一致，R-009）。entitlement 未生效的罕见情形
+    /// 回退应用自有目录——回退必须发生在 entitlement 确实接入并实测过的构建里，
+    /// 且以 os_log fault 记录，不得作为发布版的常规路径。
     public static func defaultDatabaseURL() -> URL {
         if let base = workspaceDirectoryOverride() {
             return base.appendingPathComponent("DraftZero.sqlite")
         }
+        if let shared = groupDatabaseURL() {
+            return shared
+        }
+        faultLog("App Group 容器不可用，回退 Application Support（entitlement 未生效？）")
         return applicationSupportDatabaseURL()
     }
 
+    private static func faultLog(_ message: String) {
+        Logger(subsystem: "com.draftzero.core", category: "workspace")
+            .fault("\(message, privacy: .public)")
+    }
+
+    /// 二进制快照（PDF 等）目录：定位逻辑与 defaultDatabaseURL 一致。
+    public static func defaultSnapshotsURL() -> URL {
+        if let base = workspaceDirectoryOverride() {
+            let dir = base.appendingPathComponent("snapshots", isDirectory: true)
+            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            return dir
+        }
+        if let dir = groupSnapshotsDirectory() {
+            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            return dir
+        }
+        let dir = applicationSupportSnapshotsURL()
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir
+    }
+
+    /// 一次性迁移的结果：快照绝对路径需要从旧前缀改写到新前缀。
+    public struct LegacyWorkspaceMigration: Sendable, Equatable {
+        public let snapshotsOldPrefix: String
+        public let snapshotsNewPrefix: String
+    }
+
+    /// 把应用自有 Application Support 工作区成套迁移进 App Group 容器（V0.1.0 起）。
+    /// 只应由主应用在打开数据库之前调用；组件扩展不迁移（避免双端竞争）。
+    /// 规则：
+    ///   - 迁移完成标记（`.migrated-from-app-support-v1`）存在 → 不再执行；
+    ///   - 旧库不存在（全新安装）→ 只写标记；
+    ///   - 目标已有库：0 草稿（扩展预建/旧试验残留）→ 先改名留档再迁入；
+    ///     含草稿 → 不迁移不覆盖，返回 nil 留待人工处理；
+    ///   - 复制含数据库、WAL/SHM 与快照目录；全部成功才写标记，失败下次重试。
+    @discardableResult
+    public static func migrateLegacyWorkspaceIfNeeded(
+        groupDir: URL? = nil, legacyDir: URL? = nil
+    ) -> LegacyWorkspaceMigration? {
+        let fm = FileManager.default
+        let shared = groupDir ?? groupWorkspaceDirectory()
+        guard let shared else {
+            faultLog("App Group 容器不可用，跳过迁移")
+            return nil
+        }
+        try? fm.createDirectory(at: shared, withIntermediateDirectories: true)
+        let marker = shared.appendingPathComponent(".migrated-from-app-support-v1")
+        guard !fm.fileExists(atPath: marker.path) else { return nil }
+
+        let legacyHome = legacyDir
+            ?? applicationSupportDatabaseURL().deletingLastPathComponent()
+        let legacyDB = legacyHome.appendingPathComponent("DraftZero.sqlite")
+        let legacySnapshots = legacyHome.appendingPathComponent("snapshots", isDirectory: true)
+        let sharedDB = shared.appendingPathComponent("DraftZero.sqlite")
+        let sharedSnapshots = shared.appendingPathComponent("snapshots", isDirectory: true)
+
+        func writeMarker() {
+            try? Data().write(to: marker)
+        }
+
+        guard fm.fileExists(atPath: legacyDB.path) else {
+            writeMarker()
+            return nil
+        }
+
+        // 目标已有库：0 草稿 → 留档改名后迁入；有数据 → 不动。
+        if fm.fileExists(atPath: sharedDB.path) {
+            var existingDrafts: Int?
+            if let existingPool = try? DatabasePool(path: sharedDB.path) {
+                existingDrafts = try? existingPool.read { db in
+                    try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM draft") ?? -1
+                }
+            }
+            switch existingDrafts {
+            case 0:
+                let stamp = Int(Date().timeIntervalSince1970)
+                for suffix in ["", "-wal", "-shm"] {
+                    let from = sharedDB.path + suffix
+                    if fm.fileExists(atPath: from) {
+                        try? fm.moveItem(
+                            atPath: from,
+                            toPath: sharedDB.path + ".pre-migration-\(stamp)\(suffix)")
+                    }
+                }
+            case let count?:
+                faultLog("App Group 库已有 \(count) 份草稿，跳过迁移（需人工核对）")
+                return nil
+            default:
+                // 库存在但打不开（损坏/加密）：同样留档后迁入。
+                let stamp = Int(Date().timeIntervalSince1970)
+                try? fm.moveItem(
+                    atPath: sharedDB.path,
+                    toPath: sharedDB.path + ".pre-migration-broken-\(stamp)")
+            }
+        }
+
+        for suffix in ["", "-wal", "-shm"] {
+            let from = legacyDB.path + suffix
+            if fm.fileExists(atPath: from), !fm.fileExists(atPath: sharedDB.path + suffix) {
+                do {
+                    try fm.copyItem(atPath: from, toPath: sharedDB.path + suffix)
+                } catch {
+                    faultLog("迁移数据库失败：\(error.localizedDescription)")
+                    return nil
+                }
+            }
+        }
+
+        try? fm.createDirectory(at: sharedSnapshots, withIntermediateDirectories: true)
+        if fm.fileExists(atPath: legacySnapshots.path) {
+            if let files = try? fm.contentsOfDirectory(
+                at: legacySnapshots, includingPropertiesForKeys: nil) {
+                for file in files {
+                    let target = sharedSnapshots.appendingPathComponent(file.lastPathComponent)
+                    if !fm.fileExists(atPath: target.path) {
+                        try? fm.copyItem(at: file, to: target)
+                    }
+                }
+            }
+        }
+
+        writeMarker()
+        return LegacyWorkspaceMigration(
+            snapshotsOldPrefix: legacySnapshots.path,
+            snapshotsNewPrefix: sharedSnapshots.path)
+    }
+
     /// 搬运旧库（含 WAL 文件）；返回是否发生了搬运。
-    /// V0.1.0 中 Debug 与 Release 同路径，无默认迁移；此工具保留给未来
-    /// 启用沙盒 + App Group 时成套搬移，失败不删除旧数据。
+    /// 保留给未来的容器间搬迁场景；V0.1.0 的默认迁移走 migrateLegacyWorkspaceIfNeeded。
     @discardableResult
     public static func copyLegacyDatabase(to sharedDB: URL) -> Bool {
         let legacy = applicationSupportDatabaseURL()
@@ -202,19 +348,7 @@ public struct AppDatabase: Sendable {
         return true
     }
 
-    /// 二进制快照（PDF 等）目录：与库同容器，定位逻辑与 defaultDatabaseURL 一致。
-    public static func defaultSnapshotsURL() -> URL {
-        if let base = workspaceDirectoryOverride() {
-            let dir = base.appendingPathComponent("snapshots", isDirectory: true)
-            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-            return dir
-        }
-        let dir = applicationSupportSnapshotsURL()
-        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        return dir
-    }
-
-    /// 一次性修正快照绝对路径前缀（未来容器迁移后 PDF 快照指向新位置）。
+    /// 一次性修正快照绝对路径前缀（容器迁移后 PDF 快照指向新位置）。
     public func relocateSnapshotPaths(from oldPrefix: String, to newPrefix: String) async throws {
         try await pool.write { db in
             let rows = try Draft.filter(Column("snapshotFileURL") != nil).fetchAll(db)
