@@ -1,0 +1,5 @@
+resolved database url = /tmp/dz-qa/workspace/DraftZero.sqlite
+timeline read → todo: ["QA待办项目"] | recent: ["QA最近项目"]
+intent [标记为基本完成] applied to 'QA待办项目'
+intent [设为 TODO] applied to 'QA最近项目'
+timeline after → todo: ["QA最近项目"] | recent: ["QA待办项目"]

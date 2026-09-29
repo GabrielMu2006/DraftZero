@@ -1,0 +1,53 @@
+{
+  "note": "T-011 spike baseline (A-007: pending product-owner approval)",
+  "threads": {
+    "A": [
+      "Agent Benchmark 想法.md",
+      "模型测试 prompt.md",
+      "benchmark-v2.txt",
+      "agent_eval_notes.md",
+      "评测报告节选（长）.txt"
+    ],
+    "B": [
+      "雨夜书店_第一章.md",
+      "深夜灵感.txt",
+      "书店故事大纲.md",
+      "character_notes.md"
+    ],
+    "C": [
+      "纸堆 README 草稿.md",
+      "note-app-features.txt",
+      "本地优先同步方案.md",
+      "知识库竞品笔记.md"
+    ],
+    "D": [
+      "面包笔记.md",
+      "sourdough schedule.txt",
+      "周末烘焙计划.txt",
+      "烘焙书摘录（长）.md",
+      "面包笔记_备份.txt"
+    ],
+    "E": [
+      "播客选题清单.md",
+      "podcast_episode_outline.txt",
+      "嘉宾邀请话术.md",
+      "第一期脚本草稿.md"
+    ]
+  },
+  "duplicates": [
+    [
+      "面包笔记_备份.txt",
+      "面包笔记.md"
+    ]
+  ],
+  "unrelated": [
+    "prompt 练习册.md",
+    "模型测试记录_0712.txt",
+    "购物清单.txt",
+    "旅行装箱清单.md",
+    "健身计划.txt",
+    "会议纪要_社区业委会.md",
+    "tax checklist.txt",
+    "装修报价对比.md"
+  ]
+}

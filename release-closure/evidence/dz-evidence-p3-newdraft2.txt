@@ -1,0 +1,17 @@
+== role counts ==
+AXApplication: 1
+AXButton: 13
+AXGroup: 2
+AXMenu: 12
+AXMenuBar: 1
+AXMenuBarItem: 8
+AXMenuItem: 157
+AXScrollArea: 2
+AXStaticText: 4
+AXTextField: 2
+AXWindow: 1
+
+== issues (3) ==
+EMPTY_LABEL role=AXButton path=AXApplication>AXWindow actions=["AXPress"]
+EMPTY_LABEL role=AXButton path=AXApplication>AXWindow actions=["AXPress", "AXZoomWindow", "AXShowMenu"]
+EMPTY_LABEL role=AXButton path=AXApplication>AXWindow actions=["AXPress"]

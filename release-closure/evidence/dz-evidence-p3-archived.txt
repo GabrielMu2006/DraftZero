@@ -1,0 +1,29 @@
+== role counts ==
+AXApplication: 1
+AXButton: 18
+AXCell: 30
+AXColumn: 1
+AXGroup: 5
+AXImage: 30
+AXMenu: 12
+AXMenuBar: 1
+AXMenuBarItem: 8
+AXMenuButton: 1
+AXMenuItem: 158
+AXOutline: 1
+AXRow: 30
+AXScrollArea: 2
+AXScrollBar: 1
+AXSheet: 1
+AXStaticText: 99
+AXValueIndicator: 1
+AXWindow: 1
+
+== issues (7) ==
+EMPTY_LABEL role=AXButton path=AXApplication>AXWindow actions=["AXPress"]
+EMPTY_LABEL role=AXButton path=AXApplication>AXWindow actions=["AXPress", "AXShowMenu"]
+EMPTY_LABEL role=AXButton path=AXApplication>AXWindow actions=["AXPress"]
+EMPTY_LABEL role=AXButton path=AXGroup>AXScrollArea>AXScrollBar actions=["AXPress"]
+EMPTY_LABEL role=AXButton path=AXGroup>AXScrollArea>AXScrollBar actions=["AXPress"]
+EMPTY_LABEL role=AXButton path=AXGroup>AXScrollArea>AXScrollBar actions=["AXPress"]
+EMPTY_LABEL role=AXButton path=AXGroup>AXScrollArea>AXScrollBar actions=["AXPress"]

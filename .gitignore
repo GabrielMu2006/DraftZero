@@ -1,0 +1,53 @@
+# Build outputs and local package caches
+/Core/.build/
+/Core/.swiftpm/
+/DerivedData/
+/build/
+/dist/
+*.xcarchive/
+*.xcuserstate
+*.xcuserdata/
+
+# T-011 experiments. Keep scripts, generated testset, and score reports.
+/t011-spike/.venv/
+/t011-spike/models/
+
+# Runtime model weight is distributed via Git LFS (see .gitattributes).
+# It exceeds GitHub's ordinary Git 100 MiB file limit; do NOT remove the LFS filter.
+
+# Local data and credentials
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+.env
+.env.*
+*.p12
+*.mobileprovision
+*.provisionprofile
+*.log
+.DS_Store
+
+# Local tool/session caches
+/.video_agent/
+
+# QA evidence: keep the auditable, non-personal artifacts; never commit real
+# user workspace dumps (real-db-*).
+/release-closure/evidence/*
+!/release-closure/evidence/P0-baseline-run1.json
+!/release-closure/evidence/P1-after-run1.json
+!/release-closure/evidence/P2-probe-reducemotion-false.txt
+!/release-closure/evidence/P2-app-window-reducemotion-off.png
+!/release-closure/evidence/P3-ax-audit-cluedesk.txt
+!/release-closure/evidence/P4-app-isolated-db-projects.png
+!/release-closure/evidence/P4-app-sync-after-intents.png
+!/release-closure/evidence/P4-widget-intents-write.txt
+!/release-closure/evidence/ax-audit-tool.swift
+!/release-closure/evidence/dz-evidence-p3-*.txt
+!/release-closure/evidence/testset-sha256.txt
+!/release-closure/evidence/R004-post-dependency-fix-run1.json
+---
+
+# Local one-off artifacts
+/tools/xcodegen.zip
+/.build/

@@ -1,0 +1,3 @@
+Filtering the log data using "subsystem == "com.draftzero.app""
+Timestamp               Ty Process[PID:TID]
+2026-09-29 13:41:24.087 Df DraftZero[63870:79c7c] [com.draftzero.app:accessibility] accessibilityReduceMotion(启动读取) = false

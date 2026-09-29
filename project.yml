@@ -1,0 +1,84 @@
+name: DraftZero
+options:
+  bundleIdPrefix: com.draftzero
+  # V0.1.0 明确只支持 Apple Silicon + macOS 26（发布计划 A.2）；
+  # 不再声明对更旧系统或 Intel 的支持。
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+
+packages:
+  DraftZeroCore:
+    path: Core
+
+targets:
+  DraftZero:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+    dependencies:
+      - package: DraftZeroCore
+        product: DraftZeroCore
+      - target: DraftZeroWidget
+        embed: true
+        codeSign: true
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Draft Zero
+        CFBundleShortVersionString: 0.1.0
+        CFBundleVersion: 1
+        LSMinimumSystemVersion: "26.0"
+        LSApplicationCategoryType: public.app-category.productivity
+        CFBundleURLTypes:
+          - CFBundleURLName: com.draftzero.app
+            CFBundleURLSchemes:
+              - draftzero
+    settings:
+      base:
+        SWIFT_VERSION: "6.0"
+        PRODUCT_BUNDLE_IDENTIFIER: com.draftzero.app
+        PRODUCT_NAME: DraftZero
+        ARCHS: arm64
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: false
+    # 本地开发构建无签名身份，暂不启用沙盒与 App Group：
+    # 主应用与组件共享 ~/Library/Application Support/DraftZero（Core 的
+    # App Group 工具保留，未来分发签名版时再启用并成套迁移，见 Core/AppDatabase）。
+
+  DraftZeroWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: Widget
+    dependencies:
+      - package: DraftZeroCore
+        product: DraftZeroCore
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Draft Zero Widget
+        CFBundleShortVersionString: 0.1.0
+        CFBundleVersion: 1
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        SWIFT_VERSION: "6.0"
+        PRODUCT_BUNDLE_IDENTIFIER: com.draftzero.app.widget
+        PRODUCT_NAME: DraftZeroWidget
+        ARCHS: arm64
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: false
+        SKIP_INSTALL: true
+
+schemes:
+  DraftZero:
+    build:
+      targets:
+        DraftZero: all
+    run:
+      config: Debug

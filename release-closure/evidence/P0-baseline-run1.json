@@ -1,0 +1,3027 @@
+{
+  "allPairs" : [
+    {
+      "a" : "Agent Benchmark 想法.md",
+      "b" : "benchmark-v2.txt",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.10192878338278931,
+      "score" : 0.6731959381478476,
+      "semantic" : 0.9180247187614441
+    },
+    {
+      "a" : "Agent Benchmark 想法.md",
+      "b" : "本地优先同步方案.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.009887005649717513,
+      "score" : 0.6323370652683711,
+      "semantic" : 0.8991013765335083
+    },
+    {
+      "a" : "Agent Benchmark 想法.md",
+      "b" : "模型测试 prompt.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.039729729729729726,
+      "score" : 0.6578813837283366,
+      "semantic" : 0.922803521156311
+    },
+    {
+      "a" : "Agent Benchmark 想法.md",
+      "b" : "知识库竞品笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.016045845272206302,
+      "score" : 0.6350659539467284,
+      "semantic" : 0.9003602862358093
+    },
+    {
+      "a" : "Agent Benchmark 想法.md",
+      "b" : "纸堆 README 草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.021937321937321938,
+      "score" : 0.6373580668318984,
+      "semantic" : 0.9011098146438599
+    },
+    {
+      "a" : "Agent Benchmark 想法.md",
+      "b" : "评测报告节选（长）.txt",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.05343511450381679,
+      "score" : 0.6689485154989111,
+      "semantic" : 0.9327399730682373
+    },
+    {
+      "a" : "agent_eval_notes.md",
+      "b" : "note-app-features.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.09302325581395349,
+      "score" : 0.6185073183026425,
+      "semantic" : 0.8437147736549377
+    },
+    {
+      "a" : "agent_eval_notes.md",
+      "b" : "podcast_episode_outline.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.025735294117647058,
+      "score" : 0.5989673481268041,
+      "semantic" : 0.8446382284164429
+    },
+    {
+      "a" : "agent_eval_notes.md",
+      "b" : "sourdough schedule.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.03602941176470588,
+      "score" : 0.5825031082069173,
+      "semantic" : 0.816706120967865
+    },
+    {
+      "a" : "agent_eval_notes.md",
+      "b" : "tax checklist.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.01891891891891892,
+      "score" : 0.6007759533379529,
+      "semantic" : 0.8501432538032532
+    },
+    {
+      "a" : "benchmark-v2.txt",
+      "b" : "播客选题清单.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.008502024291497975,
+      "score" : 0.6377106302614636,
+      "semantic" : 0.907371461391449
+    },
+    {
+      "a" : "benchmark-v2.txt",
+      "b" : "本地优先同步方案.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.02660936973373778,
+      "score" : 0.6351839985307475,
+      "semantic" : 0.8960016965866089
+    },
+    {
+      "a" : "benchmark-v2.txt",
+      "b" : "模型测试 prompt.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.014532871972318338,
+      "score" : 0.6439788901599633,
+      "semantic" : 0.9137414693832397
+    },
+    {
+      "a" : "benchmark-v2.txt",
+      "b" : "知识库竞品笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.002692307692307692,
+      "score" : 0.6335065858547504,
+      "semantic" : 0.903855562210083
+    },
+    {
+      "a" : "benchmark-v2.txt",
+      "b" : "评测报告节选（长）.txt",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.03783783783783784,
+      "score" : 0.6548769696660943,
+      "semantic" : 0.9193223118782043
+    },
+    {
+      "a" : "character_notes.md",
+      "b" : "prompt 练习册.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6195345818996429,
+      "semantic" : 0.8850494027137756
+    },
+    {
+      "a" : "character_notes.md",
+      "b" : "书店故事大纲.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.058849557522123896,
+      "score" : 0.6650471044430689,
+      "semantic" : 0.9248460531234741
+    },
+    {
+      "a" : "character_notes.md",
+      "b" : "嘉宾邀请话术.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.0062499999999999995,
+      "score" : 0.6218185532093047,
+      "semantic" : 0.885633647441864
+    },
+    {
+      "a" : "character_notes.md",
+      "b" : "深夜灵感.txt",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.040329218106995884,
+      "score" : 0.6510285258881839,
+      "semantic" : 0.9127568006515503
+    },
+    {
+      "a" : "character_notes.md",
+      "b" : "第一期脚本草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.026470588235294117,
+      "score" : 0.63704665499575,
+      "semantic" : 0.8987221121788025
+    },
+    {
+      "a" : "character_notes.md",
+      "b" : "雨夜书店_第一章.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.03471074380165289,
+      "score" : 0.6526835139920888,
+      "semantic" : 0.9175289869308472
+    },
+    {
+      "a" : "note-app-features.txt",
+      "b" : "podcast_episode_outline.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.055263157894736833,
+      "score" : 0.6241004872949499,
+      "semantic" : 0.8678879141807556
+    },
+    {
+      "a" : "note-app-features.txt",
+      "b" : "sourdough schedule.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.04152542372881356,
+      "score" : 0.5955832064757912,
+      "semantic" : 0.8330365419387817
+    },
+    {
+      "a" : "note-app-features.txt",
+      "b" : "tax checklist.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.007368421052631578,
+      "score" : 0.5920145378991176,
+      "semantic" : 0.8425771594047546
+    },
+    {
+      "a" : "note-app-features.txt",
+      "b" : "旅行装箱清单.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.5598543524742126,
+      "semantic" : 0.7997919321060181
+    },
+    {
+      "a" : "podcast_episode_outline.txt",
+      "b" : "sourdough schedule.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.041176470588235294,
+      "score" : 0.6002859152765835,
+      "semantic" : 0.839904248714447
+    },
+    {
+      "a" : "podcast_episode_outline.txt",
+      "b" : "tax checklist.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.02234042553191489,
+      "score" : 0.588441577160612,
+      "semantic" : 0.8310563564300537
+    },
+    {
+      "a" : "podcast_episode_outline.txt",
+      "b" : "旅行装箱清单.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.5546784162521362,
+      "semantic" : 0.7923977375030518
+    },
+    {
+      "a" : "prompt 练习册.md",
+      "b" : "书店故事大纲.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.017073170731707315,
+      "score" : 0.6246132243842613,
+      "semantic" : 0.8849875330924988
+    },
+    {
+      "a" : "prompt 练习册.md",
+      "b" : "嘉宾邀请话术.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.01881720430107527,
+      "score" : 0.6268308156921016,
+      "semantic" : 0.8874080777168274
+    },
+    {
+      "a" : "prompt 练习册.md",
+      "b" : "模型测试 prompt.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.051903292181069954,
+      "score" : 0.6724607302671597,
+      "semantic" : 0.9384139180183411
+    },
+    {
+      "a" : "prompt 练习册.md",
+      "b" : "深夜灵感.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.016129032258064516,
+      "score" : 0.6248024152171228,
+      "semantic" : 0.8856624364852905
+    },
+    {
+      "a" : "prompt 练习册.md",
+      "b" : "第一期脚本草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.011864406779661016,
+      "score" : 0.6390630611524744,
+      "semantic" : 0.9078624844551086
+    },
+    {
+      "a" : "sourdough schedule.txt",
+      "b" : "tax checklist.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.021875,
+      "score" : 0.5818004238605499,
+      "semantic" : 0.8217684626579285
+    },
+    {
+      "a" : "tax checklist.txt",
+      "b" : "会议纪要_社区业委会.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.585037463903427,
+      "semantic" : 0.8357678055763245
+    },
+    {
+      "a" : "tax checklist.txt",
+      "b" : "装修报价对比.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.5683802485466003,
+      "semantic" : 0.8119717836380005
+    },
+    {
+      "a" : "书店故事大纲.md",
+      "b" : "模型测试记录_0712.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.0034825870646766166,
+      "score" : 0.6158032974378387,
+      "semantic" : 0.8782264590263367
+    },
+    {
+      "a" : "书店故事大纲.md",
+      "b" : "深夜灵感.txt",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.03387096774193548,
+      "score" : 0.6598084606278326,
+      "semantic" : 0.9280673861503601
+    },
+    {
+      "a" : "书店故事大纲.md",
+      "b" : "烘焙书摘录（长）.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.004677060133630289,
+      "score" : 0.6195302495021862,
+      "semantic" : 0.8830387592315674
+    },
+    {
+      "a" : "书店故事大纲.md",
+      "b" : "雨夜书店_第一章.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.14979508196721308,
+      "score" : 0.7066519757372434,
+      "semantic" : 0.9453049302101135
+    },
+    {
+      "a" : "会议纪要_社区业委会.md",
+      "b" : "健身计划.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.007142857142857142,
+      "score" : 0.6195703731264386,
+      "semantic" : 0.8820393085479736
+    },
+    {
+      "a" : "会议纪要_社区业委会.md",
+      "b" : "旅行装箱清单.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6142976462841033,
+      "semantic" : 0.8775680661201477
+    },
+    {
+      "a" : "会议纪要_社区业委会.md",
+      "b" : "装修报价对比.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.03206106870229007,
+      "score" : 0.6529596473242489,
+      "semantic" : 0.9190590381622314
+    },
+    {
+      "a" : "会议纪要_社区业委会.md",
+      "b" : "购物清单.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6184718072414398,
+      "semantic" : 0.8835311532020569
+    },
+    {
+      "a" : "会议纪要_社区业委会.md",
+      "b" : "雨夜书店_第一章.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6114737749099731,
+      "semantic" : 0.8735339641571045
+    },
+    {
+      "a" : "健身计划.txt",
+      "b" : "周末烘焙计划.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6265469253063202,
+      "semantic" : 0.895067036151886
+    },
+    {
+      "a" : "健身计划.txt",
+      "b" : "嘉宾邀请话术.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.009929078014184396,
+      "score" : 0.626058321354237,
+      "semantic" : 0.8901137113571167
+    },
+    {
+      "a" : "健身计划.txt",
+      "b" : "模型测试记录_0712.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6209615588188171,
+      "semantic" : 0.8870879411697388
+    },
+    {
+      "a" : "健身计划.txt",
+      "b" : "烘焙书摘录（长）.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.0038461538461538464,
+      "score" : 0.6232226566167978,
+      "semantic" : 0.8886697292327881
+    },
+    {
+      "a" : "健身计划.txt",
+      "b" : "面包笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.012883435582822086,
+      "score" : 0.6208102258729057,
+      "semantic" : 0.8813502788543701
+    },
+    {
+      "a" : "周末烘焙计划.txt",
+      "b" : "模型测试记录_0712.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6187431335449218,
+      "semantic" : 0.8839187622070312
+    },
+    {
+      "a" : "周末烘焙计划.txt",
+      "b" : "深夜灵感.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6177577555179595,
+      "semantic" : 0.8825110793113708
+    },
+    {
+      "a" : "周末烘焙计划.txt",
+      "b" : "烘焙书摘录（长）.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.030114860014357498,
+      "score" : 0.650368687712025,
+      "semantic" : 0.9161917567253113
+    },
+    {
+      "a" : "周末烘焙计划.txt",
+      "b" : "购物清单.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6290358424186706,
+      "semantic" : 0.8986226320266724
+    },
+    {
+      "a" : "周末烘焙计划.txt",
+      "b" : "面包笔记.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.039285714285714285,
+      "score" : 0.6645031317642757,
+      "semantic" : 0.932453453540802
+    },
+    {
+      "a" : "嘉宾邀请话术.md",
+      "b" : "播客选题清单.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.039999999999999994,
+      "score" : 0.6652447576522826,
+      "semantic" : 0.9332067966461182
+    },
+    {
+      "a" : "嘉宾邀请话术.md",
+      "b" : "本地优先同步方案.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.012121212121212121,
+      "score" : 0.6242288385738026,
+      "semantic" : 0.8865606784820557
+    },
+    {
+      "a" : "嘉宾邀请话术.md",
+      "b" : "第一期脚本草稿.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.028112449799196786,
+      "score" : 0.6622328277093819,
+      "semantic" : 0.933998703956604
+    },
+    {
+      "a" : "播客选题清单.md",
+      "b" : "知识库竞品笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.008677685950413223,
+      "score" : 0.6317124142331525,
+      "semantic" : 0.898727297782898
+    },
+    {
+      "a" : "播客选题清单.md",
+      "b" : "第一期脚本草稿.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.05577689243027888,
+      "score" : 0.6637979025622288,
+      "semantic" : 0.9243783354759216
+    },
+    {
+      "a" : "播客选题清单.md",
+      "b" : "纸堆 README 草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.02614107883817427,
+      "score" : 0.6395374392177059,
+      "semantic" : 0.9024215936660767
+    },
+    {
+      "a" : "播客选题清单.md",
+      "b" : "购物清单.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.03836930455635491,
+      "score" : 0.6301528711970761,
+      "semantic" : 0.8837743997573853
+    },
+    {
+      "a" : "旅行装箱清单.md",
+      "b" : "装修报价对比.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6179174304008483,
+      "semantic" : 0.8827391862869263
+    },
+    {
+      "a" : "旅行装箱清单.md",
+      "b" : "购物清单.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6221276819705963,
+      "semantic" : 0.8887538313865662
+    },
+    {
+      "a" : "旅行装箱清单.md",
+      "b" : "雨夜书店_第一章.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.607118535041809,
+      "semantic" : 0.8673121929168701
+    },
+    {
+      "a" : "本地优先同步方案.md",
+      "b" : "知识库竞品笔记.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.016666666666666663,
+      "score" : 0.639182322025299,
+      "semantic" : 0.9059747457504272
+    },
+    {
+      "a" : "本地优先同步方案.md",
+      "b" : "纸堆 README 草稿.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.033466135458167325,
+      "score" : 0.6573056563723134,
+      "semantic" : 0.9246654510498047
+    },
+    {
+      "a" : "本地优先同步方案.md",
+      "b" : "评测报告节选（长）.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.010698689956331877,
+      "score" : 0.6268367391642524,
+      "semantic" : 0.8908959031105042
+    },
+    {
+      "a" : "模型测试 prompt.md",
+      "b" : "第一期脚本草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.02435632399924826,
+      "score" : 0.6464880402451999,
+      "semantic" : 0.913115918636322
+    },
+    {
+      "a" : "模型测试 prompt.md",
+      "b" : "纸堆 README 草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.05203287197231834,
+      "score" : 0.6515431415828454,
+      "semantic" : 0.9084761142730713
+    },
+    {
+      "a" : "模型测试 prompt.md",
+      "b" : "评测报告节选（长）.txt",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.06456876456876456,
+      "score" : 0.6671784301404352,
+      "semantic" : 0.925439715385437
+    },
+    {
+      "a" : "模型测试记录_0712.txt",
+      "b" : "烘焙书摘录（长）.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.019839290662233305,
+      "score" : 0.6369300973068547,
+      "semantic" : 0.9013975858688354
+    },
+    {
+      "a" : "模型测试记录_0712.txt",
+      "b" : "装修报价对比.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6225128710269927,
+      "semantic" : 0.8893041014671326
+    },
+    {
+      "a" : "模型测试记录_0712.txt",
+      "b" : "面包笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6325575351715087,
+      "semantic" : 0.903653621673584
+    },
+    {
+      "a" : "深夜灵感.txt",
+      "b" : "装修报价对比.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.0033175355450236967,
+      "score" : 0.6194589735941863,
+      "semantic" : 0.8835195899009705
+    },
+    {
+      "a" : "深夜灵感.txt",
+      "b" : "雨夜书店_第一章.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.03268482490272374,
+      "score" : 0.6421007102843852,
+      "semantic" : 0.9032789468765259
+    },
+    {
+      "a" : "烘焙书摘录（长）.md",
+      "b" : "评测报告节选（长）.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.12186932849364791,
+      "score" : 0.6831761070712724,
+      "semantic" : 0.9237361550331116
+    },
+    {
+      "a" : "烘焙书摘录（长）.md",
+      "b" : "面包笔记.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.04579439252336448,
+      "score" : 0.671393807201742,
+      "semantic" : 0.9395078420639038
+    },
+    {
+      "a" : "知识库竞品笔记.md",
+      "b" : "纸堆 README 草稿.md",
+      "kind" : "lead",
+      "label" : "partner",
+      "literal" : 0.0875,
+      "score" : 0.676931698322296,
+      "semantic" : 0.9295452833175659
+    },
+    {
+      "a" : "知识库竞品笔记.md",
+      "b" : "评测报告节选（长）.txt",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.006100217864923748,
+      "score" : 0.6327770413059035,
+      "semantic" : 0.9013528227806091
+    },
+    {
+      "a" : "第一期脚本草稿.md",
+      "b" : "纸堆 README 草稿.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.03625,
+      "score" : 0.6504732503890991,
+      "semantic" : 0.9137117862701416
+    },
+    {
+      "a" : "装修报价对比.md",
+      "b" : "面包笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0.01044776119402985,
+      "score" : 0.6148707511353848,
+      "semantic" : 0.8739091753959656
+    },
+    {
+      "a" : "购物清单.txt",
+      "b" : "雨夜书店_第一章.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6140117585659026,
+      "semantic" : 0.8771596550941467
+    },
+    {
+      "a" : "购物清单.txt",
+      "b" : "面包笔记.md",
+      "kind" : "lead",
+      "label" : "unrelated",
+      "literal" : 0,
+      "score" : 0.6183684170246124,
+      "semantic" : 0.8833834528923035
+    }
+  ],
+  "drafts" : [
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.10192878338278931,
+          "other" : "benchmark-v2.txt",
+          "rank" : 1,
+          "score" : 0.6731959381478476,
+          "semantic" : 0.9180247187614441
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.05343511450381679,
+          "other" : "评测报告节选（长）.txt",
+          "rank" : 2,
+          "score" : 0.6689485154989111,
+          "semantic" : 0.9327399730682373
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.039729729729729726,
+          "other" : "模型测试 prompt.md",
+          "rank" : 3,
+          "score" : 0.6578813837283366,
+          "semantic" : 0.922803521156311
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.021937321937321938,
+          "other" : "纸堆 README 草稿.md",
+          "rank" : 4,
+          "score" : 0.6373580668318984,
+          "semantic" : 0.9011098146438599
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.016045845272206302,
+          "other" : "知识库竞品笔记.md",
+          "rank" : 5,
+          "score" : 0.6350659539467284,
+          "semantic" : 0.9003602862358093
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.009887005649717513,
+          "other" : "本地优先同步方案.md",
+          "rank" : 6,
+          "score" : 0.6323370652683711,
+          "semantic" : 0.8991013765335083
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "Agent Benchmark 想法.md",
+      "partners" : [
+        "agent_eval_notes.md",
+        "benchmark-v2.txt",
+        "模型测试 prompt.md",
+        "评测报告节选（长）.txt"
+      ],
+      "precTop3Correct" : 3,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "A"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.09302325581395349,
+          "other" : "note-app-features.txt",
+          "rank" : 1,
+          "score" : 0.6185073183026425,
+          "semantic" : 0.8437147736549377
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.01891891891891892,
+          "other" : "tax checklist.txt",
+          "rank" : 2,
+          "score" : 0.6007759533379529,
+          "semantic" : 0.8501432538032532
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.025735294117647058,
+          "other" : "podcast_episode_outline.txt",
+          "rank" : 3,
+          "score" : 0.5989673481268041,
+          "semantic" : 0.8446382284164429
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.03602941176470588,
+          "other" : "sourdough schedule.txt",
+          "rank" : 4,
+          "score" : 0.5825031082069173,
+          "semantic" : 0.816706120967865
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "Agent Benchmark 想法.md",
+        "benchmark-v2.txt",
+        "模型测试 prompt.md",
+        "评测报告节选（长）.txt"
+      ],
+      "name" : "agent_eval_notes.md",
+      "partners" : [
+        "Agent Benchmark 想法.md",
+        "benchmark-v2.txt",
+        "模型测试 prompt.md",
+        "评测报告节选（长）.txt"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "A"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.10192878338278931,
+          "other" : "Agent Benchmark 想法.md",
+          "rank" : 1,
+          "score" : 0.6731959381478476,
+          "semantic" : 0.9180247187614441
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03783783783783784,
+          "other" : "评测报告节选（长）.txt",
+          "rank" : 2,
+          "score" : 0.6548769696660943,
+          "semantic" : 0.9193223118782043
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.014532871972318338,
+          "other" : "模型测试 prompt.md",
+          "rank" : 3,
+          "score" : 0.6439788901599633,
+          "semantic" : 0.9137414693832397
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.008502024291497975,
+          "other" : "播客选题清单.md",
+          "rank" : 4,
+          "score" : 0.6377106302614636,
+          "semantic" : 0.907371461391449
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.02660936973373778,
+          "other" : "本地优先同步方案.md",
+          "rank" : 5,
+          "score" : 0.6351839985307475,
+          "semantic" : 0.8960016965866089
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.002692307692307692,
+          "other" : "知识库竞品笔记.md",
+          "rank" : 6,
+          "score" : 0.6335065858547504,
+          "semantic" : 0.903855562210083
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "benchmark-v2.txt",
+      "partners" : [
+        "Agent Benchmark 想法.md",
+        "agent_eval_notes.md",
+        "模型测试 prompt.md",
+        "评测报告节选（长）.txt"
+      ],
+      "precTop3Correct" : 3,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "A"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.058849557522123896,
+          "other" : "书店故事大纲.md",
+          "rank" : 1,
+          "score" : 0.6650471044430689,
+          "semantic" : 0.9248460531234741
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03471074380165289,
+          "other" : "雨夜书店_第一章.md",
+          "rank" : 2,
+          "score" : 0.6526835139920888,
+          "semantic" : 0.9175289869308472
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.040329218106995884,
+          "other" : "深夜灵感.txt",
+          "rank" : 3,
+          "score" : 0.6510285258881839,
+          "semantic" : 0.9127568006515503
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.026470588235294117,
+          "other" : "第一期脚本草稿.md",
+          "rank" : 4,
+          "score" : 0.63704665499575,
+          "semantic" : 0.8987221121788025
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0062499999999999995,
+          "other" : "嘉宾邀请话术.md",
+          "rank" : 5,
+          "score" : 0.6218185532093047,
+          "semantic" : 0.885633647441864
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "prompt 练习册.md",
+          "rank" : 6,
+          "score" : 0.6195345818996429,
+          "semantic" : 0.8850494027137756
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "character_notes.md",
+      "partners" : [
+        "书店故事大纲.md",
+        "深夜灵感.txt",
+        "雨夜书店_第一章.md"
+      ],
+      "precTop3Correct" : 3,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "B"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.055263157894736833,
+          "other" : "podcast_episode_outline.txt",
+          "rank" : 1,
+          "score" : 0.6241004872949499,
+          "semantic" : 0.8678879141807556
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.09302325581395349,
+          "other" : "agent_eval_notes.md",
+          "rank" : 2,
+          "score" : 0.6185073183026425,
+          "semantic" : 0.8437147736549377
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.04152542372881356,
+          "other" : "sourdough schedule.txt",
+          "rank" : 3,
+          "score" : 0.5955832064757912,
+          "semantic" : 0.8330365419387817
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.007368421052631578,
+          "other" : "tax checklist.txt",
+          "rank" : 4,
+          "score" : 0.5920145378991176,
+          "semantic" : 0.8425771594047546
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-zh",
+          "literal" : 0,
+          "other" : "旅行装箱清单.md",
+          "rank" : 5,
+          "score" : 0.5598543524742126,
+          "semantic" : 0.7997919321060181
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "本地优先同步方案.md",
+        "知识库竞品笔记.md",
+        "纸堆 README 草稿.md"
+      ],
+      "name" : "note-app-features.txt",
+      "partners" : [
+        "本地优先同步方案.md",
+        "知识库竞品笔记.md",
+        "纸堆 README 草稿.md"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "C"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.055263157894736833,
+          "other" : "note-app-features.txt",
+          "rank" : 1,
+          "score" : 0.6241004872949499,
+          "semantic" : 0.8678879141807556
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.041176470588235294,
+          "other" : "sourdough schedule.txt",
+          "rank" : 2,
+          "score" : 0.6002859152765835,
+          "semantic" : 0.839904248714447
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.025735294117647058,
+          "other" : "agent_eval_notes.md",
+          "rank" : 3,
+          "score" : 0.5989673481268041,
+          "semantic" : 0.8446382284164429
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.02234042553191489,
+          "other" : "tax checklist.txt",
+          "rank" : 4,
+          "score" : 0.588441577160612,
+          "semantic" : 0.8310563564300537
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-zh",
+          "literal" : 0,
+          "other" : "旅行装箱清单.md",
+          "rank" : 5,
+          "score" : 0.5546784162521362,
+          "semantic" : 0.7923977375030518
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "嘉宾邀请话术.md",
+        "播客选题清单.md",
+        "第一期脚本草稿.md"
+      ],
+      "name" : "podcast_episode_outline.txt",
+      "partners" : [
+        "嘉宾邀请话术.md",
+        "播客选题清单.md",
+        "第一期脚本草稿.md"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "E"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.041176470588235294,
+          "other" : "podcast_episode_outline.txt",
+          "rank" : 1,
+          "score" : 0.6002859152765835,
+          "semantic" : 0.839904248714447
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.04152542372881356,
+          "other" : "note-app-features.txt",
+          "rank" : 2,
+          "score" : 0.5955832064757912,
+          "semantic" : 0.8330365419387817
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.03602941176470588,
+          "other" : "agent_eval_notes.md",
+          "rank" : 3,
+          "score" : 0.5825031082069173,
+          "semantic" : 0.816706120967865
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.021875,
+          "other" : "tax checklist.txt",
+          "rank" : 4,
+          "score" : 0.5818004238605499,
+          "semantic" : 0.8217684626579285
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "周末烘焙计划.txt",
+        "烘焙书摘录（长）.md",
+        "面包笔记.md",
+        "面包笔记_备份.txt"
+      ],
+      "name" : "sourdough schedule.txt",
+      "partners" : [
+        "周末烘焙计划.txt",
+        "烘焙书摘录（长）.md",
+        "面包笔记.md",
+        "面包笔记_备份.txt"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "D"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.14979508196721308,
+          "other" : "雨夜书店_第一章.md",
+          "rank" : 1,
+          "score" : 0.7066519757372434,
+          "semantic" : 0.9453049302101135
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.058849557522123896,
+          "other" : "character_notes.md",
+          "rank" : 2,
+          "score" : 0.6650471044430689,
+          "semantic" : 0.9248460531234741
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03387096774193548,
+          "other" : "深夜灵感.txt",
+          "rank" : 3,
+          "score" : 0.6598084606278326,
+          "semantic" : 0.9280673861503601
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.017073170731707315,
+          "other" : "prompt 练习册.md",
+          "rank" : 4,
+          "score" : 0.6246132243842613,
+          "semantic" : 0.8849875330924988
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.004677060133630289,
+          "other" : "烘焙书摘录（长）.md",
+          "rank" : 5,
+          "score" : 0.6195302495021862,
+          "semantic" : 0.8830387592315674
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0034825870646766166,
+          "other" : "模型测试记录_0712.txt",
+          "rank" : 6,
+          "score" : 0.6158032974378387,
+          "semantic" : 0.8782264590263367
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "书店故事大纲.md",
+      "partners" : [
+        "character_notes.md",
+        "深夜灵感.txt",
+        "雨夜书店_第一章.md"
+      ],
+      "precTop3Correct" : 3,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "B"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.039285714285714285,
+          "other" : "面包笔记.md",
+          "rank" : 1,
+          "score" : 0.6645031317642757,
+          "semantic" : 0.932453453540802
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.030114860014357498,
+          "other" : "烘焙书摘录（长）.md",
+          "rank" : 2,
+          "score" : 0.650368687712025,
+          "semantic" : 0.9161917567253113
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "购物清单.txt",
+          "rank" : 3,
+          "score" : 0.6290358424186706,
+          "semantic" : 0.8986226320266724
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "健身计划.txt",
+          "rank" : 4,
+          "score" : 0.6265469253063202,
+          "semantic" : 0.895067036151886
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "模型测试记录_0712.txt",
+          "rank" : 5,
+          "score" : 0.6187431335449218,
+          "semantic" : 0.8839187622070312
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "深夜灵感.txt",
+          "rank" : 6,
+          "score" : 0.6177577555179595,
+          "semantic" : 0.8825110793113708
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "周末烘焙计划.txt",
+      "partners" : [
+        "sourdough schedule.txt",
+        "烘焙书摘录（长）.md",
+        "面包笔记.md",
+        "面包笔记_备份.txt"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "D"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.039999999999999994,
+          "other" : "播客选题清单.md",
+          "rank" : 1,
+          "score" : 0.6652447576522826,
+          "semantic" : 0.9332067966461182
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.028112449799196786,
+          "other" : "第一期脚本草稿.md",
+          "rank" : 2,
+          "score" : 0.6622328277093819,
+          "semantic" : 0.933998703956604
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.01881720430107527,
+          "other" : "prompt 练习册.md",
+          "rank" : 3,
+          "score" : 0.6268308156921016,
+          "semantic" : 0.8874080777168274
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.009929078014184396,
+          "other" : "健身计划.txt",
+          "rank" : 4,
+          "score" : 0.626058321354237,
+          "semantic" : 0.8901137113571167
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.012121212121212121,
+          "other" : "本地优先同步方案.md",
+          "rank" : 5,
+          "score" : 0.6242288385738026,
+          "semantic" : 0.8865606784820557
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0062499999999999995,
+          "other" : "character_notes.md",
+          "rank" : 6,
+          "score" : 0.6218185532093047,
+          "semantic" : 0.885633647441864
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "嘉宾邀请话术.md",
+      "partners" : [
+        "podcast_episode_outline.txt",
+        "播客选题清单.md",
+        "第一期脚本草稿.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "E"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.039999999999999994,
+          "other" : "嘉宾邀请话术.md",
+          "rank" : 1,
+          "score" : 0.6652447576522826,
+          "semantic" : 0.9332067966461182
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.05577689243027888,
+          "other" : "第一期脚本草稿.md",
+          "rank" : 2,
+          "score" : 0.6637979025622288,
+          "semantic" : 0.9243783354759216
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.02614107883817427,
+          "other" : "纸堆 README 草稿.md",
+          "rank" : 3,
+          "score" : 0.6395374392177059,
+          "semantic" : 0.9024215936660767
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.008502024291497975,
+          "other" : "benchmark-v2.txt",
+          "rank" : 4,
+          "score" : 0.6377106302614636,
+          "semantic" : 0.907371461391449
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.008677685950413223,
+          "other" : "知识库竞品笔记.md",
+          "rank" : 5,
+          "score" : 0.6317124142331525,
+          "semantic" : 0.898727297782898
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03836930455635491,
+          "other" : "购物清单.txt",
+          "rank" : 6,
+          "score" : 0.6301528711970761,
+          "semantic" : 0.8837743997573853
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "播客选题清单.md",
+      "partners" : [
+        "podcast_episode_outline.txt",
+        "嘉宾邀请话术.md",
+        "第一期脚本草稿.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "E"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.033466135458167325,
+          "other" : "纸堆 README 草稿.md",
+          "rank" : 1,
+          "score" : 0.6573056563723134,
+          "semantic" : 0.9246654510498047
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.016666666666666663,
+          "other" : "知识库竞品笔记.md",
+          "rank" : 2,
+          "score" : 0.639182322025299,
+          "semantic" : 0.9059747457504272
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.02660936973373778,
+          "other" : "benchmark-v2.txt",
+          "rank" : 3,
+          "score" : 0.6351839985307475,
+          "semantic" : 0.8960016965866089
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.009887005649717513,
+          "other" : "Agent Benchmark 想法.md",
+          "rank" : 4,
+          "score" : 0.6323370652683711,
+          "semantic" : 0.8991013765335083
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.010698689956331877,
+          "other" : "评测报告节选（长）.txt",
+          "rank" : 5,
+          "score" : 0.6268367391642524,
+          "semantic" : 0.8908959031105042
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.012121212121212121,
+          "other" : "嘉宾邀请话术.md",
+          "rank" : 6,
+          "score" : 0.6242288385738026,
+          "semantic" : 0.8865606784820557
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "本地优先同步方案.md",
+      "partners" : [
+        "note-app-features.txt",
+        "知识库竞品笔记.md",
+        "纸堆 README 草稿.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "C"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.051903292181069954,
+          "other" : "prompt 练习册.md",
+          "rank" : 1,
+          "score" : 0.6724607302671597,
+          "semantic" : 0.9384139180183411
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.06456876456876456,
+          "other" : "评测报告节选（长）.txt",
+          "rank" : 2,
+          "score" : 0.6671784301404352,
+          "semantic" : 0.925439715385437
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.039729729729729726,
+          "other" : "Agent Benchmark 想法.md",
+          "rank" : 3,
+          "score" : 0.6578813837283366,
+          "semantic" : 0.922803521156311
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.05203287197231834,
+          "other" : "纸堆 README 草稿.md",
+          "rank" : 4,
+          "score" : 0.6515431415828454,
+          "semantic" : 0.9084761142730713
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.02435632399924826,
+          "other" : "第一期脚本草稿.md",
+          "rank" : 5,
+          "score" : 0.6464880402451999,
+          "semantic" : 0.913115918636322
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.014532871972318338,
+          "other" : "benchmark-v2.txt",
+          "rank" : 6,
+          "score" : 0.6439788901599633,
+          "semantic" : 0.9137414693832397
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "模型测试 prompt.md",
+      "partners" : [
+        "Agent Benchmark 想法.md",
+        "agent_eval_notes.md",
+        "benchmark-v2.txt",
+        "评测报告节选（长）.txt"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "A"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03387096774193548,
+          "other" : "书店故事大纲.md",
+          "rank" : 1,
+          "score" : 0.6598084606278326,
+          "semantic" : 0.9280673861503601
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.040329218106995884,
+          "other" : "character_notes.md",
+          "rank" : 2,
+          "score" : 0.6510285258881839,
+          "semantic" : 0.9127568006515503
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03268482490272374,
+          "other" : "雨夜书店_第一章.md",
+          "rank" : 3,
+          "score" : 0.6421007102843852,
+          "semantic" : 0.9032789468765259
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.016129032258064516,
+          "other" : "prompt 练习册.md",
+          "rank" : 4,
+          "score" : 0.6248024152171228,
+          "semantic" : 0.8856624364852905
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0033175355450236967,
+          "other" : "装修报价对比.md",
+          "rank" : 5,
+          "score" : 0.6194589735941863,
+          "semantic" : 0.8835195899009705
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "周末烘焙计划.txt",
+          "rank" : 6,
+          "score" : 0.6177577555179595,
+          "semantic" : 0.8825110793113708
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "深夜灵感.txt",
+      "partners" : [
+        "character_notes.md",
+        "书店故事大纲.md",
+        "雨夜书店_第一章.md"
+      ],
+      "precTop3Correct" : 3,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "B"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.12186932849364791,
+          "other" : "评测报告节选（长）.txt",
+          "rank" : 1,
+          "score" : 0.6831761070712724,
+          "semantic" : 0.9237361550331116
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.04579439252336448,
+          "other" : "面包笔记.md",
+          "rank" : 2,
+          "score" : 0.671393807201742,
+          "semantic" : 0.9395078420639038
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.030114860014357498,
+          "other" : "周末烘焙计划.txt",
+          "rank" : 3,
+          "score" : 0.650368687712025,
+          "semantic" : 0.9161917567253113
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.019839290662233305,
+          "other" : "模型测试记录_0712.txt",
+          "rank" : 4,
+          "score" : 0.6369300973068547,
+          "semantic" : 0.9013975858688354
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0038461538461538464,
+          "other" : "健身计划.txt",
+          "rank" : 5,
+          "score" : 0.6232226566167978,
+          "semantic" : 0.8886697292327881
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.004677060133630289,
+          "other" : "书店故事大纲.md",
+          "rank" : 6,
+          "score" : 0.6195302495021862,
+          "semantic" : 0.8830387592315674
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "烘焙书摘录（长）.md",
+      "partners" : [
+        "sourdough schedule.txt",
+        "周末烘焙计划.txt",
+        "面包笔记.md",
+        "面包笔记_备份.txt"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "D"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0875,
+          "other" : "纸堆 README 草稿.md",
+          "rank" : 1,
+          "score" : 0.676931698322296,
+          "semantic" : 0.9295452833175659
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.016666666666666663,
+          "other" : "本地优先同步方案.md",
+          "rank" : 2,
+          "score" : 0.639182322025299,
+          "semantic" : 0.9059747457504272
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.016045845272206302,
+          "other" : "Agent Benchmark 想法.md",
+          "rank" : 3,
+          "score" : 0.6350659539467284,
+          "semantic" : 0.9003602862358093
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.002692307692307692,
+          "other" : "benchmark-v2.txt",
+          "rank" : 4,
+          "score" : 0.6335065858547504,
+          "semantic" : 0.903855562210083
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.006100217864923748,
+          "other" : "评测报告节选（长）.txt",
+          "rank" : 5,
+          "score" : 0.6327770413059035,
+          "semantic" : 0.9013528227806091
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.008677685950413223,
+          "other" : "播客选题清单.md",
+          "rank" : 6,
+          "score" : 0.6317124142331525,
+          "semantic" : 0.898727297782898
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "知识库竞品笔记.md",
+      "partners" : [
+        "note-app-features.txt",
+        "本地优先同步方案.md",
+        "纸堆 README 草稿.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "C"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.05577689243027888,
+          "other" : "播客选题清单.md",
+          "rank" : 1,
+          "score" : 0.6637979025622288,
+          "semantic" : 0.9243783354759216
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.028112449799196786,
+          "other" : "嘉宾邀请话术.md",
+          "rank" : 2,
+          "score" : 0.6622328277093819,
+          "semantic" : 0.933998703956604
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03625,
+          "other" : "纸堆 README 草稿.md",
+          "rank" : 3,
+          "score" : 0.6504732503890991,
+          "semantic" : 0.9137117862701416
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.02435632399924826,
+          "other" : "模型测试 prompt.md",
+          "rank" : 4,
+          "score" : 0.6464880402451999,
+          "semantic" : 0.913115918636322
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.011864406779661016,
+          "other" : "prompt 练习册.md",
+          "rank" : 5,
+          "score" : 0.6390630611524744,
+          "semantic" : 0.9078624844551086
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.026470588235294117,
+          "other" : "character_notes.md",
+          "rank" : 6,
+          "score" : 0.63704665499575,
+          "semantic" : 0.8987221121788025
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "第一期脚本草稿.md",
+      "partners" : [
+        "podcast_episode_outline.txt",
+        "嘉宾邀请话术.md",
+        "播客选题清单.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "E"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.0875,
+          "other" : "知识库竞品笔记.md",
+          "rank" : 1,
+          "score" : 0.676931698322296,
+          "semantic" : 0.9295452833175659
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.033466135458167325,
+          "other" : "本地优先同步方案.md",
+          "rank" : 2,
+          "score" : 0.6573056563723134,
+          "semantic" : 0.9246654510498047
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.05203287197231834,
+          "other" : "模型测试 prompt.md",
+          "rank" : 3,
+          "score" : 0.6515431415828454,
+          "semantic" : 0.9084761142730713
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03625,
+          "other" : "第一期脚本草稿.md",
+          "rank" : 4,
+          "score" : 0.6504732503890991,
+          "semantic" : 0.9137117862701416
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.02614107883817427,
+          "other" : "播客选题清单.md",
+          "rank" : 5,
+          "score" : 0.6395374392177059,
+          "semantic" : 0.9024215936660767
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.021937321937321938,
+          "other" : "Agent Benchmark 想法.md",
+          "rank" : 6,
+          "score" : 0.6373580668318984,
+          "semantic" : 0.9011098146438599
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "纸堆 README 草稿.md",
+      "partners" : [
+        "note-app-features.txt",
+        "本地优先同步方案.md",
+        "知识库竞品笔记.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "C"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.12186932849364791,
+          "other" : "烘焙书摘录（长）.md",
+          "rank" : 1,
+          "score" : 0.6831761070712724,
+          "semantic" : 0.9237361550331116
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.05343511450381679,
+          "other" : "Agent Benchmark 想法.md",
+          "rank" : 2,
+          "score" : 0.6689485154989111,
+          "semantic" : 0.9327399730682373
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.06456876456876456,
+          "other" : "模型测试 prompt.md",
+          "rank" : 3,
+          "score" : 0.6671784301404352,
+          "semantic" : 0.925439715385437
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03783783783783784,
+          "other" : "benchmark-v2.txt",
+          "rank" : 4,
+          "score" : 0.6548769696660943,
+          "semantic" : 0.9193223118782043
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.006100217864923748,
+          "other" : "知识库竞品笔记.md",
+          "rank" : 5,
+          "score" : 0.6327770413059035,
+          "semantic" : 0.9013528227806091
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.010698689956331877,
+          "other" : "本地优先同步方案.md",
+          "rank" : 6,
+          "score" : 0.6268367391642524,
+          "semantic" : 0.8908959031105042
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "评测报告节选（长）.txt",
+      "partners" : [
+        "Agent Benchmark 想法.md",
+        "agent_eval_notes.md",
+        "benchmark-v2.txt",
+        "模型测试 prompt.md"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "A"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.14979508196721308,
+          "other" : "书店故事大纲.md",
+          "rank" : 1,
+          "score" : 0.7066519757372434,
+          "semantic" : 0.9453049302101135
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03471074380165289,
+          "other" : "character_notes.md",
+          "rank" : 2,
+          "score" : 0.6526835139920888,
+          "semantic" : 0.9175289869308472
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.03268482490272374,
+          "other" : "深夜灵感.txt",
+          "rank" : 3,
+          "score" : 0.6421007102843852,
+          "semantic" : 0.9032789468765259
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "购物清单.txt",
+          "rank" : 4,
+          "score" : 0.6140117585659026,
+          "semantic" : 0.8771596550941467
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "会议纪要_社区业委会.md",
+          "rank" : 5,
+          "score" : 0.6114737749099731,
+          "semantic" : 0.8735339641571045
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "旅行装箱清单.md",
+          "rank" : 6,
+          "score" : 0.607118535041809,
+          "semantic" : 0.8673121929168701
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "雨夜书店_第一章.md",
+      "partners" : [
+        "character_notes.md",
+        "书店故事大纲.md",
+        "深夜灵感.txt"
+      ],
+      "precTop3Correct" : 3,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "B"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.04579439252336448,
+          "other" : "烘焙书摘录（长）.md",
+          "rank" : 1,
+          "score" : 0.671393807201742,
+          "semantic" : 0.9395078420639038
+        },
+        {
+          "isPartner" : true,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.039285714285714285,
+          "other" : "周末烘焙计划.txt",
+          "rank" : 2,
+          "score" : 0.6645031317642757,
+          "semantic" : 0.932453453540802
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "模型测试记录_0712.txt",
+          "rank" : 3,
+          "score" : 0.6325575351715087,
+          "semantic" : 0.903653621673584
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.012883435582822086,
+          "other" : "健身计划.txt",
+          "rank" : 4,
+          "score" : 0.6208102258729057,
+          "semantic" : 0.8813502788543701
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0,
+          "other" : "购物清单.txt",
+          "rank" : 5,
+          "score" : 0.6183684170246124,
+          "semantic" : 0.8833834528923035
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "zh-zh",
+          "literal" : 0.01044776119402985,
+          "other" : "装修报价对比.md",
+          "rank" : 6,
+          "score" : 0.6148707511353848,
+          "semantic" : 0.8739091753959656
+        }
+      ],
+      "lang" : "zh",
+      "missPartners" : [
+
+      ],
+      "name" : "面包笔记.md",
+      "partners" : [
+        "sourdough schedule.txt",
+        "周末烘焙计划.txt",
+        "烘焙书摘录（长）.md",
+        "面包笔记_备份.txt"
+      ],
+      "precTop3Correct" : 2,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : true,
+      "thread" : "D"
+    }
+  ],
+  "fileSha256" : {
+    "Agent Benchmark 想法.md" : "8c4e733fb7b394e1641be899ea09045a4e57c871b6029bcea927168e8053c6c8",
+    "agent_eval_notes.md" : "9805cf8c8c1c825fe46fa8889f6dc6f74ff7ae145927396de797eedf188f2a63",
+    "benchmark-v2.txt" : "c3eef5ed3662a658e1ecb434a37a9e1efda688e3c70ac0fff7c3d4ea55690321",
+    "character_notes.md" : "a2e9819b38349bbdde238f25b8cd166bf2b5d0b957b7f62474c6cf2ad9aa68c6",
+    "note-app-features.txt" : "9a9d7a17c525a894fbfd7c88b6db3174b6672ec0f5faa6dbbc52fd58d1943157",
+    "podcast_episode_outline.txt" : "8e54ae16d25374cb46cdbbbf67666f6c6b9a4c5e5817de04fe4874dd70fbf394",
+    "prompt 练习册.md" : "27e48d186048815efd94288252698013114e186c20452ab7efb4198aa1c4e307",
+    "sourdough schedule.txt" : "97a34402eab3b3f21bd2f4da476f4c52165aa5479c8cd5edbca064381656a487",
+    "tax checklist.txt" : "e58518f1663a6181325b08ebab5f88bae1deeb38e1bdf5a1e348770f9d052f17",
+    "书店故事大纲.md" : "992c7d53260928b343add108d1b476a1d79bedd63954ac6719c838b4dfd75f9e",
+    "会议纪要_社区业委会.md" : "18036eee0241b1198a42c0cdc0f7466991b561e4d4e5543dea51e0e81f4af2c6",
+    "健身计划.txt" : "fdee1e7c260facbcf3a462848ad42b6a274dcf1a4c3674e8dc0a05b2d76951ce",
+    "周末烘焙计划.txt" : "03ebf013cedd22cb647821c2002daeca6a89141309a30a2d051fdd29a3f0714e",
+    "嘉宾邀请话术.md" : "230de52038456bfa837fd3a78e1d61700015448e734ecdb77c3271d835f5cab9",
+    "播客选题清单.md" : "716f8917c722cc4720c320aba7d46ee9f7662a868517209e6e890fb94266e020",
+    "旅行装箱清单.md" : "190ae27e48d4ec4d5a0416dabe2f4de9ae6851fb48378fd1c488fb65bd08426a",
+    "本地优先同步方案.md" : "059f797b49fcbafa60186f089524369de2b58b8c10201f1655e5ddf33e3aad24",
+    "模型测试 prompt.md" : "9a44702941d7c315e34ee679ac83093d070d891427726b2cdb0b693bab2ca66d",
+    "模型测试记录_0712.txt" : "0e7b4f086040ca67f877461e5afa04c3ece4a45478476078d543e3d0b22ab559",
+    "深夜灵感.txt" : "4f39838056e6fe884eee5ba554bb5f2c32722aaf53aea3bb7a42e0c484ffda21",
+    "烘焙书摘录（长）.md" : "74de0cb26bfdccd95414d23dbfb78fe3f68eee186d45da793f9ca1962b86a202",
+    "知识库竞品笔记.md" : "09783478eebc39f33bc940b2cdf66449d8ea7e9b3e95f92448416ddeb8f42bc3",
+    "第一期脚本草稿.md" : "26918969370dad262ba82f0edfee989cd7ed6e75377fbedf6e346dcc98b3c4c9",
+    "纸堆 README 草稿.md" : "6f2f4ea421e75018dfa32a451d27f197868466041df704a15eae197e6665a6d8",
+    "装修报价对比.md" : "35d58119f0459560003719a1aa8dc96d72b45f5cb467924e26760f13f125093a",
+    "评测报告节选（长）.txt" : "c5920d8a8bf9571afed56ae573f3d3385714195e1a325f8aea7c996620dc9c2b",
+    "购物清单.txt" : "fd9cbfbc3f9545984aff3767eb5089ba1f843dd6e6835ec9524a20dbf68c5dfb",
+    "雨夜书店_第一章.md" : "041d07ac6036a209ff345a4fd81ab17b5e9ea02688eb00f7f838c9e1fe68b80a",
+    "面包笔记.md" : "860bcc64de575ba858bdaf5613ee6b8054f3de509a2443e41d380f3b653aa163",
+    "面包笔记_备份.txt" : "6cebc53011266adee6e7f301f92ca5716e37f863be55fc10036f1ae06bef807a"
+  },
+  "generatedAt" : "2026-09-29T05:02:34Z",
+  "importStats" : {
+    "duplicate" : 1,
+    "failure" : [
+
+    ],
+    "success" : 29
+  },
+  "importedDocs" : 29,
+  "languageBreakdown" : {
+    "en-en" : {
+      "partnerInQueue" : 0,
+      "partnerInTop5" : 0,
+      "precDen" : 12,
+      "precNum" : 0
+    },
+    "en↔?" : {
+      "partnerInQueue" : 1,
+      "partnerInTop5" : 0,
+      "precDen" : 0,
+      "precNum" : 0
+    },
+    "en↔zh" : {
+      "partnerInQueue" : 13,
+      "partnerInTop5" : 0,
+      "precDen" : 0,
+      "precNum" : 0
+    },
+    "zh-zh" : {
+      "partnerInQueue" : 0,
+      "partnerInTop5" : 0,
+      "precDen" : 51,
+      "precNum" : 40
+    },
+    "zh↔?" : {
+      "partnerInQueue" : 3,
+      "partnerInTop5" : 0,
+      "precDen" : 0,
+      "precNum" : 0
+    },
+    "zh↔en" : {
+      "partnerInQueue" : 13,
+      "partnerInTop5" : 0,
+      "precDen" : 0,
+      "precNum" : 0
+    },
+    "zh↔zh" : {
+      "partnerInQueue" : 42,
+      "partnerInTop5" : 41,
+      "precDen" : 0,
+      "precNum" : 0
+    }
+  },
+  "misses" : [
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.09302325581395349,
+          "other" : "note-app-features.txt",
+          "rank" : 1,
+          "score" : 0.6185073183026425,
+          "semantic" : 0.8437147736549377
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.01891891891891892,
+          "other" : "tax checklist.txt",
+          "rank" : 2,
+          "score" : 0.6007759533379529,
+          "semantic" : 0.8501432538032532
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.025735294117647058,
+          "other" : "podcast_episode_outline.txt",
+          "rank" : 3,
+          "score" : 0.5989673481268041,
+          "semantic" : 0.8446382284164429
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.03602941176470588,
+          "other" : "sourdough schedule.txt",
+          "rank" : 4,
+          "score" : 0.5825031082069173,
+          "semantic" : 0.816706120967865
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "Agent Benchmark 想法.md",
+        "benchmark-v2.txt",
+        "模型测试 prompt.md",
+        "评测报告节选（长）.txt"
+      ],
+      "name" : "agent_eval_notes.md",
+      "partners" : [
+        "Agent Benchmark 想法.md",
+        "benchmark-v2.txt",
+        "模型测试 prompt.md",
+        "评测报告节选（长）.txt"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "A"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.055263157894736833,
+          "other" : "podcast_episode_outline.txt",
+          "rank" : 1,
+          "score" : 0.6241004872949499,
+          "semantic" : 0.8678879141807556
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.09302325581395349,
+          "other" : "agent_eval_notes.md",
+          "rank" : 2,
+          "score" : 0.6185073183026425,
+          "semantic" : 0.8437147736549377
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.04152542372881356,
+          "other" : "sourdough schedule.txt",
+          "rank" : 3,
+          "score" : 0.5955832064757912,
+          "semantic" : 0.8330365419387817
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.007368421052631578,
+          "other" : "tax checklist.txt",
+          "rank" : 4,
+          "score" : 0.5920145378991176,
+          "semantic" : 0.8425771594047546
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-zh",
+          "literal" : 0,
+          "other" : "旅行装箱清单.md",
+          "rank" : 5,
+          "score" : 0.5598543524742126,
+          "semantic" : 0.7997919321060181
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "本地优先同步方案.md",
+        "知识库竞品笔记.md",
+        "纸堆 README 草稿.md"
+      ],
+      "name" : "note-app-features.txt",
+      "partners" : [
+        "本地优先同步方案.md",
+        "知识库竞品笔记.md",
+        "纸堆 README 草稿.md"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "C"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.055263157894736833,
+          "other" : "note-app-features.txt",
+          "rank" : 1,
+          "score" : 0.6241004872949499,
+          "semantic" : 0.8678879141807556
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.041176470588235294,
+          "other" : "sourdough schedule.txt",
+          "rank" : 2,
+          "score" : 0.6002859152765835,
+          "semantic" : 0.839904248714447
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.025735294117647058,
+          "other" : "agent_eval_notes.md",
+          "rank" : 3,
+          "score" : 0.5989673481268041,
+          "semantic" : 0.8446382284164429
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.02234042553191489,
+          "other" : "tax checklist.txt",
+          "rank" : 4,
+          "score" : 0.588441577160612,
+          "semantic" : 0.8310563564300537
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-zh",
+          "literal" : 0,
+          "other" : "旅行装箱清单.md",
+          "rank" : 5,
+          "score" : 0.5546784162521362,
+          "semantic" : 0.7923977375030518
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "嘉宾邀请话术.md",
+        "播客选题清单.md",
+        "第一期脚本草稿.md"
+      ],
+      "name" : "podcast_episode_outline.txt",
+      "partners" : [
+        "嘉宾邀请话术.md",
+        "播客选题清单.md",
+        "第一期脚本草稿.md"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "E"
+    },
+    {
+      "candidates" : [
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.041176470588235294,
+          "other" : "podcast_episode_outline.txt",
+          "rank" : 1,
+          "score" : 0.6002859152765835,
+          "semantic" : 0.839904248714447
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.04152542372881356,
+          "other" : "note-app-features.txt",
+          "rank" : 2,
+          "score" : 0.5955832064757912,
+          "semantic" : 0.8330365419387817
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.03602941176470588,
+          "other" : "agent_eval_notes.md",
+          "rank" : 3,
+          "score" : 0.5825031082069173,
+          "semantic" : 0.816706120967865
+        },
+        {
+          "isPartner" : false,
+          "kind" : "lead",
+          "langPair" : "en-en",
+          "literal" : 0.021875,
+          "other" : "tax checklist.txt",
+          "rank" : 4,
+          "score" : 0.5818004238605499,
+          "semantic" : 0.8217684626579285
+        }
+      ],
+      "lang" : "en",
+      "missPartners" : [
+        "周末烘焙计划.txt",
+        "烘焙书摘录（长）.md",
+        "面包笔记.md",
+        "面包笔记_备份.txt"
+      ],
+      "name" : "sourdough schedule.txt",
+      "partners" : [
+        "周末烘焙计划.txt",
+        "烘焙书摘录（长）.md",
+        "面包笔记.md",
+        "面包笔记_备份.txt"
+      ],
+      "precTop3Correct" : 0,
+      "precTop3Shown" : 3,
+      "recallHitAt5" : false,
+      "thread" : "D"
+    }
+  ],
+  "precision" : {
+    "denominator" : 63,
+    "eligible" : 0,
+    "hits" : 0,
+    "numerator" : 40,
+    "precisionPercent" : 63.49206349206349,
+    "recallPercent" : 0
+  },
+  "precisionErrors" : [
+    {
+      "draft" : "agent_eval_notes.md",
+      "draftThread" : "A",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.09302325581395349,
+      "other" : "note-app-features.txt",
+      "rank" : 1,
+      "score" : 0.6185073183026425,
+      "semantic" : 0.8437147736549377
+    },
+    {
+      "draft" : "agent_eval_notes.md",
+      "draftThread" : "A",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.01891891891891892,
+      "other" : "tax checklist.txt",
+      "rank" : 2,
+      "score" : 0.6007759533379529,
+      "semantic" : 0.8501432538032532
+    },
+    {
+      "draft" : "agent_eval_notes.md",
+      "draftThread" : "A",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.025735294117647058,
+      "other" : "podcast_episode_outline.txt",
+      "rank" : 3,
+      "score" : 0.5989673481268041,
+      "semantic" : 0.8446382284164429
+    },
+    {
+      "draft" : "note-app-features.txt",
+      "draftThread" : "C",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.055263157894736833,
+      "other" : "podcast_episode_outline.txt",
+      "rank" : 1,
+      "score" : 0.6241004872949499,
+      "semantic" : 0.8678879141807556
+    },
+    {
+      "draft" : "note-app-features.txt",
+      "draftThread" : "C",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.09302325581395349,
+      "other" : "agent_eval_notes.md",
+      "rank" : 2,
+      "score" : 0.6185073183026425,
+      "semantic" : 0.8437147736549377
+    },
+    {
+      "draft" : "note-app-features.txt",
+      "draftThread" : "C",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.04152542372881356,
+      "other" : "sourdough schedule.txt",
+      "rank" : 3,
+      "score" : 0.5955832064757912,
+      "semantic" : 0.8330365419387817
+    },
+    {
+      "draft" : "podcast_episode_outline.txt",
+      "draftThread" : "E",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.055263157894736833,
+      "other" : "note-app-features.txt",
+      "rank" : 1,
+      "score" : 0.6241004872949499,
+      "semantic" : 0.8678879141807556
+    },
+    {
+      "draft" : "podcast_episode_outline.txt",
+      "draftThread" : "E",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.041176470588235294,
+      "other" : "sourdough schedule.txt",
+      "rank" : 2,
+      "score" : 0.6002859152765835,
+      "semantic" : 0.839904248714447
+    },
+    {
+      "draft" : "podcast_episode_outline.txt",
+      "draftThread" : "E",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.025735294117647058,
+      "other" : "agent_eval_notes.md",
+      "rank" : 3,
+      "score" : 0.5989673481268041,
+      "semantic" : 0.8446382284164429
+    },
+    {
+      "draft" : "sourdough schedule.txt",
+      "draftThread" : "D",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.041176470588235294,
+      "other" : "podcast_episode_outline.txt",
+      "rank" : 1,
+      "score" : 0.6002859152765835,
+      "semantic" : 0.839904248714447
+    },
+    {
+      "draft" : "sourdough schedule.txt",
+      "draftThread" : "D",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.04152542372881356,
+      "other" : "note-app-features.txt",
+      "rank" : 2,
+      "score" : 0.5955832064757912,
+      "semantic" : 0.8330365419387817
+    },
+    {
+      "draft" : "sourdough schedule.txt",
+      "draftThread" : "D",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "en-en",
+      "literal" : 0.03602941176470588,
+      "other" : "agent_eval_notes.md",
+      "rank" : 3,
+      "score" : 0.5825031082069173,
+      "semantic" : 0.816706120967865
+    },
+    {
+      "draft" : "周末烘焙计划.txt",
+      "draftThread" : "D",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0,
+      "other" : "购物清单.txt",
+      "rank" : 3,
+      "score" : 0.6290358424186706,
+      "semantic" : 0.8986226320266724
+    },
+    {
+      "draft" : "嘉宾邀请话术.md",
+      "draftThread" : "E",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.01881720430107527,
+      "other" : "prompt 练习册.md",
+      "rank" : 3,
+      "score" : 0.6268308156921016,
+      "semantic" : 0.8874080777168274
+    },
+    {
+      "draft" : "播客选题清单.md",
+      "draftThread" : "E",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.02614107883817427,
+      "other" : "纸堆 README 草稿.md",
+      "rank" : 3,
+      "score" : 0.6395374392177059,
+      "semantic" : 0.9024215936660767
+    },
+    {
+      "draft" : "本地优先同步方案.md",
+      "draftThread" : "C",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.02660936973373778,
+      "other" : "benchmark-v2.txt",
+      "rank" : 3,
+      "score" : 0.6351839985307475,
+      "semantic" : 0.8960016965866089
+    },
+    {
+      "draft" : "模型测试 prompt.md",
+      "draftThread" : "A",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.051903292181069954,
+      "other" : "prompt 练习册.md",
+      "rank" : 1,
+      "score" : 0.6724607302671597,
+      "semantic" : 0.9384139180183411
+    },
+    {
+      "draft" : "烘焙书摘录（长）.md",
+      "draftThread" : "D",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.12186932849364791,
+      "other" : "评测报告节选（长）.txt",
+      "rank" : 1,
+      "score" : 0.6831761070712724,
+      "semantic" : 0.9237361550331116
+    },
+    {
+      "draft" : "知识库竞品笔记.md",
+      "draftThread" : "C",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.016045845272206302,
+      "other" : "Agent Benchmark 想法.md",
+      "rank" : 3,
+      "score" : 0.6350659539467284,
+      "semantic" : 0.9003602862358093
+    },
+    {
+      "draft" : "第一期脚本草稿.md",
+      "draftThread" : "E",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.03625,
+      "other" : "纸堆 README 草稿.md",
+      "rank" : 3,
+      "score" : 0.6504732503890991,
+      "semantic" : 0.9137117862701416
+    },
+    {
+      "draft" : "纸堆 README 草稿.md",
+      "draftThread" : "C",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.05203287197231834,
+      "other" : "模型测试 prompt.md",
+      "rank" : 3,
+      "score" : 0.6515431415828454,
+      "semantic" : 0.9084761142730713
+    },
+    {
+      "draft" : "评测报告节选（长）.txt",
+      "draftThread" : "A",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0.12186932849364791,
+      "other" : "烘焙书摘录（长）.md",
+      "rank" : 1,
+      "score" : 0.6831761070712724,
+      "semantic" : 0.9237361550331116
+    },
+    {
+      "draft" : "面包笔记.md",
+      "draftThread" : "D",
+      "errorClass" : "irrelevant-in-top3",
+      "kind" : "lead",
+      "langPair" : "zh-zh",
+      "literal" : 0,
+      "other" : "模型测试记录_0712.txt",
+      "rank" : 3,
+      "score" : 0.6325575351715087,
+      "semantic" : 0.903653621673584
+    }
+  ],
+  "precisionLeadOnly" : {
+    "denominator" : 63,
+    "eligible" : 0,
+    "hits" : 0,
+    "numerator" : 40,
+    "precisionPercent" : 63.49206349206349,
+    "recallPercent" : 0
+  },
+  "queue" : {
+    "chunks" : 91,
+    "pendingDuplicates" : 0,
+    "pendingLeads" : 84
+  },
+  "recall" : {
+    "denominator" : 0,
+    "eligible" : 21,
+    "hits" : 17,
+    "numerator" : 0,
+    "precisionPercent" : 0,
+    "recallPercent" : 80.95238095238095
+  },
+  "recallLeadOnly" : {
+    "denominator" : 0,
+    "eligible" : 21,
+    "hits" : 17,
+    "numerator" : 0,
+    "precisionPercent" : 0,
+    "recallPercent" : 80.95238095238095
+  },
+  "runFingerprint" : "84|00101005-72B9-44A8-B8AE-474BCEA1AC05|0C4B8462-A257-4BB1-A712-E75981392D18:0.585037464|lead;00101005-72B9-44A8-B8AE-474BCEA1AC05|61BC8B6D-EBE6-48FD-9473-BE235A4A3D4F:0.611473775|lead;00101005-72B9-44A8-B8AE-474BCEA1AC05|912E9FD1-499A-4545-8515-879BCA1AEDC8:0.619570373|lead;00101005-72B9-44A8-B8AE-474BCEA1AC05|AC1CE40C-2F1D-4574-AD97-876D2A1FD470:0.652959647|lead;00101005-72B9-44A8-B8AE-474BCEA1AC05|C4AE9EEC-4AE1-4A58-BBE5-462E35A82A48:0.614297646|lead;00101005-72B9-44A8-B8AE-474BCEA1AC05|ECB514C5-6C27-4B19-8FA5-AD59C1CE8B8F:0.618471807|lead;0C4B8462-A257-4BB1-A712-E75981392D18|130073EF-8AA7-446C-9267-24D666835CBF:0.592014538|lead;0C4B8462-A257-4BB1-A712-E75981392D18|4E6AE8C6-CA23-4EEB-81FA-8C0DAC84B8A1:0.588441577|lead;0C4B8462-A257-4BB1-A712-E75981392D18|AC1CE40C-2F1D-4574-AD97-876D2A1FD470:0.568380249|lead;0C4B8462-A257-4BB1-A712-E75981392D18|ADADF118-1C22-4AF4-B659-F46594EFAF96:0.600775953|lead;0C4B8462-A257-4BB1-A712-E75981392D18|CAD7B688-CA51-4A33-B90E-8925A4835B0C:0.581800424|lead;0DA98770-CDBF-431A-A004-1EF4A2A86448|2299774F-1E1E-4AC6-922F-FEEDAA70F7F7:0.632777041|lead;0DA98770-CDBF-431A-A004-1EF4A2A86448|41930248-E17A-41D5-AA12-96B2B785E631:0.654876970|lead;0DA98770-CDBF-431A-A004-1EF4A2A86448|89EE3666-7CED-493B-96DB-DF3F663F3DDD:0.667178430|lead;0DA98770-CDBF-431A-A004-1EF4A2A86448|8CB7A8E7-31B7-497F-9C47-7AA8C510745F:0.683176107|lead;0DA98770-CDBF-431A-A004-1EF4A2A86448|A84D8AD2-A0D5-43E3-9374-CE3232ECF1CA:0.668948515|lead;0DA98770-CDBF-431A-A004-1EF4A2A86448|AC6EEC3D-3DE1-484B-B308-FD09E452C3D0:0.626836739|lead;130073EF-8AA7-446C-9267-24D666835CBF|4E6AE8C6-CA23-4EEB-81FA-8C0DAC84B8A1:0.624100487|lead;130073EF-8AA7-446C-9267-24D666835CBF|ADADF118-1C22-4AF4-B659-F46594EFAF96:0.618507318|lead;130073EF-8AA7-446C-9267-24D666835CBF|C4AE9EEC-4AE1-4A58-BBE5-462E35A82A48:0.559854352|lead;130073EF-8AA7-446C-9267-24D666835CBF|CAD7B688-CA51-4A33-B90E-8925A4835B0C:0.595583206|lead;2299774F-1E1E-4AC6-922F-FEEDAA70F7F7|275707AC-0758-4A4C-BB6A-4DF408943E5E:0.631712414|lead;2299774F-1E1E-4AC6-922F-FEEDAA70F7F7|41930248-E17A-41D5-AA12-96B2B785E631:0.633506586|lead;2299774F-1E1E-4AC6-922F-FEEDAA70F7F7|60F1732D-7518-424C-8045-90CAA9126D9E:0.676931698|lead;2299774F-1E1E-4AC6-922F-FEEDAA70F7F7|A84D8AD2-A0D5-43E3-9374-CE3232ECF1CA:0.635065954|lead;2299774F-1E1E-4AC6-922F-FEEDAA70F7F7|AC6EEC3D-3DE1-484B-B308-FD09E452C3D0:0.639182322|lead;275707AC-0758-4A4C-BB6A-4DF408943E5E|41930248-E17A-41D5-AA12-96B2B785E631:0.637710630|lead;275707AC-0758-4A4C-BB6A-4DF408943E5E|60F1732D-7518-424C-8045-90CAA9126D9E:0.639537439|lead;275707AC-0758-4A4C-BB6A-4DF408943E5E|D17FF727-E3B1-4D05-A7C1-04C87D286A89:0.665244758|lead;275707AC-0758-4A4C-BB6A-4DF408943E5E|ECB514C5-6C27-4B19-8FA5-AD59C1CE8B8F:0.630152871|lead;275707AC-0758-4A4C-BB6A-4DF408943E5E|F8AB9F1A-2036-434E-A94F-9D18FC3F5A7D:0.663797903|lead;41930248-E17A-41D5-AA12-96B2B785E631|89EE3666-7CED-493B-96DB-DF3F663F3DDD:0.643978890|lead;41930248-E17A-41D5-AA12-96B2B785E631|A84D8AD2-A0D5-43E3-9374-CE3232ECF1CA:0.673195938|lead;41930248-E17A-41D5-AA12-96B2B785E631|AC6EEC3D-3DE1-484B-B308-FD09E452C3D0:0.635183999|lead;4E6AE8C6-CA23-4EEB-81FA-8C0DAC84B8A1|ADADF118-1C22-4AF4-B659-F46594EFAF96:0.598967348|lead;4E6AE8C6-CA23-4EEB-81FA-8C0DAC84B8A1|C4AE9EEC-4AE1-4A58-BBE5-462E35A82A48:0.554678416|lead;4E6AE8C6-CA23-4EEB-81FA-8C0DAC84B8A1|CAD7B688-CA51-4A33-B90E-8925A4835B0C:0.600285915|lead;60F1732D-7518-424C-8045-90CAA9126D9E|89EE3666-7CED-493B-96DB-DF3F663F3DDD:0.651543142|lead;60F1732D-7518-424C-8045-90CAA9126D9E|A84D8AD2-A0D5-43E3-9374-CE3232ECF1CA:0.637358067|lead;60F1732D-7518-424C-8045-90CAA9126D9E|AC6EEC3D-3DE1-484B-B308-FD09E452C3D0:0.657305656|lead;60F1732D-7518-424C-8045-90CAA9126D9E|F8AB9F1A-2036-434E-A94F-9D18FC3F5A7D:0.650473250|lead;61BC8B6D-EBE6-48FD-9473-BE235A4A3D4F|6293845B-E679-4BF2-8F5C-CD638372323C:0.652683514|lead;61BC8B6D-EBE6-48FD-9473-BE235A4A3D4F|635E554A-C76F-4142-A371-A201EBB4EAB5:0.706651976|lead;61BC8B6D-EBE6-48FD-9473-BE235A4A3D4F|7B193B0F-507F-4061-9535-102A4DF72032:0.642100710|lead;61BC8B6D-EBE6-48FD-9473-BE235A4A3D4F|C4AE9EEC-4AE1-4A58-BBE5-462E35A82A48:0.607118535|lead;61BC8B6D-EBE6-48FD-9473-BE235A4A3D4F|ECB514C5-6C27-4B19-8FA5-AD59C1CE8B8F:0.614011759|lead;6293845B-E679-4BF2-8F5C-CD638372323C|635E554A-C76F-4142-A371-A201EBB4EAB5:0.665047104|lead;6293845B-E679-4BF2-8F5C-CD638372323C|7B193B0F-507F-4061-9535-102A4DF72032:0.651028526|lead;6293845B-E679-4BF2-8F5C-CD638372323C|D17FF727-E3B1-4D05-A7C1-04C87D286A89:0.621818553|lead;6293845B-E679-4BF2-8F5C-CD638372323C|DF28B0BE-C367-44D0-8D46-F01E52A3A610:0.619534582|lead;6293845B-E679-4BF2-8F5C-CD638372323C|F8AB9F1A-2036-434E-A94F-9D18FC3F5A7D:0.637046655|lead;635E554A-C76F-4142-A371-A201EBB4EAB5|7B193B0F-507F-4061-9535-102A4DF72032:0.659808461|lead;635E554A-C76F-4142-A371-A201EBB4EAB5|8CB7A8E7-31B7-497F-9C47-7AA8C510745F:0.619530250|lead;635E554A-C76F-4142-A371-A201EBB4EAB5|DF28B0BE-C367-44D0-8D46-F01E52A3A610:0.624613224|lead;635E554A-C76F-4142-A371-A201EBB4EAB5|F74A484D-D6A6-4A0E-8238-4610266BE74B:0.615803297|lead;788E1184-69AB-4662-AD51-F19A20872559|7B193B0F-507F-4061-9535-102A4DF72032:0.617757756|lead;788E1184-69AB-4662-AD51-F19A20872559|8CB7A8E7-31B7-497F-9C47-7AA8C510745F:0.650368688|lead;788E1184-69AB-4662-AD51-F19A20872559|912E9FD1-499A-4545-8515-879BCA1AEDC8:0.626546925|lead;788E1184-69AB-4662-AD51-F19A20872559|ECB514C5-6C27-4B19-8FA5-AD59C1CE8B8F:0.629035842|lead;788E1184-69AB-4662-AD51-F19A20872559|F5D434E5-F0D8-46BE-A4E8-4069359BEB15:0.664503132|lead;788E1184-69AB-4662-AD51-F19A20872559|F74A484D-D6A6-4A0E-8238-4610266BE74B:0.618743134|lead;7B193B0F-507F-4061-9535-102A4DF72032|AC1CE40C-2F1D-4574-AD97-876D2A1FD470:0.619458974|lead;7B193B0F-507F-4061-9535-102A4DF72032|DF28B0BE-C367-44D0-8D46-F01E52A3A610:0.624802415|lead;89EE3666-7CED-493B-96DB-DF3F663F3DDD|A84D8AD2-A0D5-43E3-9374-CE3232ECF1CA:0.657881384|lead;89EE3666-7CED-493B-96DB-DF3F663F3DDD|DF28B0BE-C367-44D0-8D46-F01E52A3A610:0.672460730|lead;89EE3666-7CED-493B-96DB-DF3F663F3DDD|F8AB9F1A-2036-434E-A94F-9D18FC3F5A7D:0.646488040|lead;8CB7A8E7-31B7-497F-9C47-7AA8C510745F|912E9FD1-499A-4545-8515-879BCA1AEDC8:0.623222657|lead;8CB7A8E7-31B7-497F-9C47-7AA8C510745F|F5D434E5-F0D8-46BE-A4E8-4069359BEB15:0.671393807|lead;8CB7A8E7-31B7-497F-9C47-7AA8C510745F|F74A484D-D6A6-4A0E-8238-4610266BE74B:0.636930097|lead;912E9FD1-499A-4545-8515-879BCA1AEDC8|D17FF727-E3B1-4D05-A7C1-04C87D286A89:0.626058321|lead;912E9FD1-499A-4545-8515-879BCA1AEDC8|F5D434E5-F0D8-46BE-A4E8-4069359BEB15:0.620810226|lead;912E9FD1-499A-4545-8515-879BCA1AEDC8|F74A484D-D6A6-4A0E-8238-4610266BE74B:0.620961559|lead;A84D8AD2-A0D5-43E3-9374-CE3232ECF1CA|AC6EEC3D-3DE1-484B-B308-FD09E452C3D0:0.632337065|lead;AC1CE40C-2F1D-4574-AD97-876D2A1FD470|C4AE9EEC-4AE1-4A58-BBE5-462E35A82A48:0.617917430|lead;AC1CE40C-2F1D-4574-AD97-876D2A1FD470|F5D434E5-F0D8-46BE-A4E8-4069359BEB15:0.614870751|lead;AC1CE40C-2F1D-4574-AD97-876D2A1FD470|F74A484D-D6A6-4A0E-8238-4610266BE74B:0.622512871|lead;AC6EEC3D-3DE1-484B-B308-FD09E452C3D0|D17FF727-E3B1-4D05-A7C1-04C87D286A89:0.624228839|lead;ADADF118-1C22-4AF4-B659-F46594EFAF96|CAD7B688-CA51-4A33-B90E-8925A4835B0C:0.582503108|lead;C4AE9EEC-4AE1-4A58-BBE5-462E35A82A48|ECB514C5-6C27-4B19-8FA5-AD59C1CE8B8F:0.622127682|lead;D17FF727-E3B1-4D05-A7C1-04C87D286A89|DF28B0BE-C367-44D0-8D46-F01E52A3A610:0.626830816|lead;D17FF727-E3B1-4D05-A7C1-04C87D286A89|F8AB9F1A-2036-434E-A94F-9D18FC3F5A7D:0.662232828|lead;DF28B0BE-C367-44D0-8D46-F01E52A3A610|F8AB9F1A-2036-434E-A94F-9D18FC3F5A7D:0.639063061|lead;ECB514C5-6C27-4B19-8FA5-AD59C1CE8B8F|F5D434E5-F0D8-46BE-A4E8-4069359BEB15:0.618368417|lead;F5D434E5-F0D8-46BE-A4E8-4069359BEB15|F74A484D-D6A6-4A0E-8238-4610266BE74B:0.632557535|lead;",
+  "testsetDir" : "\/Users\/gabrielmu\/Documents\/DraftZero\/t011-spike\/testset"
+}
