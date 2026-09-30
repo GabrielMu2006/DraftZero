@@ -70,5 +70,5 @@ V0.2.0 新增 **Windows 桌面版**（.NET 10 + Avalonia 实现的完整主应�
 
 **资产校验（发布时回填）：**
 
-- `DraftZero-Setup-v0.2.0-win-x64.exe`：约 268 MB · SHA-256 `0e10451418d92f0b9f015582c49fd3bbf3c285d49458103687aa15ff1ab6a63b`
-- 构建来源：tag `v0.2.0`（commit `b8953f4` 冻结源码 + 模型 `ca456c06…` / tokenizer `0b44a9d7…`）；Windows 机锁定还原 → 测试 64/64 → `dotnet publish -r win-x64 --self-contained` → 项目内 ISCC 6.0.5 编译；双端 SHA 一致。
+- `DraftZero-Setup-v0.2.0-win-x64.exe`：约 268 MB · SHA-256 `9ceaaabc5cdc29aef7a5a7a39c2dcc499f385f32f89f2306bbcbb843ef1bcdf0`
+- 构建来源：tag `v0.2.0`（commit `38017ea` 冻结源码（含六处缺陷修复） + 模型 `ca456c06…` / tokenizer `0b44a9d7…`）；Windows 机锁定还原 → 测试 64/64 → `dotnet publish -r win-x64 --self-contained` → 项目内 ISCC 6.0.5 编译；双端 SHA 一致。
