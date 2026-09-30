@@ -1,4 +1,4 @@
-# DraftZero V0.2.0 Windows 打包脚本（在用户 Windows 机的项目根目录内运行）。
+﻿# DraftZero V0.2.0 Windows 打包脚本（在用户 Windows 机的项目根目录内运行）。
 #
 # 边界（windows-ssh skill / 计划 §6）：
 # - 所有输出、缓存、临时文件都落在 $Root（= C:\Users\12926\Documents\DraftZero-WindowsBuild）内；
