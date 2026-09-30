@@ -7,6 +7,8 @@ struct SettingsView: View {
     @EnvironmentObject private var model: AppModel
 
     @State private var apiKeyInput = ""
+    @State private var migrationExporting = false
+    @State private var migrationMessage: String?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -15,6 +17,7 @@ struct SettingsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     localSection
+                    migrationSection
                     remoteSection
                 }
                 .padding(24)
@@ -62,6 +65,52 @@ struct SettingsView: View {
                 }
                 .buttonStyle(ArchiveSecondaryButtonStyle())
                 .disabled(model.semanticState == .indexing)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .archiveCard()
+        }
+    }
+
+    // MARK: - 迁移导出（V0.2.0 计划 §3：一次性 Mac→Windows）
+
+    private var migrationSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("迁移到 Windows", systemImage: "arrow.right.square")
+                .font(.archiveSection)
+                .fontDesign(.serif)
+                .foregroundStyle(Color.archiveText)
+            VStack(alignment: .leading, spacing: 10) {
+                Text("导出一个 .dzarchive 工作区档案，供 Windows 版**首次启动时一次性导入**。导出是复制：本 Mac 工作区保持不变，之后两边不会自动同步。档案未加密，包含全部草稿正文、PDF 快照、项目、版本与你的归类裁决；**不包含** DeepSeek Key（需在 Windows 重新填写）与可重建的索引。")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.mutedText)
+                    .fixedSize(horizontal: false, vertical: true)
+                Button(migrationExporting ? "正在导出…" : "导出至 Windows…") {
+                    let panel = NSSavePanel()
+                    panel.nameFieldStringValue = "DraftZero-工作区.dzarchive"
+                    panel.message = "选择档案保存位置（含草稿正文与 PDF，请自行选择安全位置）"
+                    guard panel.runModal() == .OK, let url = panel.url else { return }
+                    migrationExporting = true
+                    migrationMessage = nil
+                    Task {
+                        let message = await MigrationExport.runExport(
+                            database: model.database,
+                            snapshotsDirectory: AppDatabase.defaultSnapshotsURL(),
+                            to: url)
+                        await MainActor.run {
+                            migrationExporting = false
+                            migrationMessage = message
+                        }
+                    }
+                }
+                .buttonStyle(ArchiveSecondaryButtonStyle())
+                .disabled(migrationExporting)
+                if let message = migrationMessage {
+                    Text(message)
+                        .font(.system(size: 12))
+                        .foregroundStyle(message.hasPrefix("导出失败") ? Color.danger : Color.mutedText)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)

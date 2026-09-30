@@ -55,12 +55,17 @@ public final class E5EmbeddingEngine: TextEmbedding, @unchecked Sendable {
     public func embed(_ texts: [String]) throws -> [[Float]] {
         guard !texts.isEmpty else { return [] }
         return try texts.map { text in
-            var ids = try tokenizer.encode(text: Self.queryPrefix + text)
+            var ids = try tokenIDs(text: text)
             if ids.count > Self.maxTokens {
                 ids = Array(ids[0..<Self.maxTokens])
             }
             return try embedSingle(ids: ids)
         }
+    }
+
+    /// 原始 token ID 序列（含 <s>/</s>，未截断）。V0.2.0 M0 黄金样本与跨平台对齐用。
+    public func tokenIDs(text: String) throws -> [Int] {
+        try tokenizer.encode(text: text)
     }
 
     private func embedSingle(ids: [Int]) throws -> [Float] {

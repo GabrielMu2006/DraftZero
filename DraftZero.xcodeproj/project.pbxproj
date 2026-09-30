@@ -36,6 +36,7 @@
 		C5CFD8F7AD1FC1A1B76FDCF7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD562BFFE782C1777FAEA0C /* Theme.swift */; };
 		D5DEE546C9DD028551ED739E /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5A47673362E29C5B6CE98040 /* AppIcon.icns */; };
 		D73D58FE73AED80D24400151 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4C012EE3EFDA4108CE7BF /* SettingsView.swift */; };
+		DD0D53E612D8A0A8ACDBE3A3 /* MigrationExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D34D0DCD4D88CD6A95A13E /* MigrationExport.swift */; };
 		E707C9E1181D3307E0FCCA74 /* DraftZeroCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4234695E92929B472939DD /* DraftZeroCore */; };
 		F18472F265C7849DAB73E941 /* DraftDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2ECF2EAB6EEB715F553481 /* DraftDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		8BDDD1CE05C3160C886B0035 /* RelationNoteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationNoteSheet.swift; sourceTree = "<group>"; };
 		922A87E9BB81A67D3B306AA7 /* DraftBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftBoxView.swift; sourceTree = "<group>"; };
 		B4929ED73FBDE49EAE63789C /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
+		B5D34D0DCD4D88CD6A95A13E /* MigrationExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationExport.swift; sourceTree = "<group>"; };
 		BEFD6D31FEB342C03686ED23 /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
 		C50AAF19228AE2A2AB2EAD2A /* RemoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteModel.swift; sourceTree = "<group>"; };
 		CA3F1E60EBE8B10D6436A0F4 /* AddLinkSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkSheet.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				162CC23FB43528D373745C48 /* DraftZeroApp.swift */,
 				7C90034A5A97B660C8B141C0 /* Info.plist */,
 				26F922772E1F7A2F7C8721A9 /* KeychainStore.swift */,
+				B5D34D0DCD4D88CD6A95A13E /* MigrationExport.swift */,
 				BEFD6D31FEB342C03686ED23 /* ProjectModel.swift */,
 				C50AAF19228AE2A2AB2EAD2A /* RemoteModel.swift */,
 				2BFF068801A183C7B06E1E81 /* SemanticModel.swift */,
@@ -323,6 +326,7 @@
 				A1798A2B55B28F1013DD9C94 /* KeychainStore.swift in Sources */,
 				AA66CFB8998D3A9A870B0DD0 /* MainWindowView.swift in Sources */,
 				98E70D8BB372FAD80DCC78F1 /* MergeSheet.swift in Sources */,
+				DD0D53E612D8A0A8ACDBE3A3 /* MigrationExport.swift in Sources */,
 				AF69F04D45F48C631D960C74 /* NewDraftPage.swift in Sources */,
 				348D2E715239C5730C6FE602 /* ProjectDetailView.swift in Sources */,
 				BD9C74610FC4E8AA6504EF07 /* ProjectModel.swift in Sources */,

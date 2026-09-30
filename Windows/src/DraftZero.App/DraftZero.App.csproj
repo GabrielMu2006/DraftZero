@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- 多目标：net10.0 供 Mac 上开发/测试 Avalonia UI；
+         net10.0-windows10.0.19041.0 供 win-x64 发布，附 Windows.Data.Pdf 渲染 -->
+    <TargetFrameworks>net10.0;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <!-- 允许在 macOS 上构建 Windows 目标（跨平台开发；发布仍在 Windows 机） -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DraftZero.App</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">Assets\DraftZero.ico</ApplicationIcon>
+    <AssemblyName>DraftZero</AssemblyName>
+    <Version>0.2.0</Version>
+    <InformationalVersion>0.2.0</InformationalVersion>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="12.1.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.3" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.12" Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DraftZero.Core\DraftZero.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 仅 Windows 目标编译 WinRT PDF 渲染器与 DPAPI Key 存储；Mac 目标用占位实现 -->
+    <Compile Remove="Platform\Pdf\WindowsPdfPageRenderer.cs" Condition="'$(TargetFramework)' != 'net10.0-windows10.0.19041.0'" />
+    <Compile Remove="Platform\Pdf\StubPdfPageRenderer.cs" Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'" />
+    <Compile Remove="Platform\DpapiSecretStore.cs" Condition="'$(TargetFramework)' != 'net10.0-windows10.0.19041.0'" />
+    <Compile Remove="Platform\DevSecretStore.cs" Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DraftZero.App.App"
+             RequestedThemeVariant="Default">
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+    <Application.Resources>
+        <!-- 「索引档案」语义色（浅色基准；深色变体经 DynamicResource 覆盖） -->
+        <SolidColorBrush x:Key="CanvasBrush" Color="#D9D6CC" />
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#F1F0E9" />
+        <SolidColorBrush x:Key="RailBrush" Color="#E7E6DC" />
+        <SolidColorBrush x:Key="RaisedBrush" Color="#FAFAF6" />
+        <SolidColorBrush x:Key="SelectedBrush" Color="#D3D9CC" />
+        <SolidColorBrush x:Key="TextBrush" Color="#282B27" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#666B65" />
+        <SolidColorBrush x:Key="RuleBrush" Color="#C8C8BE" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#80602D" />
+        <SolidColorBrush x:Key="ConfirmedBrush" Color="#426C55" />
+        <SolidColorBrush x:Key="RemoteBrush" Color="#6F5A83" />
+        <SolidColorBrush x:Key="DangerBrush" Color="#A5483B" />
+        <SolidColorBrush x:Key="FocusBrush" Color="#80602D" />
+    </Application.Resources>
+</Application>

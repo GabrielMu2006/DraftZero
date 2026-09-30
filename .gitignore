@@ -51,3 +51,13 @@
 # Local one-off artifacts
 /tools/xcodegen.zip
 /.build/
+
+# V0.2.0 Windows port: repo-local .NET SDK, caches, dist
+/.dotnet/
+/.dotnet-home/
+/.nuget-packages/
+/.dotnet-testhome/
+/Windows/tests/fixtures/golden/*.bin
+
+# M0 cross-check python venv (local only)
+/.pytok-venv/

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "qh18OKEjzzQ=",
+  "success": true,
+  "projectFilePath": "/Users/gabrielmu/Documents/DraftZero/Windows/tools-inspect/inspect.csproj",
+  "expectedPackageFiles": [
+    "/Users/gabrielmu/Documents/DraftZero/.nuget-packages/google.protobuf/3.34.1/google.protobuf.3.34.1.nupkg.sha512",
+    "/Users/gabrielmu/Documents/DraftZero/.nuget-packages/tokenizers.huggingface/3.23.1/tokenizers.huggingface.3.23.1.nupkg.sha512"
+  ],
+  "logs": []
+}

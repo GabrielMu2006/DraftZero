@@ -1,0 +1,13 @@
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.csproj.AssemblyReference.cache
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.AssemblyInfoInputs.cache
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.AssemblyInfo.cs
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.csproj.CoreCompileInputs.cache
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.sourcelink.json
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/bin/Debug/net10.0/DraftZero.Core.deps.json
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/bin/Debug/net10.0/DraftZero.Core.dll
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/bin/Debug/net10.0/DraftZero.Core.pdb
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.dll
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/refint/DraftZero.Core.dll
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/DraftZero.Core.pdb
+/Users/gabrielmu/Documents/DraftZero/Windows/src/DraftZero.Core/obj/Debug/net10.0/ref/DraftZero.Core.dll

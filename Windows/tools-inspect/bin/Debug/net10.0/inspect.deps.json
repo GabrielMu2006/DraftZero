@@ -1,0 +1,91 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "inspect/1.0.0": {
+        "dependencies": {
+          "Tokenizers.HuggingFace": "3.23.1"
+        },
+        "runtime": {
+          "inspect.dll": {}
+        }
+      },
+      "Google.Protobuf/3.34.1": {
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.34.1.0",
+            "fileVersion": "3.34.1.0"
+          }
+        }
+      },
+      "Tokenizers.HuggingFace/3.23.1": {
+        "dependencies": {
+          "Google.Protobuf": "3.34.1"
+        },
+        "runtime": {
+          "lib/net6.0/Tokenizers.HuggingFace.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-arm64/native/libtokenizers_proto.so": {
+            "rid": "linux-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libtokenizers_proto.so": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-arm64/native/libtokenizers_proto.dylib": {
+            "rid": "osx-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libtokenizers_proto.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-arm64/native/tokenizers_proto.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/tokenizers_proto.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "inspect/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Google.Protobuf/3.34.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-212vdYxRuVopGE5bess6Jg5oXWyizA6hcLPTI7G+qA4PthQEvfeof3njT+7VSY5v/+O0P22xTydiP5fSJJpGEA==",
+      "path": "google.protobuf/3.34.1",
+      "hashPath": "google.protobuf.3.34.1.nupkg.sha512"
+    },
+    "Tokenizers.HuggingFace/3.23.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jQvIY5oSefMBJHh3CT0OwcrmE/NV0pb2NFTJtgDm5biuB1ayzu0hEw/Cag5HKWpkLRbF/lVj5++WNgjpWV4foA==",
+      "path": "tokenizers.huggingface/3.23.1",
+      "hashPath": "tokenizers.huggingface.3.23.1.nupkg.sha512"
+    }
+  }
+}

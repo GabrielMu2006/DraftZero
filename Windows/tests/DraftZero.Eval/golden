@@ -1,0 +1,72 @@
+{
+  "tokenMismatches": 0,
+  "total": 9,
+  "minCosine": 0.9470524603996937,
+  "threshold": 0.995,
+  "pass": false,
+  "perItem": [
+    {
+      "id": "zh-short",
+      "tokenCountCSharp": 15,
+      "tokenCountGolden": 15,
+      "tokensEqual": true,
+      "cosine": 0.984082
+    },
+    {
+      "id": "zh-long",
+      "tokenCountCSharp": 66,
+      "tokenCountGolden": 66,
+      "tokensEqual": true,
+      "cosine": 0.98811
+    },
+    {
+      "id": "en-short",
+      "tokenCountCSharp": 18,
+      "tokenCountGolden": 18,
+      "tokensEqual": true,
+      "cosine": 0.947052
+    },
+    {
+      "id": "en-long",
+      "tokenCountCSharp": 66,
+      "tokenCountGolden": 66,
+      "tokensEqual": true,
+      "cosine": 0.978574
+    },
+    {
+      "id": "mixed-1",
+      "tokenCountCSharp": 31,
+      "tokenCountGolden": 31,
+      "tokensEqual": true,
+      "cosine": 0.991178
+    },
+    {
+      "id": "mixed-2",
+      "tokenCountCSharp": 36,
+      "tokenCountGolden": 36,
+      "tokensEqual": true,
+      "cosine": 0.990667
+    },
+    {
+      "id": "markdown-h",
+      "tokenCountCSharp": 20,
+      "tokenCountGolden": 20,
+      "tokensEqual": true,
+      "cosine": 0.98043
+    },
+    {
+      "id": "numbers",
+      "tokenCountCSharp": 28,
+      "tokenCountGolden": 28,
+      "tokensEqual": true,
+      "cosine": 0.990148
+    },
+    {
+      "id": "punct",
+      "tokenCountCSharp": 26,
+      "tokenCountGolden": 26,
+      "tokensEqual": true,
+      "cosine": 0.986835
+    }
+  ]
+}

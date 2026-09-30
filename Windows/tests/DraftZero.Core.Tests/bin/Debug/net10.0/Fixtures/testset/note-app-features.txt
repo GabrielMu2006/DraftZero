@@ -1,0 +1,7 @@
+PaperStack feature list (working notes)
+
+- Local-first: the library is a plain folder of markdown files, no account, no cloud sync in v1.
+- Full-text search must work fully offline; the search index ships with the library folder.
+- Bidirectional links; deleting a note keeps backlinks visible as "source deleted" instead of silently breaking them.
+- Export: plain markdown plus an attachments folder. No proprietary database.
+- Target: macOS first, writers and researchers who care about data ownership.

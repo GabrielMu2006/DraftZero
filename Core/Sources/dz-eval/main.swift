@@ -137,8 +137,13 @@ struct DZEval {
                 try DZEval.debugDB()
                 return
             }
+            if args.first == "golden" {
+                try await DZEval.golden(args: args)
+                return
+            }
             fputs("用法: dz-eval --testset DIR --gt groundtruth.json --db DB.sqlite --out report.json [--kinds lead]\n" +
-                  "      dz-eval widget-qa --todo-name NAME [--recent-name NAME]\n", stderr)
+                  "      dz-eval widget-qa --todo-name NAME [--recent-name NAME]\n" +
+                  "      dz-eval golden --texts TEXTS.json --out GOLDEN.json\n", stderr)
             exit(2)
         }
         let kindsLeadOnly = (value("--kinds") == "lead")
@@ -398,7 +403,51 @@ struct DZEval {
         pair.draftA == id ? pair.draftB : pair.draftA
     }
 
-    // MARK: - widget-qa：从独立进程复现组件扩展的数据路径（收尾方案 P4）
+    // MARK: - golden（V0.2.0 M0）：生产 E5 引擎的 token IDs 与 384 维黄金向量，
+    // 供 Windows C# 端做逐条对齐（token 完全一致）与余弦（≥0.995）校验。
+    // 输入 JSON：[{"id": "...", "text": "..."}]；
+    // 输出 JSON：[{"id": "...", "text": "...", "tokenIds": [Int], "vector": [Float]}]。
+
+    struct GoldenInput: Decodable {
+        let id: String
+        let text: String
+    }
+
+    struct GoldenItem: Codable {
+        let id: String
+        let text: String
+        let tokenIds: [Int]
+        let vector: [Float]
+    }
+
+    static func golden(args: [String]) async throws {
+        func value(_ flag: String) -> String? {
+            guard let i = args.firstIndex(of: flag), i + 1 < args.count else { return nil }
+            return args[i + 1]
+        }
+        guard let textsPath = value("--texts"), let outPath = value("--out") else {
+            fputs("dz-eval golden --texts TEXTS.json --out GOLDEN.json\n", stderr)
+            exit(2)
+        }
+        let inputs = try JSONDecoder().decode([GoldenInput].self, from: Data(contentsOf: URL(fileURLWithPath: textsPath)))
+        let engine = try await E5EmbeddingEngine()
+        let vectors = try engine.embed(inputs.map(\.text))
+        var items: [GoldenItem] = []
+        for (input, vector) in zip(inputs, vectors) {
+            var ids = try engine.tokenIDs(text: E5EmbeddingEngine.queryPrefix + input.text)
+            if ids.count > E5EmbeddingEngine.maxTokens {
+                ids = Array(ids[0..<E5EmbeddingEngine.maxTokens])
+            }
+            items.append(GoldenItem(
+                id: input.id, text: input.text, tokenIds: ids,
+                vector: vector.map { Float($0) }))
+        }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        try encoder.encode(items).write(to: URL(fileURLWithPath: outPath))
+        print("golden → \(outPath)（\(items.count) 条）")
+    }
+
     //
     // 与 Widget/DraftZeroWidget.swift 完全同源：defaultDatabaseURL() 定位、
     // 时间线两条 SQL 读取、AppIntent 调用的 setProjectStatus 写入。

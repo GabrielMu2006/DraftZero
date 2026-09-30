@@ -1,0 +1,7 @@
+Episode 1 outline - the notebook app, five years in
+
+Cold open: the developer reads one of the nicest user emails out loud.
+Segment 1: how the app started as a weekend hack and why it stayed small.
+Segment 2: pricing - one-time purchase vs subscription, what the numbers actually look like after five years.
+Segment 3: answering user email as a product practice; the "source deleted" backlink story as an example of detail work.
+Outro: what "slow code" means - shipping less, but shipping for a decade.
