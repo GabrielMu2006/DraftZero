@@ -17,9 +17,11 @@ git -C "$REPO" cat-file -t "$COMMIT" >/dev/null || { echo "commit 不存在：$C
 COMMIT=$(git -C "$REPO" rev-parse "$COMMIT")
 echo "COMMIT=$COMMIT"
 
-# 1. 源码包（该 commit 的完整树，排除构建产物与本地缓存）
+# 1. 源码包（该 commit 的 Windows 构建所需子集：Windows/ 源码 + 打包脚本 + 声明；
+#    不传 Mac 专属资产——模型权重走 LFS，也会触发本机缺失的 git-lfs clean）
 echo "== 导出源码包 =="
-git -C "$REPO" archive --format=tar.gz --prefix="source/" "$COMMIT" -o "$STAGE/source.tar.gz"
+git -C "$REPO" -c filter.lfs.clean=cat -c filter.lfs.smudge=cat -c filter.lfs.process= -c filter.lfs.required=false \
+  archive --format=tar.gz --prefix="source/" "$COMMIT" -- Windows tools/windows THIRD-PARTY-NOTICES.md -o "$STAGE/source.tar.gz"
 SOURCE_SHA=$(shasum -a 256 "$STAGE/source.tar.gz" | awk '{print $1}')
 echo "source.tar.gz sha256=$SOURCE_SHA"
 
@@ -35,8 +37,8 @@ TOKENIZER_SHA=$(shasum -a 256 "$ARCHIVE_MODEL/tokenizer.json" | awk '{print $1}'
 cp "$ARCHIVE_MODEL/model.onnx" "$STAGE/model.onnx"
 cp "$ARCHIVE_MODEL/tokenizer.json" "$STAGE/tokenizer.json"
 
-# 3. 第三方声明随包
-cp "$REPO/THIRD-PARTY-NOTICES.md" "$STAGE/THIRD-PARTY-NOTICES.md" 2>/dev/null || echo "(警告：THIRD-PARTY-NOTICES.md 缺失)"
+# 3. 第三方声明随包（source 包内已含；input 单独留一份给打包脚本核对）
+cp "$REPO/THIRD-PARTY-NOTICES.md" "$STAGE/THIRD-PARTY-NOTICES.md"
 
 # 4. input 清单
 NOTICES_SHA=$(shasum -a 256 "$STAGE/THIRD-PARTY-NOTICES.md" 2>/dev/null | awk '{print $1}')
@@ -64,7 +66,7 @@ scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/INPUT-MANIFEST.json" "
 
 echo "== 远程解包源码 =="
 ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
-  "cd \"$REMOTE_ROOT\" && powershell.exe -NoProfile -NonInteractive -Command \"if (Test-Path 'source') { Remove-Item -Recurse -Force 'source' }; New-Item -ItemType Directory -Force 'source' | Out-Null; tar -xzf input/source.tar.gz -C source --strip-components=1; (Get-FileHash -Algorithm SHA256 'input/source.tar.gz').Hash.ToLower()\""
+  "cd \"$REMOTE_ROOT\" && powershell.exe -NoProfile -NonInteractive -Command \"if (Test-Path 'source') { Remove-Item -Recurse -Force 'source' }; New-Item -ItemType Directory -Force 'source' | Out-Null; tar -xzf input/source.tar.gz -C source; (Get-FileHash -Algorithm SHA256 'input/source.tar.gz').Hash.ToLower()\""
 
 echo "== 远程哈希复核 =="
 ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
