@@ -21,10 +21,10 @@ echo "COMMIT=$COMMIT"
 #    不传 Mac 专属资产——模型权重走 LFS，也会触发本机缺失的 git-lfs clean）
 echo "== 导出源码包 =="
 git -C "$REPO" -c filter.lfs.clean=cat -c filter.lfs.smudge=cat -c filter.lfs.process= -c filter.lfs.required=false \
-  archive --format=tar.gz --prefix="source/" "$COMMIT" -- Windows tools/windows THIRD-PARTY-NOTICES.md > "$REPO/.dz-source.tar"
-gzip -c "$REPO/.dz-source.tar" > "$STAGE/source.tar.gz"
-rm -f "$REPO/.dz-source.tar"
-SOURCE_SHA=$(shasum -a 256 "$STAGE/source.tar.gz" | awk '{print $1}')
+# ZIP 格式：Windows 端 Expand-Archive（.NET ZipArchive）正确处理 UTF-8 文件名标志；
+# Windows 内置 tar.exe 对 UTF-8 中文文件名解码失败（已实测）。
+  archive --format=zip --prefix="source/" "$COMMIT" -- Windows tools/windows THIRD-PARTY-NOTICES.md > "$STAGE/source.zip"
+SOURCE_SHA=$(shasum -a 256 "$STAGE/source.zip" | awk '{print $1}')
 echo "source.tar.gz sha256=$SOURCE_SHA"
 
 # 2. 模型与 tokenizer（按已知哈希核对后从归档复制）
@@ -60,7 +60,7 @@ ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
   "if not exist \"$REMOTE_ROOT\\input\" mkdir \"$REMOTE_ROOT\\input\" && if not exist \"$REMOTE_ROOT\\source\" mkdir \"$REMOTE_ROOT\\source\""
 
 echo "== 传输 =="
-scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/source.tar.gz" "$ALIAS:$REMOTE_ROOT/input/source.tar.gz"
+scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/source.zip" "$ALIAS:$REMOTE_ROOT/input/source.zip"
 scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/model.onnx" "$ALIAS:$REMOTE_ROOT/input/model.onnx"
 scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/tokenizer.json" "$ALIAS:$REMOTE_ROOT/input/tokenizer.json"
 scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/THIRD-PARTY-NOTICES.md" "$ALIAS:$REMOTE_ROOT/input/THIRD-PARTY-NOTICES.md"
@@ -68,7 +68,7 @@ scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/INPUT-MANIFEST.json" "
 
 echo "== 远程解包源码 =="
 ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
-  "cd \"$REMOTE_ROOT\" && powershell.exe -NoProfile -NonInteractive -Command \"if (Test-Path 'source') { Remove-Item -Recurse -Force 'source' }; New-Item -ItemType Directory -Force 'source' | Out-Null; tar -xzf input/source.tar.gz -C source; (Get-FileHash -Algorithm SHA256 'input/source.tar.gz').Hash.ToLower()\""
+  "cd \"$REMOTE_ROOT\" && powershell.exe -NoProfile -NonInteractive -Command \"if (Test-Path 'source') { Remove-Item -Recurse -Force 'source' }; New-Item -ItemType Directory -Force 'source' | Out-Null; Expand-Archive -Path 'input/source.zip' -DestinationPath 'source' -Force; (Get-FileHash -Algorithm SHA256 'input/source.zip').Hash.ToLower()\""
 
 echo "== 远程哈希复核 =="
 ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
