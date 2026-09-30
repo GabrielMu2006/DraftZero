@@ -1,4 +1,4 @@
-; DraftZero V0.2.0 — 每用户安装器（Inno Setup 6）
+﻿; DraftZero V0.2.0 — 每用户安装器（Inno Setup 6）
 ;
 ; 决定项（计划 §2/§4 W-012）：
 ; - PrivilegesRequired=lowest：每用户安装，无需管理员；
