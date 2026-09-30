@@ -36,13 +36,13 @@ OutputBaseFilename=DraftZero-Setup-v{#MyAppVersion}-win-x64
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern
-ArchitecturesInstallIn64BitMode=x64compatible
+ArchitecturesInstallIn64BitMode=x64
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ; 未签名：保留真实提示，不在脚本里关闭任何系统保护
 SetupLogging=yes
 
 [Languages]
-Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "chinesesimplified"; MessagesFile: "ChineseSimplified.isl"
 
 [Files]
 ; 应用与运行时（self-contained publish 输出全部内容）

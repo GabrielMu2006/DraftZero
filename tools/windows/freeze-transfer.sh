@@ -20,9 +20,9 @@ echo "COMMIT=$COMMIT"
 # 1. 源码包（该 commit 的 Windows 构建所需子集：Windows/ 源码 + 打包脚本 + 声明；
 #    不传 Mac 专属资产——模型权重走 LFS，也会触发本机缺失的 git-lfs clean）
 echo "== 导出源码包 =="
-git -C "$REPO" -c filter.lfs.clean=cat -c filter.lfs.smudge=cat -c filter.lfs.process= -c filter.lfs.required=false \
 # ZIP 格式：Windows 端 Expand-Archive（.NET ZipArchive）正确处理 UTF-8 文件名标志；
 # Windows 内置 tar.exe 对 UTF-8 中文文件名解码失败（已实测）。
+git -C "$REPO" -c filter.lfs.clean=cat -c filter.lfs.smudge=cat -c filter.lfs.process= -c filter.lfs.required=false \
   archive --format=zip --prefix="source/" "$COMMIT" -- Windows tools/windows THIRD-PARTY-NOTICES.md > "$STAGE/source.zip"
 SOURCE_SHA=$(shasum -a 256 "$STAGE/source.zip" | awk '{print $1}')
 echo "source.tar.gz sha256=$SOURCE_SHA"
