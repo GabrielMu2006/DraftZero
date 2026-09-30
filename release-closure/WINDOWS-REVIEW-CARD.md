@@ -6,7 +6,7 @@
 
 **核对安装器（可选但推荐）：** PowerShell 运行
 `Get-FileHash .\DraftZero-Setup-v0.2.0-win-x64.exe -Algorithm SHA256`
-应等于 `53c9fe1cbeb3c6ffd01c9974fa64d79e95538191844890fe50393c6a239b212e`。
+应等于 `0e10451418d92f0b9f015582c49fd3bbf3c285d49458103687aa15ff1ab6a63b`。
 
 ---
 

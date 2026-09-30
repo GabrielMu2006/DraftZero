@@ -67,8 +67,9 @@ scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/THIRD-PARTY-NOTICES.md
 scp -o BatchMode=yes -o StrictHostKeyChecking=yes "$STAGE/INPUT-MANIFEST.json" "$ALIAS:$REMOTE_ROOT/input/INPUT-MANIFEST.json"
 
 echo "== 远程解包源码 =="
+# zip 内条目已带 source/ 前缀：解到根目录再并入 source/（buildtools 与 source 平级不被触碰）
 ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
-  "cd \"$REMOTE_ROOT\" && powershell.exe -NoProfile -NonInteractive -Command \"if (Test-Path 'source') { Remove-Item -Recurse -Force 'source' }; New-Item -ItemType Directory -Force 'source' | Out-Null; Expand-Archive -Path 'input/source.zip' -DestinationPath 'source' -Force; (Get-FileHash -Algorithm SHA256 'input/source.zip').Hash.ToLower()\""
+  "cd \"$REMOTE_ROOT\" && powershell.exe -NoProfile -NonInteractive -Command \"if (Test-Path 'source') { Remove-Item -Recurse -Force 'source' }; Expand-Archive -Path 'input/source.zip' -DestinationPath 'staging' -Force; New-Item -ItemType Directory -Force 'source' | Out-Null; Move-Item staging/source/Windows source/Windows; Move-Item staging/source/tools source/tools; Move-Item staging/source/THIRD-PARTY-NOTICES.md source/THIRD-PARTY-NOTICES.md; Remove-Item -Recurse -Force staging; (Get-FileHash -Algorithm SHA256 'input/source.zip').Hash.ToLower()\""
 
 echo "== 远程哈希复核 =="
 ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$ALIAS" \
