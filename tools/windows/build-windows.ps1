@@ -9,19 +9,21 @@
 #       （模型/ICO/NOTICE）→ ISCC 编译安装器 → 输出 SHA256 清单。
 # 用法：powershell.exe -NoProfile -NonInteractive -File tools\windows\build-windows.ps1 -Root <根目录> [-IsccExe <路径>]
 param(
-    [Parameter(Mandatory = $true)][string]$Root,
-    [string]$IsccExe = "",
+    [string]$Root = "C:\Users\12926\Documents\DraftZero-WindowsBuild",
+    [string]$IsccExe = "C:\Users\12926\Documents\DraftZero-WindowsBuild\tools\portable-inno\{app}\ISCC.exe",
     [string]$Configuration = "Release"
 )
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
-$Root = [System.IO.Path]::GetFullPath($Root)
+$Root = (Resolve-Path $Root).Path
 if (-not (Test-Path $Root)) { throw "根目录不存在：$Root" }
 
 function Assert-InRoot([string]$path) {
-    $full = [System.IO.Path]::GetFullPath($path)
+    $full = if (Test-Path $path) { (Resolve-Path $path).Path }
+            elseif ($path -match '^[A-Za-z]:\\') { $path }
+            else { Join-Path $Root $path }
     if (-not $full.StartsWith($Root, [System.StringComparison]::OrdinalIgnoreCase)) {
         throw "路径越出项目根目录（拒绝执行）：$full"
     }
