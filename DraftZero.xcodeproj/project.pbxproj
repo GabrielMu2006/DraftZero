@@ -34,6 +34,7 @@
 		BD9C74610FC4E8AA6504EF07 /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFD6D31FEB342C03686ED23 /* ProjectModel.swift */; };
 		BE5A9087665CC9C33880E2BF /* ArchiveComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FABBBEEE7CABAC6F35FA28E /* ArchiveComponents.swift */; };
 		C5CFD8F7AD1FC1A1B76FDCF7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD562BFFE782C1777FAEA0C /* Theme.swift */; };
+		D5DEE546C9DD028551ED739E /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5A47673362E29C5B6CE98040 /* AppIcon.icns */; };
 		D73D58FE73AED80D24400151 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C4C012EE3EFDA4108CE7BF /* SettingsView.swift */; };
 		E707C9E1181D3307E0FCCA74 /* DraftZeroCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4234695E92929B472939DD /* DraftZeroCore */; };
 		F18472F265C7849DAB73E941 /* DraftDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2ECF2EAB6EEB715F553481 /* DraftDetailView.swift */; };
@@ -74,6 +75,7 @@
 		289F4DC0B9679D582580837C /* ArchiveMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveMenu.swift; sourceTree = "<group>"; };
 		2BFF068801A183C7B06E1E81 /* SemanticModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticModel.swift; sourceTree = "<group>"; };
 		377C74F9B42544A70AB04BF0 /* DraftZeroWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DraftZeroWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A47673362E29C5B6CE98040 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		5D878C7270203102F4F4998E /* DraftZero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DraftZero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C4C012EE3EFDA4108CE7BF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		699EFCD4976F455AF9829D25 /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		E96399A7684C6EC12F68651E /* App */ = {
 			isa = PBXGroup;
 			children = (
+				5A47673362E29C5B6CE98040 /* AppIcon.icns */,
 				F71C6A8334E2F12D3120DF69 /* AppModel.swift */,
 				699EFCD4976F455AF9829D25 /* DeepLink.swift */,
 				162CC23FB43528D373745C48 /* DraftZeroApp.swift */,
@@ -225,6 +228,7 @@
 			buildConfigurationList = 532E2EB6104D8EFDCC407E1B /* Build configuration list for PBXNativeTarget "DraftZero" */;
 			buildPhases = (
 				F659E7228E8657F4933B24BB /* Sources */,
+				0C4E5EB8FA75B1C7782ECD59 /* Resources */,
 				07F2ABB36F8F45A5DA8E50B5 /* Frameworks */,
 				F06AE3C603EC8A7BA796DC4A /* Embed Foundation Extensions */,
 			);
@@ -280,6 +284,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0C4E5EB8FA75B1C7782ECD59 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5DEE546C9DD028551ED739E /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E16E15738F3271687A41DD1C /* Sources */ = {

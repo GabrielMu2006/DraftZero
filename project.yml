@@ -27,6 +27,7 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: Draft Zero
+        CFBundleIconFile: AppIcon
         CFBundleShortVersionString: 0.1.0
         CFBundleVersion: 2
         LSMinimumSystemVersion: "26.0"
