@@ -21,7 +21,9 @@ echo "COMMIT=$COMMIT"
 #    不传 Mac 专属资产——模型权重走 LFS，也会触发本机缺失的 git-lfs clean）
 echo "== 导出源码包 =="
 git -C "$REPO" -c filter.lfs.clean=cat -c filter.lfs.smudge=cat -c filter.lfs.process= -c filter.lfs.required=false \
-  archive --format=tar.gz --prefix="source/" "$COMMIT" -- Windows tools/windows THIRD-PARTY-NOTICES.md -o "$STAGE/source.tar.gz"
+  archive --format=tar.gz --prefix="source/" "$COMMIT" -- Windows tools/windows THIRD-PARTY-NOTICES.md > "$REPO/.dz-source.tar"
+gzip -c "$REPO/.dz-source.tar" > "$STAGE/source.tar.gz"
+rm -f "$REPO/.dz-source.tar"
 SOURCE_SHA=$(shasum -a 256 "$STAGE/source.tar.gz" | awk '{print $1}')
 echo "source.tar.gz sha256=$SOURCE_SHA"
 

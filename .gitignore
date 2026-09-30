@@ -61,3 +61,7 @@
 
 # M0 cross-check python venv (local only)
 /.pytok-venv/
+
+# .NET build outputs
+Windows/**/bin/
+Windows/**/obj/

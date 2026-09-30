@@ -1,6 +1,0 @@
-Q3 bookkeeping checklist
-
-- Reconcile bank feed, flag any transaction without a receipt.
-- Separate the equipment purchase (new monitor) into fixed assets.
-- Check the invoice for the design contractor includes their tax ID.
-- Set aside the estimated payment before the deadline.
