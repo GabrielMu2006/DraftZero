@@ -103,8 +103,11 @@ public partial class AppViewModel : ObservableObject
 
     public int UngroupedCount => Drafts.Count(d => (ProjectCounts.GetValueOrDefault(d.Id)) == 0);
 
+    /// <summary>Mac 档案导入只允许空工作区（以已加载的四类数据判断，与
+    /// WorkspaceImporter 的空库判定同口径，避免在 UI 属性里同步查库）。</summary>
     public bool CanImportFromMac =>
-        _database is not null && WorkspaceImporter.IsWorkspaceEmpty(_database);
+        _database is not null && Drafts.Count == 0 && Projects.Count == 0
+            && LeadPairs.Count == 0 && DuplicatePairs.Count == 0 && RemoteSuggestions.Count == 0;
 
     // ---- 启动 ----
 
@@ -148,6 +151,10 @@ public partial class AppViewModel : ObservableObject
         }
         await ReloadProjectDetailsAsync();
         await ReloadDraftProjectNamesAsync();
+        // 通知缓存页面自刷新（列表页只建一次，靠这些信号更新内容）
+        OnPropertyChanged(nameof(Drafts));
+        OnPropertyChanged(nameof(ProjectCounts));
+        OnPropertyChanged(nameof(Projects));
         OnPropertyChanged(nameof(UngroupedCount));
         OnPropertyChanged(nameof(WorkspacePath));
         OnPropertyChanged(nameof(CanImportFromMac));
@@ -426,6 +433,9 @@ public partial class AppViewModel : ObservableObject
 
     // ---- 编辑与版本（R-003/R-006 / W-006） ----
 
+    /// <summary>编辑保存失败的具体原因（不挪用语义状态字段）。</summary>
+    [ObservableProperty] private string? _editSaveError;
+
     public async Task SaveEditAsync(Guid draftId, string text)
     {
         if (_database is null) return;
@@ -439,11 +449,12 @@ public partial class AppViewModel : ObservableObject
                 selected.Content = text;
             }
             EditSaveState = EditSaveStateKind.Saved;
+            EditSaveError = null;
         }
         catch (Exception ex)
         {
             EditSaveState = EditSaveStateKind.Failed;
-            SemanticStateDetail = ex.Message;
+            EditSaveError = ex.Message;
         }
     }
 

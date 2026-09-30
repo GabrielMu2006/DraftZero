@@ -6,12 +6,13 @@ using DraftZero.Core;
 
 namespace DraftZero.App.Views;
 
-/// <summary>03/04/05 项目列表（UI-06 / W-005/W-007）：状态筛选、标签、草稿数。</summary>
+/// <summary>03/04/05 项目列表（UI-06 / W-005/W-007）：状态筛选、标签、草稿数。缓存页自刷新。</summary>
 public sealed class ProjectsPage : UserControl
 {
     private readonly AppViewModel _model;
     private readonly ProjectStatus? _fixedFilter;
     private readonly StackPanel _listPanel = new() { Spacing = 8 };
+    private readonly TextBlock _headerSubtitle;
 
     public ProjectsPage(AppViewModel model, ProjectStatus? fixedFilter)
     {
@@ -25,7 +26,9 @@ public sealed class ProjectsPage : UserControl
             ProjectStatus.Archived => ("05", "暂时封存", "封存可逆；内容随时找回"),
             _ => ("03", "想法项目", "人工确认的归类结果"),
         };
-        root.Children.Add(ArchiveUI.PageHeader(index, title, subtitle));
+        var header = (StackPanel)ArchiveUI.PageHeader(index, title, subtitle);
+        _headerSubtitle = (TextBlock)header.Children[^1];
+        root.Children.Add(header);
 
         var scroll = new ScrollViewer { Content = _listPanel, Padding = new Thickness(28, 0, 28, 20) };
         Grid.SetRow(scroll, 1);
@@ -49,6 +52,14 @@ public sealed class ProjectsPage : UserControl
         root.Children.Add(footer);
 
         Content = root;
+        _model.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(AppViewModel.Projects) or nameof(AppViewModel.ProjectMembers)
+                or nameof(AppViewModel.ProjectTags))
+            {
+                Refresh();
+            }
+        };
         Refresh();
     }
 
@@ -58,6 +69,7 @@ public sealed class ProjectsPage : UserControl
         var projects = _fixedFilter is { } status
             ? _model.Projects.Where(p => p.Status == status).ToList()
             : _model.Projects.ToList();
+        _headerSubtitle.Text = $"共 {projects.Count} 个项目";
 
         if (projects.Count == 0)
         {

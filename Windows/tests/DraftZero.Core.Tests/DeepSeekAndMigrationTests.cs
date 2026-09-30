@@ -266,7 +266,7 @@ public sealed class DzArchiveImportTests : IDisposable
 
         await using var db = NewDb();
         await Assert.ThrowsAsync<DzArchiveException>(() => WorkspaceImporter.ImportAsync(db, tampered));
-        var isEmpty = WorkspaceImporter.IsWorkspaceEmpty(db);
+        var isEmpty = await WorkspaceImporter.IsWorkspaceEmptyAsync(db);
         Assert.True(isEmpty, "失败后主库必须仍是空库（零部分写入）");
     }
 

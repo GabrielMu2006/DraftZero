@@ -25,6 +25,12 @@ public partial class MainWindow : Window
     private readonly List<(SidebarItem Item, Border Host, TextBlock Badge)> _navItems = [];
     private TextBlock? _pendingBadge;
 
+    /// <summary>
+    /// 列表页缓存（UI-02：返回列表保留筛选与滚动位置）。详情页/新稿页是瞬态的，
+    /// 每次打开重建；列表页每侧栏项只建一次，由页面自身订阅数据变化刷新。
+    /// </summary>
+    private readonly Dictionary<SidebarItem, Control> _listPageCache = new();
+
     public MainWindow()
     {
         InitializeComponent();
@@ -108,7 +114,12 @@ public partial class MainWindow : Window
                     },
                 },
             };
-            host.Tapped += (_, _) => Model.SidebarSelection = item;
+            host.Tapped += async (_, _) =>
+            {
+                // 导航点击 = 离开当前详情/新稿（UI-02：返回入口与侧栏同效），列表缓存保留滚动
+                await LeaveDetailAsync();
+                Model.SidebarSelection = item;
+            };
             NavList.Children.Add(host);
             _navItems.Add((item, host, badge));
         }
@@ -146,7 +157,26 @@ public partial class MainWindow : Window
                 NavList.Children.Add(host);
             }
         }
-        NavSettings.Tapped += (_, _) => Model.SidebarSelection = SidebarItem.Settings;
+        NavSettings.Tapped += async (_, _) =>
+        {
+            await LeaveDetailAsync();
+            Model.SidebarSelection = SidebarItem.Settings;
+        };
+    }
+
+    /// <summary>离开详情/新稿前结算挂起的版本（与详情页返回按钮同语义）。</summary>
+    private async Task LeaveDetailAsync()
+    {
+        if (Model.SelectedDraft is { IsEditable: true } editing)
+        {
+            await Model.FlushVersionAsync(editing.Id);
+        }
+        if (Model.ShowNewDraftPage || Model.SelectedDraftId is not null || Model.SelectedProject is not null)
+        {
+            Model.ShowNewDraftPage = false;
+            Model.SelectedDraftId = null;
+            Model.SelectedProject = null;
+        }
     }
 
     private void UpdateBadges()
@@ -165,7 +195,7 @@ public partial class MainWindow : Window
         }
     }
 
-    /// <summary>主区路由：详情与新稿占用主区完整页面（UI-02）。</summary>
+    /// <summary>主区路由：详情与新稿占用主区完整页面（UI-02）；列表页走缓存保留滚动。</summary>
     private void RenderPage()
     {
         foreach (var (item, host, _) in _navItems)
@@ -193,19 +223,26 @@ public partial class MainWindow : Window
         }
         else
         {
-            page = Model.SidebarSelection switch
-            {
-                SidebarItem.DraftBox => new DraftBoxPage(Model),
-                SidebarItem.ClueDesk => new ClueDeskPage(Model),
-                SidebarItem.Projects => new ProjectsPage(Model, null),
-                SidebarItem.Todo => new ProjectsPage(Model, ProjectStatus.Todo),
-                SidebarItem.Archived => new ProjectsPage(Model, ProjectStatus.Archived),
-                SidebarItem.Settings => new SettingsPage(Model),
-                _ => new DraftBoxPage(Model),
-            };
+            page = GetOrBuildListPage(Model.SidebarSelection);
         }
         PageHost.Content = page;
         UpdateBadges();
+    }
+
+    private Control GetOrBuildListPage(SidebarItem item)
+    {
+        if (_listPageCache.TryGetValue(item, out var cached)) return cached;
+        Control page = item switch
+        {
+            SidebarItem.ClueDesk => new ClueDeskPage(Model),
+            SidebarItem.Projects => new ProjectsPage(Model, null),
+            SidebarItem.Todo => new ProjectsPage(Model, ProjectStatus.Todo),
+            SidebarItem.Archived => new ProjectsPage(Model, ProjectStatus.Archived),
+            SidebarItem.Settings => new SettingsPage(Model),
+            _ => new DraftBoxPage(Model),
+        };
+        _listPageCache[item] = page;
+        return page;
     }
 
     // ---- 快捷键（W-010：Ctrl 系列） ----

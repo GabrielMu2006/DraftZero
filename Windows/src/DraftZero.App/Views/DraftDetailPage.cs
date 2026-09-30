@@ -93,7 +93,23 @@ public sealed class DraftDetailPage : UserControl
             _editor.TextChanged += async (_, _) =>
             {
                 saveIndicator.Text = "正在保存…";
+                saveIndicator.Foreground = ArchiveUI.MutedText;
                 await _model.SaveEditAsync(_draft.Id, _editor.Text ?? "");
+                // 保存完成后按真实状态恢复反馈（失败要可见，不能停在"正在保存…"）
+                switch (_model.EditSaveState)
+                {
+                    case AppViewModel.EditSaveStateKind.Saved:
+                        saveIndicator.Text = "已保存";
+                        saveIndicator.Foreground = ArchiveUI.Confirmed;
+                        break;
+                    case AppViewModel.EditSaveStateKind.Failed:
+                        saveIndicator.Text = $"保存失败：{_model.EditSaveError ?? "请重试"}";
+                        saveIndicator.Foreground = ArchiveUI.Danger;
+                        break;
+                    default:
+                        saveIndicator.Text = "已保存";
+                        break;
+                }
             };
             bodyPanel.Children.Add(saveIndicator);
             bodyPanel.Children.Add(_editor);

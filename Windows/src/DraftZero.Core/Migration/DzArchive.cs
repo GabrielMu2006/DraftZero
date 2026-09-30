@@ -420,19 +420,24 @@ public static class DzArchiveReader
 /// </summary>
 public static class WorkspaceImporter
 {
-    public static bool IsWorkspaceEmpty(AppDatabase db)
-    {
-        var n = db.WriteAsync(conn => Task.FromResult(
+    /// <summary>工作区是否为空（草稿/项目/候选/建议四表合计 0 行）。</summary>
+    public static async Task<bool> IsWorkspaceEmptyAsync(AppDatabase db) =>
+        await db.WriteAsync(conn => Task.FromResult(
             Db.Long(conn, "SELECT (SELECT count(*) FROM draft) + (SELECT count(*) FROM project) + (SELECT count(*) FROM candidatePair) + (SELECT count(*) FROM remoteSuggestion)")))
-            .ConfigureAwait(false).GetAwaiter().GetResult();
-        return n == 0;
-    }
+            .ConfigureAwait(false) == 0;
 
-    public static async Task<DzCounts> ImportAsync(AppDatabase db, string archivePath, CancellationToken ct = default)
+    /// <summary>
+    /// 导入档案到空工作区。CPU/IO 密集（SHA 校验、PDF 落盘、整库写入），
+    /// 调用方应放在 Task.Run 中执行；progress 每阶段回调一次（可空）。
+    /// </summary>
+    public static async Task<DzCounts> ImportAsync(AppDatabase db, string archivePath,
+        Action<string>? progress = null, CancellationToken ct = default)
     {
+        progress?.Invoke("正在读取档案并校验完整性…");
         var contents = await DzArchiveReader.ReadAsync(archivePath, ct).ConfigureAwait(false);
 
-        if (!IsWorkspaceEmpty(db))
+        progress?.Invoke("正在确认目标工作区为空…");
+        if (!await IsWorkspaceEmptyAsync(db).ConfigureAwait(false))
         {
             throw new DzArchiveException(
                 "当前 Windows 工作区已有内容。迁移仅支持导入到空工作区；请先备份或另建空工作区（不做自动合并）。");
@@ -445,10 +450,12 @@ public static class WorkspaceImporter
 
         try
         {
+            progress?.Invoke($"正在写入 {contents.Drafts.Count} 份草稿与关联数据…");
             await using var tempDb = new AppDatabase(tempDbPath);
             var counts = await WriteAllAsync(tempDb, contents, tempSnapshotDir, db.SnapshotsDirectory, ct).ConfigureAwait(false);
             await tempDb.DisposeAsync().ConfigureAwait(false);
 
+            progress?.Invoke($"正在落位 {contents.PdfEntries.Count} 份 PDF 快照并替换工作区…");
             // 全部成功：原子替换空库（WAL 一并处理）+ 落位 PDF 快照。
             await db.DisposeAsync().ConfigureAwait(false);
             foreach (var suffix in new[] { "", "-wal", "-shm" })

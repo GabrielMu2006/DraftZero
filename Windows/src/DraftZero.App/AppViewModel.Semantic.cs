@@ -89,9 +89,13 @@ public partial class AppViewModel
         if (_database is null || _candidateEngine is not null) return;
         try
         {
-            var modelLocator = ModelLocator.Locate();
-            var tokenizer = new HuggingFaceTokenizerAdapter(modelLocator.TokenizerJsonPath);
-            var engine = new E5OnnxEmbedder(modelLocator.ModelOnnxPath, (ITokenizerAdapter)tokenizer);
+            // 模型加载（读 470MB 文件 + 建 ONNX 会话）是重活，移出 UI 线程
+            var engine = await Task.Run(() =>
+            {
+                var modelLocator = ModelLocator.Locate();
+                var tokenizer = new HuggingFaceTokenizerAdapter(modelLocator.TokenizerJsonPath);
+                return new E5OnnxEmbedder(modelLocator.ModelOnnxPath, (ITokenizerAdapter)tokenizer);
+            });
             _embedder = engine;
             _candidateEngine = new CandidateEngine(_database, engine);
         }
@@ -104,15 +108,19 @@ public partial class AppViewModel
         await RefreshSemanticAsync();
     }
 
-    /// <summary>增量索引 + 重新生成候选；内容未变的部分自动跳过。</summary>
+    /// <summary>增量索引 + 重新生成候选；内容未变的部分自动跳过。
+    /// 索引中重复触发直接忽略（防导入风暴下的并发重建）。</summary>
     public async Task RefreshSemanticAsync()
     {
         if (_candidateEngine is null || _database is null) return;
+        if (SemanticState == SemanticUiState.Indexing) return;
         SemanticState = SemanticUiState.Indexing;
         var drafts = await _database.DraftsAsync();
         try
         {
-            ClueReport = await _candidateEngine.RefreshAsync(drafts);
+            // 分词/推理/候选成组是 CPU 密集：移出 UI 线程；await 后回到 UI 上下文再更新属性
+            var engine = _candidateEngine;
+            ClueReport = await Task.Run(() => engine.RefreshAsync(drafts));
             SemanticState = SemanticUiState.Ready;
         }
         catch (Exception ex)
@@ -185,9 +193,14 @@ public partial class AppViewModel
         SemanticState = SemanticUiState.Indexing;
         try
         {
-            var drafts = await _database.DraftsAsync();
-            await SemanticIndexStore.RebuildSemanticIndexAsync(_database, drafts, _candidateEngine.Embedder);
-            ClueReport = await _candidateEngine.RefreshAsync(await _database.DraftsAsync());
+            var engine = _candidateEngine;
+            await Task.Run(async () =>
+            {
+                var drafts = await _database.DraftsAsync();
+                await SemanticIndexStore.RebuildSemanticIndexAsync(_database, drafts, engine.Embedder);
+                await engine.RefreshAsync(await _database.DraftsAsync());
+            });
+            ClueReport = await engine.CountsAsync();
             SemanticState = SemanticUiState.Ready;
         }
         catch (Exception ex)
@@ -549,7 +562,11 @@ public partial class AppViewModel
         MigrationMessage = null;
         try
         {
-            var counts = await WorkspaceImporter.ImportAsync(_database, archivePath);
+            // 校验/写库/落盘是重活：移出 UI 线程；进度经 Progress<T> 回到 UI。
+            IProgress<string> progress = new Progress<string>(msg => MigrationMessage = msg);
+            var db = _database;
+            var counts = await Task.Run(() =>
+                WorkspaceImporter.ImportAsync(db, archivePath, progress.Report));
             MigrationMessage = $"导入完成：{counts.Drafts} 份草稿、{counts.Versions} 个版本、{counts.Projects} 个项目、" +
                 $"{counts.Relations} 条演化关系、{counts.CandidateDecisions} 条裁决、{counts.PdfSnapshots} 份 PDF 快照。" +
                 "正在重建本机索引……";

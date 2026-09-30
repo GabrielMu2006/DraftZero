@@ -177,6 +177,14 @@ public sealed class RepoBrowseSheet : UserControl
             {
                 IsEnabled = entry.IsSupported && !entry.IsTooLarge,
             };
+            if (!entry.IsSupported)
+            {
+                ToolTip.SetTip(checkBox, "不支持的文件类型（仅可导入 TXT / Markdown / PDF）");
+            }
+            else if (entry.IsTooLarge)
+            {
+                ToolTip.SetTip(checkBox, $"文件 {entry.SizeLabel} 超过 2 MB 文本导入上限");
+            }
             checkBox.IsCheckedChanged += (_, _) =>
             {
                 if (_state is null) return;

@@ -6,22 +6,27 @@ using DraftZero.Core;
 
 namespace DraftZero.App.Views;
 
-/// <summary>01 草稿箱（UI-03 / W-001）：收纳、找回、筛选；空态两个强入口。</summary>
+/// <summary>01 草稿箱（UI-03 / W-001）：收纳、找回、筛选；空态两个强入口。
+/// 页面被主窗口缓存，靠模型属性变化信号自刷新（保留筛选与滚动位置）。</summary>
 public sealed class DraftBoxPage : UserControl
 {
     private readonly AppViewModel _model;
     private readonly StackPanel _listPanel = new() { Spacing = 8 };
+    private readonly Dictionary<DraftBoxFilter, Button> _filterButtons = new();
+    private readonly TextBlock _headerSubtitle;
 
     public DraftBoxPage(AppViewModel model)
     {
         _model = model;
         var root = new Grid { RowDefinitions = new RowDefinitions("Auto,Auto,*,Auto") };
 
-        root.Children.Add(ArchiveUI.PageHeader("01", "草稿箱",
-            $"共 {_model.Drafts.Count} 份草稿 · 未归组 {_model.UngroupedCount} · 待确认线索 {_model.PendingClueCount}"));
+        var header = (StackPanel)ArchiveUI.PageHeader("01", "草稿箱",
+            $"共 {_model.Drafts.Count} 份草稿 · 未归组 {_model.UngroupedCount} · 待确认线索 {_model.PendingClueCount}");
+        _headerSubtitle = (TextBlock)header.Children[^1];
+        root.Children.Add(header);
 
-        // 筛选行
-        var filterRow = ArchiveUI.HStack(6);
+        // 筛选行：筛选在左，动作按钮停靠右侧
+        var filterRow = new DockPanel { LastChildFill = false };
         foreach (DraftBoxFilter filter in Enum.GetValues<DraftBoxFilter>())
         {
             var f = filter;
@@ -36,15 +41,18 @@ public sealed class DraftBoxPage : UserControl
             {
                 button.Background = ArchiveUI.Selected;
             }
+            DockPanel.SetDock(button, Dock.Left);
             filterRow.Children.Add(button);
+            _filterButtons[filter] = button;
         }
-        filterRow.Children.Add(new Spacer());
-        var importButton = ArchiveUI.SecondaryButton("导入文件（Ctrl+O）");
-        importButton.Click += async (_, _) => await ImportAsync();
-        filterRow.Children.Add(importButton);
         var linkButton = ArchiveUI.SecondaryButton("添加链接（Ctrl+L）");
         linkButton.Click += (_, _) => { _model.ShowAddLinkSheet = true; };
+        DockPanel.SetDock(linkButton, Dock.Right);
         filterRow.Children.Add(linkButton);
+        var importButton = ArchiveUI.SecondaryButton("导入文件（Ctrl+O）");
+        importButton.Click += async (_, _) => await ImportAsync();
+        DockPanel.SetDock(importButton, Dock.Right);
+        filterRow.Children.Add(importButton);
         Grid.SetRow(filterRow, 1);
         filterRow.Margin = new Thickness(28, 0, 28, 10);
         root.Children.Add(filterRow);
@@ -65,16 +73,26 @@ public sealed class DraftBoxPage : UserControl
         root.Children.Add(bottom);
 
         Content = root;
+        // 缓存页自刷新：数据或待审数变化时重建列表（滚动位置由 ScrollViewer 状态保留范围尽力保留）
+        _model.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(AppViewModel.Drafts) or nameof(AppViewModel.ProjectCounts)
+                or nameof(AppViewModel.DraftProjectNames) or nameof(AppViewModel.LastEdited)
+                or nameof(AppViewModel.UngroupedCount) or nameof(AppViewModel.PendingClueCount))
+            {
+                Refresh();
+            }
+        };
         Refresh();
-    }
-
-    private sealed class Spacer : Control
-    {
-        public Spacer() { HorizontalAlignment = HorizontalAlignment.Stretch; }
     }
 
     private void Refresh()
     {
+        _headerSubtitle.Text = $"共 {_model.Drafts.Count} 份草稿 · 未归组 {_model.UngroupedCount} · 待确认线索 {_model.PendingClueCount}";
+        foreach (var (filter, button) in _filterButtons)
+        {
+            button.Background = filter == _model.DraftBoxFilter ? ArchiveUI.Selected : Brushes.Transparent;
+        }
         _listPanel.Children.Clear();
 
         if (_model.Drafts.Count == 0)

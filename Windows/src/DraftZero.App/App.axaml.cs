@@ -42,6 +42,24 @@ public partial class App : Application
                     }
                 });
             });
+
+            // 第二实例移交的深链（单实例信号 → 主实例路由）
+            if (SingleInstance.SingleInstanceWatch is { } watch)
+            {
+                _ = Task.Run(async () =>
+                {
+                    while (watch.WaitOne())
+                    {
+                        var url = SingleInstance.ConsumeDeepLink();
+                        if (url is null) continue;
+                        Avalonia.Threading.Dispatcher.UIThread.Post(async () =>
+                        {
+                            try { await model.RouteDeepLinkAsync(new Uri(url)); }
+                            catch { /* 非法 URL 丢弃，不影响主实例 */ }
+                        });
+                    }
+                });
+            }
         }
         base.OnFrameworkInitializationCompleted();
     }

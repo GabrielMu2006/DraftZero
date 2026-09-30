@@ -15,6 +15,7 @@ public sealed class SettingsPage : UserControl
     private readonly StackPanel _semanticPanel = new() { Spacing = 8 };
     private readonly TextBlock _migrationText = new() { FontSize = 12.5, TextWrapping = TextWrapping.Wrap, Foreground = ArchiveUI.MutedText, IsVisible = false };
     private readonly TextBlock _remoteStatusText = new() { FontSize = 12.5, TextWrapping = TextWrapping.Wrap, Foreground = ArchiveUI.Accent, IsVisible = false };
+    private readonly Button _remoteToggleButton = new() { Padding = new Thickness(12, 5) };
 
     public SettingsPage(AppViewModel model)
     {
@@ -118,8 +119,7 @@ public sealed class SettingsPage : UserControl
         var card = new StackPanel { Spacing = 10 };
         card.Children.Add(ArchiveUI.SectionTitle("DeepSeek 分析（可选）"));
 
-        var toggleButton = new Button { Padding = new Thickness(12, 5) };
-        toggleButton.Click += async (_, _) =>
+        _remoteToggleButton.Click += async (_, _) =>
         {
             if (_model.RemoteEnabled)
             {
@@ -131,7 +131,7 @@ public sealed class SettingsPage : UserControl
                 await EnableAsync();
             }
         };
-        card.Children.Add(toggleButton);
+        card.Children.Add(_remoteToggleButton);
 
         card.Children.Add(ArchiveUI.Muted(
             "启用后，新加入草稿的可读取文本（标题与正文节选，不含文件路径、不上传原始文件）会发送至 DeepSeek 分析。可能产生由你的 DeepSeek 账户支付的费用。", 12));
@@ -167,22 +167,15 @@ public sealed class SettingsPage : UserControl
 
     private void RefreshRemote()
     {
-        // 开关按钮文字
-        if (Content is ScrollViewer { Content: StackPanel panel })
-        {
-            var remoteCard = panel.Children.OfType<Border>().Skip(1).FirstOrDefault();
-        }
-        // 简单起见每次重建状态文字
-        _remoteStatusText.Text = _model.RemoteStatus ?? DefaultRemoteSummary();
+        _remoteToggleButton.Content = _model.RemoteEnabled
+            ? "远程分析：已开启（点击关闭）"
+            : "远程分析：默认关闭（点击开启）";
+        _remoteStatusText.Text = _model.RemoteStatus
+            ?? (_model.RemoteEnabled ? "已开启：新加入的草稿将自动分析" : "默认关闭：不发送任何草稿内容。");
         _remoteStatusText.Foreground = _model.RemoteEnabled ? ArchiveUI.Confirmed : ArchiveUI.MutedText;
         _remoteStatusText.IsVisible = true;
         _apiKeyBox.Watermark = _model.RemoteHasKey ? "已保存（输入新 Key 可替换）" : "sk-…";
     }
-
-    private string DefaultRemoteSummary() =>
-        _model.RemoteEnabled
-            ? $"已开启（{_model.RemoteHasKey}可能有 Key）"
-            : "默认关闭：不发送任何草稿内容。";
 
     private Control BuildAboutCard()
     {

@@ -106,7 +106,7 @@ public sealed class ProjectDetailPage : UserControl
         Grid.SetRow(_bodyHost, 2);
         root.Children.Add(_bodyHost);
 
-        var footer = ArchiveUI.Muted("演化图与文字事件列表表达同一已确认事实；未确认候选不混入。", 11.5);
+        var footer = ArchiveUI.Muted("以下文字事件列表即完整演化记录（已确认事实，按时间排序）；未确认候选不混入。", 11.5);
         footer.Margin = new Thickness(28, 0, 28, 14);
         Grid.SetRow(footer, 3);
         root.Children.Add(footer);

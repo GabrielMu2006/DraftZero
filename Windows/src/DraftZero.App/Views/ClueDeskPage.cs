@@ -15,6 +15,7 @@ public sealed class ClueDeskPage : UserControl
     private readonly AppViewModel _model;
     private readonly StackPanel _queuePanel = new() { Spacing = 6 };
     private readonly StackPanel _comparePanel = new() { Spacing = 10 };
+    private readonly StackPanel _bannerHost = new() { Margin = new Thickness(28, 0, 28, 10) };
     private CandidatePair? _selectedPair;
     private string _queueMode = "lead";
 
@@ -32,12 +33,11 @@ public sealed class ClueDeskPage : UserControl
         Grid.SetColumnSpan(header, 2);
         root.Children.Add(header);
 
-        // 状态行（R-004 降级要求）
-        var statusRow = new StackPanel { Margin = new Thickness(28, 0, 28, 10) };
-        statusRow.Children.Add(StateBanner());
-        Grid.SetColumnSpan(statusRow, 2);
-        Grid.SetRow(statusRow, 1);
-        root.Children.Add(statusRow);
+        // 状态行（R-004 降级要求）；缓存页随数据变化自刷新
+        _bannerHost.Children.Add(StateBanner());
+        Grid.SetColumnSpan(_bannerHost, 2);
+        Grid.SetRow(_bannerHost, 1);
+        root.Children.Add(_bannerHost);
 
         // 队列列
         var queueScroll = new ScrollViewer { Content = _queuePanel, Padding = new Thickness(28, 0, 10, 20) };
@@ -52,6 +52,25 @@ public sealed class ClueDeskPage : UserControl
         root.Children.Add(compareScroll);
 
         Content = root;
+        _model.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(AppViewModel.LeadPairs) or nameof(AppViewModel.DuplicatePairs)
+                or nameof(AppViewModel.DeferredLeads) or nameof(AppViewModel.RejectedLeads)
+                or nameof(AppViewModel.RemoteSuggestions) or nameof(AppViewModel.SemanticState)
+                or nameof(AppViewModel.SemanticStateDetail))
+            {
+                _bannerHost.Children.Clear();
+                _bannerHost.Children.Add(StateBanner());
+                RefreshQueues();
+            }
+            if (e.PropertyName == nameof(AppViewModel.Drafts))
+            {
+                // 对齐 Mac「进入线索台时刷新」：草稿集变化即重跑本机增量索引
+                // （RefreshSemanticAsync 自带索引中防并发）。
+                _ = _model.RefreshSemanticAsync();
+            }
+        };
+        _ = _model.RefreshSemanticAsync();
         RefreshQueues();
         SelectFirst();
     }
