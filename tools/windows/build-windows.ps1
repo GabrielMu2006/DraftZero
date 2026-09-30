@@ -10,7 +10,7 @@
 # 用法：powershell.exe -NoProfile -NonInteractive -File tools\windows\build-windows.ps1 -Root <根目录> [-IsccExe <路径>]
 param(
     [string]$Root = "C:\Users\12926\Documents\DraftZero-WindowsBuild",
-    [string]$IsccExe = "C:\Users\12926\Documents\DraftZero-WindowsBuild\tools\portable-inno\{app}\ISCC.exe",
+    [string]$IsccExe = "C:\Users\12926\Documents\DraftZero-WindowsBuild\buildtools\inno\{app}\ISCC.exe",
     [string]$Configuration = "Release"
 )
 
@@ -89,7 +89,8 @@ foreach ($file in $manifest.files) {
 $Solution = Join-Path $Source "Windows\DraftZero.sln"
 Assert-InRoot $Solution
 Log "dotnet restore (locked)"
-& dotnet restore $Solution --locked-mode 2>&1 | Tee-Object -FilePath $Log -Append | Out-Null
+# 指定 RID 还原：多目标工程 publish -r win-x64 需要 RID 专属资产（NETSDK1047）
+& dotnet restore $Solution --locked-mode -r win-x64 2>&1 | Tee-Object -FilePath $Log -Append | Out-Null
 if ($LASTEXITCODE -ne 0) { throw "restore 失败（锁定模式）" }
 
 # 2. 测试（项目内隔离工作区）
@@ -140,7 +141,7 @@ Log "app 目录组装完成（含 model/ 与声明文件）"
 $IssPath = Join-Path $Source "Windows\packaging\DraftZero.iss"
 Assert-InRoot $IssPath
 if ($IsccExe -eq "") {
-    $candidate = Get-ChildItem -Path (Join-Path $Root "tools") -Recurse -Filter "ISCC.exe" `
+    $candidate = Get-ChildItem -LiteralPath (Join-Path $Root "buildtools") -Recurse -Filter "ISCC.exe" `
         -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($null -eq $candidate) {
         throw "未找到项目内 ISCC.exe。请把 Inno Setup 便携版放在 $Root\tools\ 下（不安装全局）。"
@@ -148,9 +149,12 @@ if ($IsccExe -eq "") {
     $IsccExe = $candidate.FullName
 }
 Assert-InRoot $IsccExe
+if (-not (Test-Path -LiteralPath $IsccExe)) { throw "ISCC 不存在：$IsccExe" }
 Log "ISCC = $IsccExe"
-$installerOut = Join-Path $Artifacts
-& $IsccExe "/DAppDir=$AppDir" "/DOutputDir=$installerOut" $IssPath 2>&1 |
+$installerOut = $Artifacts
+# ISCC 默认 {app}/{tmp} 等为脚本常量；ISCC 自身路径含 {app} 目录名时用 LiteralPath 语义调用
+$isccCmd = Get-Item -LiteralPath $IsccExe
+& $isccCmd.FullName "/DAppDir=$AppDir" "/DOutputDir=$installerOut" $IssPath 2>&1 |
     Tee-Object -FilePath $Log -Append | Out-Null
 if ($LASTEXITCODE -ne 0) { throw "ISCC 编译失败" }
 
