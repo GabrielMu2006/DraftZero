@@ -610,6 +610,15 @@ public partial class AppViewModel : ObservableObject
         return await _database.VersionsAsync(draftId);
     }
 
+    /// <summary>全文搜索草稿（FTS5 trigram 索引；标题+正文子串，含 2 字中文）。</summary>
+    public async Task<List<Draft>> DatabaseSearchDraftsAsync(string query)
+    {
+        if (_database is null) return [];
+        var ids = await _database.SearchDraftsAsync(query);
+        return ids.Select(id => Drafts.FirstOrDefault(d => d.Id == id))
+            .Where(d => d is not null).Cast<Draft>().ToList();
+    }
+
     public async Task<List<EvolutionRelation>> LoadRelationsAsync(Guid draftId)
     {
         if (_database is null) return [];

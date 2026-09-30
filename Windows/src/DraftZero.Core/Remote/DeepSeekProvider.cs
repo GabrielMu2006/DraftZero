@@ -288,7 +288,7 @@ public sealed class DeepSeekProvider : IRemoteAnalysisProvider
 /// <summary>远程建议的存取（R-010）。建议不创建任何已确认关系。</summary>
 public static class RemoteSuggestionStore
 {
-    public static async Task SaveRemoteSuggestionAsync(this AppDatabase db, RemoteSuggestion suggestion) =>
+    public static Task SaveRemoteSuggestionAsync(this AppDatabase db, RemoteSuggestion suggestion) =>
         db.WriteAsync(conn =>
         {
             Db.Exec(conn, """
@@ -304,7 +304,7 @@ public static class RemoteSuggestionStore
                 Db.P("@notice", suggestion.Notice),
                 Db.P("@createdAt", Db.Fmt(suggestion.CreatedAt)));
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     public static async Task<List<RemoteSuggestion>> PendingRemoteSuggestionsAsync(this AppDatabase db, string? provider = null) =>
         await db.WriteAsync(conn =>
@@ -320,12 +320,12 @@ public static class RemoteSuggestionStore
             return Task.FromResult(Db.ReadRows(conn, sql, args.ToArray()).Select(Read).ToList());
         }).ConfigureAwait(false);
 
-    public static async Task DismissRemoteSuggestionAsync(this AppDatabase db, Guid id) =>
+    public static Task DismissRemoteSuggestionAsync(this AppDatabase db, Guid id) =>
         db.WriteAsync(conn =>
         {
             Db.Exec(conn, "UPDATE remoteSuggestion SET dismissed=1 WHERE id=@id", Db.P("@id", Db.Uid(id)));
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     private static RemoteSuggestion Read(Dictionary<string, object?> r) => new()
     {

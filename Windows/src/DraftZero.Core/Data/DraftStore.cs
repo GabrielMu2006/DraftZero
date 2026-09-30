@@ -55,7 +55,7 @@ public static class DraftStore
         }).ConfigureAwait(false);
 
     /// <summary>插入草稿（initialVersion 时写入 initial 版本）。调用方需已完成重复检测。</summary>
-    public static async Task InsertDraftAsync(this AppDatabase db, Draft draft, bool initialVersion) =>
+    public static Task InsertDraftAsync(this AppDatabase db, Draft draft, bool initialVersion) =>
         db.WriteAsync(conn =>
         {
             using var tx = conn.BeginTransaction();
@@ -84,9 +84,10 @@ public static class DraftStore
                     Origin = VersionOrigin.Initial,
                 });
             }
+            DraftSearchStore.Upsert(conn, draft);
             tx.Commit();
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     /// <summary>应用内新建文本草稿（R-001）。</summary>
     public static async Task<Draft> CreateManualDraftAsync(this AppDatabase db, string title, string content)
@@ -103,27 +104,30 @@ public static class DraftStore
     }
 
     public static async Task UpdateDraftContentAsync(this AppDatabase db, Guid id, string content) =>
-        db.WriteAsync(conn =>
+        await db.WriteAsync(conn =>
         {
             Db.Exec(conn, "UPDATE draft SET content=@c WHERE id=@id",
                 Db.P("@c", content), Db.P("@id", Db.Uid(id)));
+            UpsertSearchRow(conn, Db.Uid(id));
             return Task.CompletedTask;
         }).ConfigureAwait(false);
 
     public static async Task UpdateDraftTitleAsync(this AppDatabase db, Guid id, string title) =>
-        db.WriteAsync(conn =>
+        await db.WriteAsync(conn =>
         {
             Db.Exec(conn, "UPDATE draft SET title=@t WHERE id=@id",
                 Db.P("@t", title), Db.P("@id", Db.Uid(id)));
+            UpsertSearchRow(conn, Db.Uid(id));
             return Task.CompletedTask;
         }).ConfigureAwait(false);
 
     /// <summary>删除草稿（R-011）：正文与版本级联移除；演化关系行保留。</summary>
     public static async Task DeleteDraftAsync(this AppDatabase db, Guid id) =>
-        db.WriteAsync(conn =>
+        await db.WriteAsync(conn =>
         {
             Db.Exec(conn, "DELETE FROM projectDraft WHERE draftId=@id", Db.P("@id", Db.Uid(id)));
             Db.Exec(conn, "DELETE FROM draft WHERE id=@id", Db.P("@id", Db.Uid(id)));
+            DraftSearchStore.Remove(conn, id);
             return Task.CompletedTask;
         }).ConfigureAwait(false);
 
@@ -175,7 +179,7 @@ public static class DraftStore
     }
 
     /// <summary>无实际文本变化不产生重复版本（R-006 验收）。</summary>
-    public static async Task RecordVersionIfChangedAsync(this AppDatabase db, Guid draftId, string content, VersionOrigin origin) =>
+    public static Task RecordVersionIfChangedAsync(this AppDatabase db, Guid draftId, string content, VersionOrigin origin) =>
         db.WriteAsync(conn =>
         {
             var rows = Db.ReadRows(conn, """
@@ -185,7 +189,7 @@ public static class DraftStore
             if (last == content) return Task.CompletedTask;
             InsertVersion(conn, new DraftVersion { DraftId = draftId, Content = content, Origin = origin });
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     /// <summary>恢复旧版：产生 origin=Restore 的新版本，不抹掉中间历史（R-006）。</summary>
     public static async Task<Draft?> RestoreVersionAsync(this AppDatabase db, Guid versionId) =>
@@ -205,6 +209,7 @@ public static class DraftStore
                 Content = content,
                 Origin = VersionOrigin.Restore,
             });
+            UpsertSearchRow(conn, Db.Uid(draftId));
             tx.Commit();
             var draftRows = Db.ReadRows(conn, "SELECT * FROM draft WHERE id=@id", Db.P("@id", draftId));
             return Task.FromResult(draftRows.Count == 0 ? null : ReadDraft(draftRows[0]));
@@ -240,6 +245,13 @@ public static class DraftStore
             return Task.FromResult<Draft?>(draft);
         }).ConfigureAwait(false);
 
+    /// <summary>按 ID 重读草稿并刷新搜索行（衍生/拆分/合并/恢复路径用）。</summary>
+    private static void UpsertSearchRow(SqliteConnection conn, string draftId)
+    {
+        var rows = Db.ReadRows(conn, "SELECT * FROM draft WHERE id=@id", Db.P("@id", draftId));
+        if (rows.Count > 0) DraftSearchStore.Upsert(conn, ReadDraft(rows[0]));
+    }
+
     private static void InsertDraftRow(SqliteConnection conn, Draft draft)
     {
         Db.Exec(conn, """
@@ -258,6 +270,7 @@ public static class DraftStore
             Db.P("@fp", draft.Fingerprint),
             Db.P("@vsha", draft.SourceVersionSha),
             Db.P("@importedAt", Db.Fmt(draft.ImportedAt)));
+        DraftSearchStore.Upsert(conn, draft);
     }
 
     /// <summary>拆分（R-007）：一段文字生成为新草稿；源草稿内容不变，双向可追溯。</summary>

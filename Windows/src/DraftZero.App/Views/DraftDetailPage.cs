@@ -271,9 +271,16 @@ public sealed class DraftDetailPage : UserControl
             });
             var spacer = new Border();
             row.Children.Add(spacer);
+            var compare = ArchiveUI.SecondaryButton("对比");
+            compare.Padding = new Thickness(6, 2);
+            var v = version;
+            // 任意版本 vs 当前内容（W-006/R-006：比较产生新版本的历史任一点）
+            compare.Click += (_, _) => VersionCompareDialog.Show(
+                TopLevel.GetTopLevel(this) as Window, v.Content,
+                _editor?.Text ?? _draft.Content ?? "");
+            row.Children.Add(compare);
             var restore = ArchiveUI.SecondaryButton("恢复");
             restore.Padding = new Thickness(6, 2);
-            var v = version;
             restore.Click += async (_, _) =>
             {
                 var choice = await ConfirmDialog.ShowAsync(TopLevel.GetTopLevel(this) as Window,
@@ -290,10 +297,10 @@ public sealed class DraftDetailPage : UserControl
         }
         if (versions.Count > 1)
         {
-            var compare = ArchiveUI.SecondaryButton("对比最近两版");
-            compare.Click += (_, _) => VersionCompareDialog.Show(
+            var compareLatest = ArchiveUI.SecondaryButton("对比最近两版");
+            compareLatest.Click += (_, _) => VersionCompareDialog.Show(
                 TopLevel.GetTopLevel(this) as Window, versions[1].Content, versions[0].Content);
-            versionCard.Children.Add(compare);
+            versionCard.Children.Add(compareLatest);
         }
         _sidePanel.Children.Add(ArchiveUI.Card(versionCard, ArchiveUI.Raised));
 

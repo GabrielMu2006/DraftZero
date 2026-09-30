@@ -236,6 +236,73 @@ public sealed class StoreTests : IDisposable
         Assert.Equal(TextReading.Fingerprint(expectedNormalized), TextReading.Fingerprint(input));
     }
 
+    // W-007：全文搜索索引（FTS5 trigram；2 字中文走 LIKE 加速；维护钩子全覆盖）
+    [Fact]
+    public async Task DraftSearch_ChineseAndEnglish_SubstringHits()
+    {
+        var a = await _db.CreateManualDraftAsync("基准测试想法", "讨论任务集与评分口径。");
+        var b = await _db.CreateManualDraftAsync("benchmark notes", "scoring rubric for evaluation.");
+        await _db.CreateManualDraftAsync("无关草稿", "周末烘焙计划：面包与蛋糕。");
+
+        var r1 = await _db.SearchDraftsAsync("测试");       // 2 字中文（LIKE 路径）
+        Assert.Equal(a.Id, r1[0]);
+        Assert.DoesNotContain(b.Id, r1);
+        var r2 = await _db.SearchDraftsAsync("bench");      // 英文前缀
+        Assert.Contains(b.Id, r2);
+        Assert.DoesNotContain(a.Id, r2);
+        var r3 = await _db.SearchDraftsAsync("评分口径");   // 4 字中文（trigram 路径）
+        Assert.Equal(a.Id, r3[0]);
+        Assert.Empty(await _db.SearchDraftsAsync("不存在的词"));
+        Assert.Empty(await _db.SearchDraftsAsync("  "));
+    }
+
+    [Fact]
+    public async Task DraftSearch_UpdateDeleteRestore_KeptInSync()
+    {
+        var draft = await _db.CreateManualDraftAsync("旧标题", "旧正文内容");
+        await _db.UpdateDraftContentAsync(draft.Id, "全新的正文：深夜书店雨夜。");
+        Assert.Single(await _db.SearchDraftsAsync("雨夜"));
+        Assert.Empty(await _db.SearchDraftsAsync("旧正文内容"));
+
+        await _db.UpdateDraftTitleAsync(draft.Id, "书店故事");
+        Assert.Single(await _db.SearchDraftsAsync("书店故事"));
+
+        // 恢复旧版改变正文 → 搜索行刷新
+        var versions = await _db.VersionsAsync(draft.Id);
+        await _db.RestoreVersionAsync(versions[^1].Id); // 恢复到 initial（旧正文）
+        Assert.Single(await _db.SearchDraftsAsync("旧正文内容"));
+
+        await _db.DeleteDraftAsync(draft.Id);
+        Assert.Empty(await _db.SearchDraftsAsync("书店"));
+    }
+
+    [Fact]
+    public async Task DraftSearch_CountMismatch_SelfHeals()
+    {
+        var draft = await _db.CreateManualDraftAsync("自愈测试", "内容自愈测试正文。");
+        // 模拟旧库/导入遗留：手工掏空索引
+        await _db.WriteAsync(conn =>
+        {
+            Db.Exec(conn, "DELETE FROM draftSearch");
+            return Task.CompletedTask;
+        });
+        Assert.Empty(await _db.SearchDraftsAsync("自愈"));
+        // 重开库触发一致性守卫 → 自动重建
+        var dbPath = _db.DatabasePath;
+        await _db.DisposeAsync();
+        var reopened = new AppDatabase(dbPath);
+        try
+        {
+            var hits = await reopened.SearchDraftsAsync("自愈");
+            Assert.Single(hits);
+            Assert.Equal(draft.Id, hits[0]);
+        }
+        finally
+        {
+            await reopened.DisposeAsync();
+        }
+    }
+
     // S-33：默认工作区路径与 DZ_WORKSPACE_DIR 覆盖
     [Fact]
     public void WorkspaceOverride_UsesEnvironmentVariable()

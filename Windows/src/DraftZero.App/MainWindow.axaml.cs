@@ -43,6 +43,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         Model = model;
         PdfRenderer = pdfRenderer;
+        TryLoadWindowPlacement();
         BuildNavList();
         AddHandler(DragDrop.DropEvent, OnDrop);
         model.PropertyChanged += (_, e) =>
@@ -74,9 +75,77 @@ public partial class MainWindow : Window
                 else RepoBrowseSheet.IsVisible = false;
             }
         };
-        Closing += async (_, _) => await Model.FlushAllVersionsAsync();
+        Closing += async (_, _) =>
+        {
+            await Model.FlushAllVersionsAsync();
+            SaveWindowPlacement();
+        };
         RenderPage();
         UpdateBadges();
+    }
+
+    // ---- 窗口图标与位置记忆（标题栏/任务栏不再显示默认图标；重开恢复上次位置） ----
+
+    private void TryLoadWindowPlacement()
+    {
+        try
+        {
+            using var stream = Avalonia.Platform.AssetLoader.Open(
+                new Uri("avares://DraftZero/Assets/DraftZero.ico"));
+            Icon = new WindowIcon(stream);
+        }
+        catch { /* 图标缺失不阻塞启动 */ }
+
+        try
+        {
+            var (dbPath, _) = AppDatabase.DefaultWorkspace();
+            var file = Path.Combine(Path.GetDirectoryName(dbPath)!, "window-placement.json");
+            if (!File.Exists(file)) return;
+            var p = System.Text.Json.JsonSerializer.Deserialize<WindowPlacement>(File.ReadAllText(file));
+            if (p is null) return;
+            if (p.Width >= MinWidth && p.Height >= MinHeight)
+            {
+                Width = p.Width;
+                Height = p.Height;
+            }
+            if (p.X is int x && p.Y is int y)
+            {
+                var virtualScreen = Screens.All;
+                var visible = virtualScreen.Any(s =>
+                    x > s.Bounds.X - 200 && x < s.Bounds.Right && y > s.Bounds.Y - 50 && y < s.Bounds.Bottom);
+                if (visible)
+                {
+                    Position = new PixelPoint(x, y);
+                }
+            }
+        }
+        catch { /* 位置文件损坏则用默认值 */ }
+    }
+
+    private void SaveWindowPlacement()
+    {
+        try
+        {
+            var (dbPath, _) = AppDatabase.DefaultWorkspace();
+            var file = Path.Combine(Path.GetDirectoryName(dbPath)!, "window-placement.json");
+            var placement = new WindowPlacement
+            {
+                X = Position.X,
+                Y = Position.Y,
+                Width = (int)Width,
+                Height = (int)Height,
+            };
+            File.WriteAllText(file, System.Text.Json.JsonSerializer.Serialize(placement));
+        }
+        catch { /* 保存失败不影响退出 */ }
+    }
+
+    private sealed class WindowPlacement
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
     }
 
     private void BuildNavList()

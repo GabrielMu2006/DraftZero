@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -224,6 +225,8 @@ public sealed class QuickSearchSheet : UserControl
     private AppViewModel? _model;
     private readonly TextBox _query = new() { Watermark = "搜索草稿与项目…", FontSize = 16 };
     private readonly StackPanel _results = new() { Spacing = 6 };
+    private Action? _openFirstResult;
+    private int _searchGeneration;
 
     public QuickSearchSheet()
     {
@@ -251,6 +254,7 @@ public sealed class QuickSearchSheet : UserControl
         _model = model;
         IsVisible = true;
         _results.Children.Clear();
+        _openFirstResult = null;
         _query.Text = "";
         _query.Focus();
     }
@@ -263,18 +267,27 @@ public sealed class QuickSearchSheet : UserControl
         _query.KeyDown += (_, e) =>
         {
             if (e.Key == Avalonia.Input.Key.Escape) Close();
+            // 提示文案承诺的「回车打开第一个结果」
+            if (e.Key == Avalonia.Input.Key.Enter)
+            {
+                _openFirstResult?.Invoke();
+                e.Handled = true;
+            }
         };
         panel.Children.Add(_results);
         panel.Children.Add(ArchiveUI.Muted("Esc 关闭；回车打开第一个结果。", 11));
         return panel;
     }
 
-    private void Refresh()
+    private async void Refresh()
     {
         _results.Children.Clear();
+        _openFirstResult = null;
         if (_model is null) return;
         var q = (_query.Text ?? "").Trim();
         if (q.Length == 0) return;
+        // 快速连击时旧查询的结果不得覆盖新查询（代数守卫）
+        var generation = ++_searchGeneration;
 
         foreach (var project in _model.Projects
             .Where(p => p.Name.Contains(q, StringComparison.OrdinalIgnoreCase)).Take(5))
@@ -291,11 +304,12 @@ public sealed class QuickSearchSheet : UserControl
             }, ArchiveUI.Surface);
             row.Tapped += (_, _) => { _model.SelectProject(p); Close(); };
             _results.Children.Add(row);
+            if (_results.Children.Count == 1) _openFirstResult = () => { _model.SelectProject(p); Close(); };
         }
-        foreach (var draft in _model.Drafts
-            .Where(d => (d.Title?.Contains(q, StringComparison.OrdinalIgnoreCase) ?? false)
-                        || (d.Content?.Contains(q, StringComparison.OrdinalIgnoreCase) ?? false))
-            .Take(10))
+        // 全文搜索走 FTS5 trigram 索引（2 字中文/英文前缀均命中），不再依赖已加载副本
+        var matched = await _model.DatabaseSearchDraftsAsync(q);
+        if (generation != _searchGeneration) return; // 已有更新的查询
+        foreach (var draft in matched.Take(10))
         {
             var d = draft;
             var row = ArchiveUI.Card(new StackPanel
@@ -309,6 +323,7 @@ public sealed class QuickSearchSheet : UserControl
             }, ArchiveUI.Surface);
             row.Tapped += (_, _) => { _model.OpenDraft(d); Close(); };
             _results.Children.Add(row);
+            if (_results.Children.Count == 1) _openFirstResult = () => { _model.OpenDraft(d); Close(); };
         }
         if (_results.Children.Count == 0)
         {

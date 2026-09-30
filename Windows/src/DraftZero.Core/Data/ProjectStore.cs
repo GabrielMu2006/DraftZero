@@ -41,30 +41,30 @@ public static class ProjectStore
         return project;
     }
 
-    public static async Task RenameProjectAsync(this AppDatabase db, Guid id, string name) =>
+    public static Task RenameProjectAsync(this AppDatabase db, Guid id, string name) =>
         db.WriteAsync(conn =>
         {
             Db.Exec(conn, "UPDATE project SET name=@name WHERE id=@id",
                 Db.P("@name", name), Db.P("@id", Db.Uid(id)));
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     /// <summary>状态可任意切换，不改草稿正文或关系（R-008）。</summary>
-    public static async Task SetProjectStatusAsync(this AppDatabase db, Guid id, ProjectStatus status) =>
+    public static Task SetProjectStatusAsync(this AppDatabase db, Guid id, ProjectStatus status) =>
         db.WriteAsync(conn =>
         {
             Db.Exec(conn, "UPDATE project SET status=@s WHERE id=@id",
                 Db.P("@s", status.DbValue()), Db.P("@id", Db.Uid(id)));
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     /// <summary>删除项目保留草稿（R-005）：projectDraft 级联删除，草稿内容仍在。</summary>
-    public static async Task DeleteProjectAsync(this AppDatabase db, Guid id) =>
+    public static Task DeleteProjectAsync(this AppDatabase db, Guid id) =>
         db.WriteAsync(conn =>
         {
             Db.Exec(conn, "DELETE FROM project WHERE id=@id", Db.P("@id", Db.Uid(id)));
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     // ---- 归属 ----
 
@@ -192,14 +192,14 @@ public static class ProjectStore
             return Task.CompletedTask;
         }).ConfigureAwait(false);
 
-    public static async Task RemoveTagFromProjectAsync(this AppDatabase db, string name, Guid projectId) =>
+    public static Task RemoveTagFromProjectAsync(this AppDatabase db, string name, Guid projectId) =>
         db.WriteAsync(conn =>
         {
             Db.Exec(conn, """
                 DELETE FROM projectTag WHERE projectId=@p AND tagId IN (SELECT id FROM tag WHERE name=@n)
                 """, Db.P("@p", Db.Uid(projectId)), Db.P("@n", name));
             return Task.CompletedTask;
-        }).ConfigureAwait(false);
+        });
 
     public static async Task<List<Tag>> TagsOnProjectAsync(this AppDatabase db, Guid projectId) =>
         await db.WriteAsync(conn =>

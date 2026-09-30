@@ -230,6 +230,10 @@ public sealed class AppDatabase : IAsyncDisposable
                 dismissed INTEGER NOT NULL DEFAULT 0
             );
             """);
+
+        // 草稿全文搜索索引（FTS5 trigram，可重建数据）；计数不一致自动重建
+        // ——顺带自愈旧库与导入遗留（W-007）。
+        DraftSearchStore.EnsureSchemaAndConsistency(_writeConnection);
     }
 
     // ---- 小工具 ----

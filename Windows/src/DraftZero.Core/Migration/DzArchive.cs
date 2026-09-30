@@ -281,18 +281,20 @@ public static class DzArchiveReader
         var suggestions = await ReadJsonAsync<List<DzRemoteSuggestion>>(entryByName, "data/remoteSuggestions.json", ct).ConfigureAwait(false);
 
         // PDF 快照条目。
+        var safeDrafts = drafts ?? [];
         var pdfEntries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
-        foreach (var draft in drafts)
+        foreach (var draft in safeDrafts)
         {
-            if (draft.SnapshotFile is null) continue;
-            if (!entryByName.TryGetValue(draft.SnapshotFile, out var entry))
+            var snapshotFile = draft.SnapshotFile;
+            if (snapshotFile is null) continue;
+            if (!entryByName.TryGetValue(snapshotFile, out var entry))
             {
-                throw new DzArchiveException($"草稿引用的 PDF 快照缺失：{draft.SnapshotFile}");
+                throw new DzArchiveException($"草稿引用的 PDF 快照缺失：{snapshotFile}");
             }
             await using var stream = entry.Open();
             using var buffer = new MemoryStream();
             await stream.CopyToAsync(buffer, ct).ConfigureAwait(false);
-            pdfEntries[draft.SnapshotFile] = buffer.ToArray();
+            pdfEntries[snapshotFile] = buffer.ToArray();
         }
 
         var contents = new DzArchiveContents(

@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Include="Assets\DraftZero.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DraftZero.Core\DraftZero.Core.csproj" />
   </ItemGroup>
 
