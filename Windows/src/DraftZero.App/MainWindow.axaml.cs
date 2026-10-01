@@ -23,7 +23,6 @@ public partial class MainWindow : Window
     public IPdfPageRenderer PdfRenderer { get; }
 
     private readonly List<(SidebarItem Item, Border Host, TextBlock Badge)> _navItems = [];
-    private TextBlock? _pendingBadge;
 
     /// <summary>
     /// 列表页缓存（UI-02：返回列表保留筛选与滚动位置）。详情页/新稿页是瞬态的，
@@ -79,6 +78,18 @@ public partial class MainWindow : Window
         {
             await Model.FlushAllVersionsAsync();
             SaveWindowPlacement();
+        };
+        // 系统明暗切换（F-001）：ArchiveUI 色在控件构建时解析，
+        // 变体变化需重建导航与缓存页，保证两套色板即时生效。
+        Application.Current!.ActualThemeVariantChanged += (_, _) =>
+        {
+            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            {
+                _listPageCache.Clear();
+                BuildNavList();
+                RenderPage();
+                UpdateBadges();
+            });
         };
         RenderPage();
         UpdateBadges();
@@ -150,6 +161,8 @@ public partial class MainWindow : Window
 
     private void BuildNavList()
     {
+        NavList.Children.Clear();
+        _navItems.Clear();
         var items = new[]
         {
             (SidebarItem.DraftBox, "01", "草稿箱"),
@@ -177,8 +190,8 @@ public partial class MainWindow : Window
                     Spacing = 8,
                     Children =
                     {
-                        new TextBlock { Text = number, FontSize = 12, Foreground = (IBrush)Resources["AccentBrush"]! },
-                        new TextBlock { Text = name, FontSize = 13.5, Foreground = (IBrush)Resources["TextBrush"]! },
+                        new TextBlock { Text = number, FontSize = 12, Foreground = ArchiveUI.Accent },
+                        new TextBlock { Text = name, FontSize = 13.5, Foreground = ArchiveUI.TextBrush },
                         badge,
                     },
                 },
@@ -203,7 +216,7 @@ public partial class MainWindow : Window
             {
                 Text = "项目书签",
                 FontSize = 11,
-                Foreground = (IBrush)Resources["MutedTextBrush"]!,
+                Foreground = ArchiveUI.MutedText,
                 Margin = new Thickness(10, 10, 0, 4),
             });
             foreach (var project in bookmarks)
@@ -216,7 +229,7 @@ public partial class MainWindow : Window
                     {
                         Text = "· " + project.Name,
                         FontSize = 12.5,
-                        Foreground = (IBrush)Resources["TextBrush"]!,
+                        Foreground = ArchiveUI.TextBrush,
                         TextTrimming = TextTrimming.CharacterEllipsis,
                     },
                 };
@@ -260,7 +273,7 @@ public partial class MainWindow : Window
                 _ => 0,
             };
             badge.Text = count > 0 ? count.ToString() : "";
-            badge.Foreground = count > 0 ? (IBrush)Resources["AccentBrush"]! : Brushes.Transparent;
+            badge.Foreground = count > 0 ? ArchiveUI.Accent : Brushes.Transparent;
         }
     }
 
@@ -270,11 +283,11 @@ public partial class MainWindow : Window
         foreach (var (item, host, _) in _navItems)
         {
             host.Background = Model.SidebarSelection == item
-                ? (IBrush)Resources["SelectedBrush"]!
+                ? ArchiveUI.Selected
                 : Brushes.Transparent;
         }
         NavSettings.Background = Model.SidebarSelection == SidebarItem.Settings
-            ? (IBrush)Resources["SelectedBrush"]!
+            ? ArchiveUI.Selected
             : Brushes.Transparent;
 
         Control page;

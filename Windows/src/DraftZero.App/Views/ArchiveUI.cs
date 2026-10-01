@@ -22,8 +22,17 @@ public static class ArchiveUI
     public static IBrush RemoteBrush => AppBrush("RemoteBrush");
     public static IBrush Danger => AppBrush("DangerBrush");
 
-    private static IBrush AppBrush(string key) =>
-        (Application.Current!.Resources[key] as IBrush)!;
+    private static IBrush AppBrush(string key)
+    {
+        var app = Application.Current!;
+        // 主题变体感知：ThemeDictionaries 按 ActualThemeVariant 解析
+        // （浅色=索引档案基准 / 深色=夜间档案），与 Fluent 控件变体一致。
+        if (app.Resources.TryGetResource(key, app.ActualThemeVariant, out var value) && value is IBrush brush)
+        {
+            return brush;
+        }
+        throw new InvalidOperationException($"缺少主题资源：{key}（{app.ActualThemeVariant}）");
+    }
 
     /// <summary>页面头：编号 + 大标题 + 副标题。</summary>
     public static Control PageHeader(string index, string title, string subtitle)

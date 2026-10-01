@@ -6,19 +6,42 @@
         <FluentTheme />
     </Application.Styles>
     <Application.Resources>
-        <!-- 「索引档案」语义色（浅色基准；深色变体经 DynamicResource 覆盖） -->
-        <SolidColorBrush x:Key="CanvasBrush" Color="#D9D6CC" />
-        <SolidColorBrush x:Key="SurfaceBrush" Color="#F1F0E9" />
-        <SolidColorBrush x:Key="RailBrush" Color="#E7E6DC" />
-        <SolidColorBrush x:Key="RaisedBrush" Color="#FAFAF6" />
-        <SolidColorBrush x:Key="SelectedBrush" Color="#D3D9CC" />
-        <SolidColorBrush x:Key="TextBrush" Color="#282B27" />
-        <SolidColorBrush x:Key="MutedTextBrush" Color="#666B65" />
-        <SolidColorBrush x:Key="RuleBrush" Color="#C8C8BE" />
-        <SolidColorBrush x:Key="AccentBrush" Color="#80602D" />
-        <SolidColorBrush x:Key="ConfirmedBrush" Color="#426C55" />
-        <SolidColorBrush x:Key="RemoteBrush" Color="#6F5A83" />
-        <SolidColorBrush x:Key="DangerBrush" Color="#A5483B" />
-        <SolidColorBrush x:Key="FocusBrush" Color="#80602D" />
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <!-- 浅色：索引档案概念图基准（UI-REDESIGN-PLAN §3.1）。
+                     与 Fluent 控件同变体渲染，杜绝"深色控件样式 × 浅色纸面"的可读性错位。 -->
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="CanvasBrush" Color="#D9D6CC" />
+                    <SolidColorBrush x:Key="SurfaceBrush" Color="#F1F0E9" />
+                    <SolidColorBrush x:Key="RailBrush" Color="#E7E6DC" />
+                    <SolidColorBrush x:Key="RaisedBrush" Color="#FAFAF6" />
+                    <SolidColorBrush x:Key="SelectedBrush" Color="#D3D9CC" />
+                    <SolidColorBrush x:Key="TextBrush" Color="#282B27" />
+                    <SolidColorBrush x:Key="MutedTextBrush" Color="#666B65" />
+                    <SolidColorBrush x:Key="RuleBrush" Color="#C8C8BE" />
+                    <SolidColorBrush x:Key="AccentBrush" Color="#80602D" />
+                    <SolidColorBrush x:Key="ConfirmedBrush" Color="#426C55" />
+                    <SolidColorBrush x:Key="RemoteBrush" Color="#6F5A83" />
+                    <SolidColorBrush x:Key="DangerBrush" Color="#A5483B" />
+                    <SolidColorBrush x:Key="FocusBrush" Color="#80602D" />
+                </ResourceDictionary>
+                <!-- 深色：夜间档案（同构色板） -->
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="CanvasBrush" Color="#242C2A" />
+                    <SolidColorBrush x:Key="SurfaceBrush" Color="#303A34" />
+                    <SolidColorBrush x:Key="RailBrush" Color="#29332D" />
+                    <SolidColorBrush x:Key="RaisedBrush" Color="#39463E" />
+                    <SolidColorBrush x:Key="SelectedBrush" Color="#435344" />
+                    <SolidColorBrush x:Key="TextBrush" Color="#EFF0E7" />
+                    <SolidColorBrush x:Key="MutedTextBrush" Color="#C3CCC2" />
+                    <SolidColorBrush x:Key="RuleBrush" Color="#59665C" />
+                    <SolidColorBrush x:Key="AccentBrush" Color="#E1C993" />
+                    <SolidColorBrush x:Key="ConfirmedBrush" Color="#A9D1B1" />
+                    <SolidColorBrush x:Key="RemoteBrush" Color="#CFBCE0" />
+                    <SolidColorBrush x:Key="DangerBrush" Color="#F0A89E" />
+                    <SolidColorBrush x:Key="FocusBrush" Color="#E1C993" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
