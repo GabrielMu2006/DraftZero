@@ -79,15 +79,15 @@ public sealed class DraftDetailPage : UserControl
 
         if (_draft.IsEditable)
         {
-            _editor = new TextBox
+            _editor = ArchiveUI.ReadingColumn(ArchiveUI.StyleEditor(new TextBox
             {
                 Text = _draft.Content ?? "",
                 AcceptsReturn = true,
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 15,
                 MinHeight = 420,
-                LineHeight = 24,
-            };
+                LineHeight = 25,
+            }));
             var saveIndicator = new TextBlock { FontSize = 11.5, Foreground = ArchiveUI.MutedText, Text = "已保存" };
             _saveState = saveIndicator;
             _editor.TextChanged += async (_, _) =>
@@ -122,7 +122,7 @@ public sealed class DraftDetailPage : UserControl
         else
         {
             // 只读快照全文
-            bodyPanel.Children.Add(ArchiveUI.Card(new TextBox
+            bodyPanel.Children.Add(ArchiveUI.ReadingColumn(ArchiveUI.StyleEditor(new TextBox
             {
                 Text = _draft.Content ?? "（无可用于关联的文字）",
                 IsReadOnly = true,
@@ -130,8 +130,7 @@ public sealed class DraftDetailPage : UserControl
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 14.5,
                 MinHeight = 300,
-                Background = ArchiveUI.Surface,
-            }, ArchiveUI.Raised));
+            })));
         }
 
         var copyButton = ArchiveUI.SecondaryButton(_draft.IsEditable ? "从当前内容衍生新草稿" : "创建可编辑副本");

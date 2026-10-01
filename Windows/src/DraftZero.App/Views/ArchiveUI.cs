@@ -178,6 +178,28 @@ public static class ArchiveUI
 
     public static Separator RuleLine() => new() { Background = Rule, Margin = new Thickness(28, 0, 28, 0), Height = 1 };
 
+    /// <summary>纸面编辑器样式（F-003）：夜档 raised 底、rule 边、圆角、可读前景；
+    /// 替换 Fluent 默认的近黑输入框。长文阅读列宽上限 720（UI 规范）。</summary>
+    public static TextBox StyleEditor(TextBox tb)
+    {
+        tb.Background = Raised;
+        tb.Foreground = TextBrush;
+        tb.CaretBrush = TextBrush;
+        tb.BorderBrush = Rule;
+        tb.CornerRadius = new CornerRadius(8);
+        tb.Padding = new Thickness(12, 10);
+        tb.SelectionBrush = Accent;
+        return tb;
+    }
+
+    /// <summary>阅读列容器：宽度撑满至 720 上限（新稿/详情共用）。</summary>
+    public static T ReadingColumn<T>(T control) where T : Control
+    {
+        control.MaxWidth = 720;
+        control.HorizontalAlignment = HorizontalAlignment.Stretch;
+        return control;
+    }
+
     public static ScrollViewer Scroll(Control content) => new()
     {
         Content = content,

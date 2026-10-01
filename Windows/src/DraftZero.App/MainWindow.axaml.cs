@@ -44,6 +44,8 @@ public partial class MainWindow : Window
         PdfRenderer = pdfRenderer;
         TryLoadWindowPlacement();
         BuildNavList();
+        // F-002：AllowDrop 挂在窗口根（axaml）；DragOver 必须声明效果，否则系统按 None 处理丢不进来
+        AddHandler(DragDrop.DragOverEvent, OnDragOver);
         AddHandler(DragDrop.DropEvent, OnDrop);
         model.PropertyChanged += (_, e) =>
         {
@@ -78,18 +80,6 @@ public partial class MainWindow : Window
         {
             await Model.FlushAllVersionsAsync();
             SaveWindowPlacement();
-        };
-        // 系统明暗切换（F-001）：ArchiveUI 色在控件构建时解析，
-        // 变体变化需重建导航与缓存页，保证两套色板即时生效。
-        Application.Current!.ActualThemeVariantChanged += (_, _) =>
-        {
-            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
-            {
-                _listPageCache.Clear();
-                BuildNavList();
-                RenderPage();
-                UpdateBadges();
-            });
         };
         RenderPage();
         UpdateBadges();
@@ -386,6 +376,16 @@ public partial class MainWindow : Window
     }
 
     // ---- 拖放（R-001 / W-001） ----
+
+    private void OnDragOver(object? sender, DragEventArgs e)
+    {
+        if (Model.ShowNewDraftPage || Model.SelectedDraft is not null)
+        {
+            e.DragEffects = DragDropEffects.None;
+            return;
+        }
+        e.DragEffects = DragDropEffects.Copy;
+    }
 
     private async void OnDrop(object? sender, DragEventArgs e)
     {
