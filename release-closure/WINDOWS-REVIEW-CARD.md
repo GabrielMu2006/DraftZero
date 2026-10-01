@@ -6,7 +6,7 @@
 
 **核对安装器（可选但推荐）：** PowerShell 运行
 `Get-FileHash .\DraftZero-Setup-v0.2.0-win-x64.exe -Algorithm SHA256`
-应等于 `bd9a93e2350a5a26f1b36886fce310059ef2a59a91b3630f9ca91bbc9653429d`。
+应等于 `bed6c38ed5b83757fa81da3b43cd380beab424139ac0caca6b18ce241107a3b9`。
 
 **没有 Mac 工作区？** 用仓库自带的脱敏演示档案即可完成卡 B-8：
 `dist/演示工作区（脱敏）.dzarchive`（或仓库内 `Windows/tests/DraftZero.Core.Tests/Fixtures/migration/sample.dzarchive`，
