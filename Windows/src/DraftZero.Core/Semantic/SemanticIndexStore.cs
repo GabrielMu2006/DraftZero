@@ -36,9 +36,11 @@ public static class SemanticIndexStore
                 var content = draft.Content;
                 if (content is null || string.IsNullOrWhiteSpace(content)) continue;
                 var fingerprint = TextReading.Fingerprint(content);
-                var existing = Db.ReadRows(conn, "SELECT fingerprint FROM indexStatus WHERE draftId=@id",
+                var existing = Db.ReadRows(conn, "SELECT fingerprint, modelSignature FROM indexStatus WHERE draftId=@id",
                     Db.P("@id", Db.Uid(draft.Id)));
-                if (existing.Count > 0 && Db.Str(existing[0], "fingerprint") == fingerprint) continue;
+                // 指纹（内容）或模型签名（向量器版本）任一变化都重嵌（对齐 Mac 端）。
+                if (existing.Count > 0 && Db.Str(existing[0], "fingerprint") == fingerprint
+                    && Db.Str(existing[0], "modelSignature") == embedder.Signature) continue;
                 result.Add(new PendingDraft(draft.Id, fingerprint, Chunker.ChunkText(content)));
             }
             return Task.FromResult(result);
@@ -69,10 +71,11 @@ public static class SemanticIndexStore
                         Db.P("@heading", chunk.Heading),
                         Db.P("@embedding", FloatsToBytes(embeddings[i])));
                 }
-                Db.Exec(conn, "INSERT INTO indexStatus (draftId,fingerprint,indexedAt) VALUES (@draftId,@fp,@at)",
+                Db.Exec(conn, "INSERT INTO indexStatus (draftId,fingerprint,indexedAt,modelSignature) VALUES (@draftId,@fp,@at,@sig)",
                     Db.P("@draftId", Db.Uid(item.DraftId)),
                     Db.P("@fp", item.Fingerprint),
-                    Db.P("@at", Db.Fmt(DateTime.UtcNow)));
+                    Db.P("@at", Db.Fmt(DateTime.UtcNow)),
+                    Db.P("@sig", embedder.Signature));
                 tx.Commit();
                 return Task.CompletedTask;
             }).ConfigureAwait(false);

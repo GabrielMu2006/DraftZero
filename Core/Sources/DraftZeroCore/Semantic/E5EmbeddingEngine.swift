@@ -1,32 +1,41 @@
 import Foundation
-import CoreML
 import Tokenizers
 import Hub
+import OrtBridge
 
-/// multilingual-e5-small 本机推理引擎（CoreML 模型，随应用分发，断网可用）。
-/// 与 T-011 验证路径一致："query: " 前缀 + attention-mask mean pooling + L2 归一化；
-/// 模型经 convert_coreml.py 与 ONNX 输出做过逐句一致性校验（余弦 ≥ 0.995）。
+/// multilingual-e5-small ONNX int8 推理引擎（2026-10 换栈：OrtBridge C 桥 + ONNX Runtime）。
+/// 与 Windows C# E5OnnxEmbedder 同口径："query: " 前缀 + 512 截断 + attention-mask
+/// mean pooling + L2 归一化、384 维（池化与归一化在 C 桥内完成）。
+/// 换栈同时修复了两处历史偏差：原 CoreML 路径动态 shape 在 macOS 26 上病态缓慢；
+/// 原 CoreML 路径漏加 "query: " 前缀（与 Windows 及 T-011 验证配方不一致）。
 public final class E5EmbeddingEngine: TextEmbedding, @unchecked Sendable {
 
-    private let model: MLModel
+    private let engine: UnsafeMutableRawPointer
     private let tokenizer: any Tokenizer
-    private let outputName: String
     public let dimension: Int
+    /// 索引签名：签名不同的已索引切片在刷新时自动重嵌。
+    public let signature: String
 
     public static let queryPrefix = "query: "
     public static let maxTokens = 512
 
-    public init(modelURL: URL, tokenizerFolder: URL) async throws {
-        let configuration = MLModelConfiguration()
-        configuration.computeUnits = .cpuOnly // 与一致性校验一致；ANE 版本经校验后再启用
-        model = try MLModel(contentsOf: modelURL, configuration: configuration)
-        tokenizer = try Self.makeTokenizer(folder: tokenizerFolder)
-        if let name = model.modelDescription.outputDescriptionsByName.keys.sorted().first {
-            outputName = name
-        } else {
-            throw SemanticError.inferenceFailed("模型没有输出描述")
+    public init(modelURL: URL, tokenizerFolder: URL, dylibURL: URL) throws {
+        var err = [CChar](repeating: 0, count: 512)
+        var engine: UnsafeMutableRawPointer?
+        let rc = modelURL.path.withCString { modelPath in
+            dylibURL.path.withCString { dylibPath in
+                ort_engine_open(dylibPath, modelPath, Int32(max(2, ProcessInfo.processInfo.activeProcessorCount / 2)),
+                                &engine, &err, 512)
+            }
         }
-        dimension = 384
+        guard rc == 0, let engine else {
+            let message = String(cString: err)
+            throw SemanticError.inferenceFailed(message.isEmpty ? "ONNX 会话创建失败" : message)
+        }
+        self.engine = engine
+        self.signature = String(cString: ort_engine_signature())
+        self.tokenizer = try Self.makeTokenizer(folder: tokenizerFolder)
+        self.dimension = 384
     }
 
     /// e5-small 的分词模型是 Unigram（XLM-R 规范），swift-transformers 未收录
@@ -46,16 +55,16 @@ public final class E5EmbeddingEngine: TextEmbedding, @unchecked Sendable {
         return try PreTrainedTokenizer(tokenizerConfig: tokenizerConfig, tokenizerData: tokenizerData)
     }
 
-    public convenience init() async throws {
-        try await self.init(
-            modelURL: EmbeddingModelLocator.defaultModelURL(),
-            tokenizerFolder: EmbeddingModelLocator.defaultTokenizerFolder())
+    public convenience init() throws {
+        try self.init(modelURL: EmbeddingModelLocator.defaultModelURL(),
+                      tokenizerFolder: EmbeddingModelLocator.defaultTokenizerFolder(),
+                      dylibURL: EmbeddingModelLocator.defaultDylibURL())
     }
 
     public func embed(_ texts: [String]) throws -> [[Float]] {
         guard !texts.isEmpty else { return [] }
         return try texts.map { text in
-            var ids = try tokenIDs(text: text)
+            var ids = try tokenIDs(text: Self.queryPrefix + text)
             if ids.count > Self.maxTokens {
                 ids = Array(ids[0..<Self.maxTokens])
             }
@@ -63,37 +72,37 @@ public final class E5EmbeddingEngine: TextEmbedding, @unchecked Sendable {
         }
     }
 
-    /// 原始 token ID 序列（含 <s>/</s>，未截断）。V0.2.0 M0 黄金样本与跨平台对齐用。
+    /// 原始 token ID 序列（含 <s>/</s>，未截断、未加前缀）。跨平台分词对齐用。
     public func tokenIDs(text: String) throws -> [Int] {
         try tokenizer.encode(text: text)
     }
 
     private func embedSingle(ids: [Int]) throws -> [Float] {
-        let seqLen = max(ids.count, 1)
-        let inputIds = try Self.int32Array(ids.map { Int32(truncatingIfNeeded: $0) })
-        let attentionMask = try Self.int32Array(Array(repeating: 1, count: seqLen))
-
-        let inputDict: [String: MLFeatureValue] = [
-            "input_ids": try MLFeatureValue(multiArray: inputIds),
-            "attention_mask": try MLFeatureValue(multiArray: attentionMask),
-        ]
-        let input = try MLDictionaryFeatureProvider(dictionary: inputDict)
-        let output = try model.prediction(from: input)
-        guard let embedding = output.featureValue(for: outputName)?.multiArrayValue else {
-            throw SemanticError.inferenceFailed("缺少 \(outputName) 输出")
+        let n = max(ids.count, 1)
+        var idBuf = [Int64](repeating: 0, count: n)
+        var maskBuf = [Int64](repeating: 0, count: n)
+        for i in 0..<n {
+            idBuf[i] = i < ids.count ? Int64(ids[i]) : 1 // 1 = <pad>
+            maskBuf[i] = i < ids.count ? 1 : 0
         }
-        guard embedding.count == dimension else {
-            throw SemanticError.inferenceFailed("输出维度异常：\(embedding.count) ≠ \(dimension)")
+        var out = [Float](repeating: 0, count: dimension)
+        var err = [CChar](repeating: 0, count: 512)
+        let rc = idBuf.withUnsafeMutableBufferPointer { idPtr in
+            maskBuf.withUnsafeMutableBufferPointer { maskPtr in
+                out.withUnsafeMutableBufferPointer { outPtr in
+                    ort_embed(engine, idPtr.baseAddress!, maskPtr.baseAddress!, Int32(n),
+                              outPtr.baseAddress!, &err, 512)
+                }
+            }
         }
-        // 模型内已完成 mask mean pooling 与 L2 归一化。
-        return (0..<dimension).map { embedding[$0].floatValue }
+        guard rc == 0 else {
+            let message = String(cString: err)
+            throw SemanticError.inferenceFailed(message.isEmpty ? "ONNX 推理失败" : message)
+        }
+        return out
     }
 
-    private static func int32Array(_ values: [Int32]) throws -> MLMultiArray {
-        let array = try MLMultiArray(shape: [1, NSNumber(value: values.count)], dataType: .int32)
-        for (index, value) in values.enumerated() {
-            array[index] = NSNumber(value: value)
-        }
-        return array
+    deinit {
+        ort_engine_close(engine)
     }
 }

@@ -23,8 +23,11 @@ extension AppDatabase {
             let existing = try await pool.read { db in
                 try IndexStatus.fetchOne(db, key: draft.id)
             }
-            if let existing, existing.fingerprint == fingerprint {
-                continue // 内容未变，跳过（增量索引）
+            // 指纹（内容）或模型签名（向量器版本）任一变化都重嵌：
+            // 2026-10 换栈（CoreML→ONNX + 补 "query: " 前缀）后旧向量与新向量不可混用。
+            if let existing, existing.fingerprint == fingerprint,
+               existing.modelSignature == embedder.signature {
+                continue // 内容与向量器均未变，跳过（增量索引）
             }
 
             let chunks = Chunker.chunk(content)
@@ -43,7 +46,8 @@ extension AppDatabase {
                     try row.insert(db)
                 }
                 let status = IndexStatus(
-                    draftId: draft.id, fingerprint: fingerprint, indexedAt: Date())
+                    draftId: draft.id, fingerprint: fingerprint, indexedAt: Date(),
+                    modelSignature: embedder.signature)
                 try status.insert(db)
             }
         }
@@ -108,12 +112,15 @@ public struct IndexStatus: Codable, Sendable, FetchableRecord, PersistableRecord
     public var draftId: UUID
     public var fingerprint: String
     public var indexedAt: Date
+    /// 嵌入此切片的向量器签名（v5 迁移新增；旧行为空串，刷新时自动重嵌）。
+    public var modelSignature: String
 
     public static let databaseTableName = "indexStatus"
 
-    public init(draftId: UUID, fingerprint: String, indexedAt: Date) {
+    public init(draftId: UUID, fingerprint: String, indexedAt: Date, modelSignature: String) {
         self.draftId = draftId
         self.fingerprint = fingerprint
         self.indexedAt = indexedAt
+        self.modelSignature = modelSignature
     }
 }

@@ -6,6 +6,7 @@ import GRDB
 /// 用于离线单测候选引擎的分流、抑制与裁决逻辑。
 struct DeterministicEmbedder: TextEmbedding {
     let dimension = 512
+    let signature = "test-deterministic-v1"
 
     func embed(_ texts: [String]) throws -> [[Float]] {
         texts.map { text in
@@ -60,6 +61,7 @@ final class ChunkerTests: XCTestCase {
 /// 用于精确构造跨语言排序与保留规则的回归场景。
 struct ScriptedEmbedder: TextEmbedding {
     let dimension = 8
+    let signature = "test-scripted-v1"
     let vectors: [String: [Float]]
 
     func embed(_ texts: [String]) throws -> [[Float]] {

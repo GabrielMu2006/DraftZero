@@ -117,10 +117,14 @@ public enum CandidateTuning {
 public enum LiteralSignals {
 
     /// 拉丁词（小写，≥2 字符）+ 汉字二元组。
+    /// 性能注记：NSRegularExpression 编译约 50ms/次（ICU），2026-10 基线实测
+    /// 逐调用编译在千稿级工作区占分钟级；实例线程安全（Apple 文档），故静态缓存。
+    nonisolated(unsafe) private static let wordRegex: NSRegularExpression? = try? NSRegularExpression(pattern: "[a-z0-9]{2,}")
+
     public static func tokens(_ text: String) -> Set<String> {
         let lowered = text.lowercased()
         var result = Set<String>()
-        if let wordRegex = try? NSRegularExpression(pattern: "[a-z0-9]{2,}") {
+        if let wordRegex {
             let range = NSRange(lowered.startIndex..., in: lowered)
             for match in wordRegex.matches(in: lowered, range: range) {
                 if let r = Range(match.range, in: lowered) {
@@ -281,12 +285,18 @@ public struct CandidateEngine: Sendable {
         // 内容已变可产生新候选，旧记录保留；无正文文档不产生候选。
         let evidenceEncoder = JSONEncoder()
         try await database.pool.write { db in
+            // 一次取全表现有行，按无序对键聚合（同对取 createdAt 最新者）。
+            // 2026-10 性能基线（Windows/evidence/ENGINE-PERF-BASELINE-2026-10-03.md）：
+            // 逐对 SELECT 的 GRDB 异步往返常数 ~19-35ms/条，百稿级即分钟级——批量读是
+            // O(表大小) 一次往返，语义不变。
+            var existingByPair: [String: CandidatePair] = [:]
+            for row in try CandidatePair.fetchAll(db) {
+                let key = Self.pairKey(row.draftA, row.draftB)
+                if let prev = existingByPair[key], prev.createdAt >= row.createdAt { continue }
+                existingByPair[key] = row
+            }
             for pair in finalPairs {
-                let existing = try CandidatePair
-                    .filter((Column("draftA") == pair.a && Column("draftB") == pair.b)
-                        || (Column("draftA") == pair.b && Column("draftB") == pair.a))
-                    .order(Column("createdAt").desc)
-                    .fetchOne(db)
+                let existing = existingByPair[Self.pairKey(pair.a, pair.b)]
                 let kind: CandidateKind = pair.isDuplicate ? .duplicate : .lead
                 let evidenceData = try evidenceEncoder.encode(pair.evidence)
                 let evidenceJSON = String(data: evidenceData, encoding: .utf8)

@@ -148,6 +148,7 @@ public sealed class AppDatabase : IAsyncDisposable
                 sourceVersionSha TEXT,
                 importedAt TEXT NOT NULL
             );
+
             CREATE INDEX IF NOT EXISTS idx_draft_fingerprint ON draft(fingerprint);
             CREATE TABLE IF NOT EXISTS draftVersion (
                 id TEXT PRIMARY KEY,
@@ -230,6 +231,15 @@ public sealed class AppDatabase : IAsyncDisposable
                 dismissed INTEGER NOT NULL DEFAULT 0
             );
             """);
+
+        // v2（2026-10）：indexStatus 增加引擎签名列；签名变化触发切片自动重嵌。
+        // 置于建表之后：新库由上方 CREATE 建立（暂不含该列），旧库表已存在。
+        var indexStatusCols = Db.ReadRows(_writeConnection,
+            "SELECT name FROM pragma_table_info('indexStatus')");
+        if (indexStatusCols.All(r => Db.Str(r, "name") != "modelSignature"))
+        {
+            Execute(_writeConnection, "ALTER TABLE indexStatus ADD COLUMN modelSignature TEXT NOT NULL DEFAULT ''");
+        }
 
         // 草稿全文搜索索引（FTS5 trigram，可重建数据）；计数不一致自动重建
         // ——顺带自愈旧库与导入遗留（W-007）。

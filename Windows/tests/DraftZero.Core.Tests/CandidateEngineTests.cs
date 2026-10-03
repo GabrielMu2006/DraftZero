@@ -302,6 +302,7 @@ public sealed class CandidateEngineTests : IDisposable
     private sealed class TopicEmbedder : ITextEmbedding
     {
         public int Dimension => 64;
+        public string Signature => "test-topic-v1";
 
         public float[][] Embed(string[] texts) =>
             texts.Select(t =>

@@ -24,6 +24,13 @@ struct Stats: Codable {
     var maxMs: Double
 }
 
+/// Duration → 毫秒（seconds×1000 + attoseconds/1e15）。
+/// 2026-10-04 勘误：此前用 attoseconds/1e12 得到的是微秒却被当作毫秒报告，
+/// 导致基线文档全体数值放大 ~1000x（详见证据文档勘误节）。
+func durationMs(_ d: Duration) -> Double {
+    Double(d.components.seconds) * 1000.0 + Double(d.components.attoseconds) / 1e15
+}
+
 func stats(_ samples: [Double]) -> Stats {
     let sorted = samples.sorted()
     let n = sorted.count
@@ -59,18 +66,23 @@ func runEmbed() async throws {
     ]
     let repeats = 30
     var out: [String: Stats] = [:]
-    print("engine=CoreML e5-small int8 (生产同款)  dim=\(engine.dimension)")
+    print("engine=ONNX e5-small int8 (OrtBridge, query: 前缀)  dim=\(engine.dimension)  sig=\(engine.signature)")
     for bucket in buckets {
         let texts = (0..<repeats).map(bucket.make)
         _ = try engine.embed([texts[0]]) // 预热（含 CoreML 编译加载后的首次预测）
         var samples: [Double] = []
         var tokenCounts: [Int] = []
+        let clock = ContinuousClock()
         for t in texts {
-            let ids = try engine.tokenIDs(text: t)
-            tokenCounts.append(ids.count)
-            let clock = ContinuousClock()
-            let s = try clock.measure { _ = try engine.embed([t]) }
-            samples.append(Double(s.components.attoseconds) / 1e12) // → ms
+            var tokMs = 0.0
+            var embMs = 0.0
+            var d = try clock.measure { _ = try engine.tokenIDs(text: t) }
+            tokMs = durationMs(d)
+            d = try clock.measure { _ = try engine.embed([t]) }
+            embMs = durationMs(d)
+            _ = tokMs
+            tokenCounts.append(try engine.tokenIDs(text: t).count)
+            samples.append(embMs)
         }
         let st = stats(samples)
         let label = bucket.name.padding(toLength: 14, withPad: " ", startingAt: 0)
@@ -81,7 +93,7 @@ func runEmbed() async throws {
     _ = try engine.embed([mixed[0]])
     let clock = ContinuousClock()
     let bulk = try clock.measure { _ = try engine.embed(mixed) }
-    let bulkMs = Double(bulk.components.attoseconds) / 1e12
+    let bulkMs = durationMs(bulk)
     print("bulk 300 chunks: \(String(format: "%.0f", bulkMs)) ms → \(String(format: "%.1f", 300.0 / (bulkMs / 1000.0))) chunks/s（生产逐条路径）")
 }
 
@@ -135,11 +147,11 @@ func runScale(corpus: String, sizes: [Int], dbRoot: String, out: String?) async 
 
         let clock = ContinuousClock()
         var t = try await clock.measure { try await database.refreshSemanticIndex(drafts: drafts, embedder: engine) }
-        let indexMs = Double(t.components.attoseconds) / 1e12
+        let indexMs = durationMs(t)
         t = try await clock.measure { try await candidateEngine.regenerate(drafts: drafts) }
-        let regenMs = Double(t.components.attoseconds) / 1e12
+        let regenMs = durationMs(t)
         t = try await clock.measure { try await candidateEngine.regenerate(drafts: drafts) }
-        let regen2Ms = Double(t.components.attoseconds) / 1e12
+        let regen2Ms = durationMs(t)
 
         let chunks = try await database.pool.read { try IndexChunk.fetchCount($0) }
         let report = try await candidateEngine.counts()
@@ -202,18 +214,30 @@ func runVariant(modelArg: String?) async throws {
                 continue
             }
             func predict() throws -> Double {
-                let ids = try TokenizerBridge.shared.tokenIDs(text: text, folder: res)
-                let inputIds = try MLMultiArray(shape: [1, NSNumber(value: ids.count)], dataType: .int32)
+                var ids = try TokenizerBridge.shared.tokenIDs(text: text, folder: res)
+                // 固定 shape 模型：按模型描述把序列 pad 到目标长度（1=<pad>，mask=0）
+                var seqLen = ids.count
+                if let shape = model.modelDescription.inputDescriptionsByName["input_ids"]?
+                    .multiArrayConstraint?.shape, shape.count == 2, shape[1].intValue > 0 {
+                    seqLen = shape[1].intValue
+                }
+                if ids.count < seqLen {
+                    ids.append(contentsOf: Array(repeating: 1, count: seqLen - ids.count))
+                } else if ids.count > seqLen {
+                    ids = Array(ids[0..<seqLen])
+                }
+                let realCount = ids.count
+                let inputIds = try MLMultiArray(shape: [1, NSNumber(value: seqLen)], dataType: .int32)
                 for (i, v) in ids.enumerated() { inputIds[i] = NSNumber(value: v) }
-                let mask = try MLMultiArray(shape: [1, NSNumber(value: ids.count)], dataType: .int32)
-                for i in 0..<ids.count { mask[i] = 1 }
+                let mask = try MLMultiArray(shape: [1, NSNumber(value: seqLen)], dataType: .int32)
+                for i in 0..<seqLen { mask[i] = NSNumber(value: i < realCount ? 1 : 0) }
                 let input = try MLDictionaryFeatureProvider(dictionary: [
                     "input_ids": try MLFeatureValue(multiArray: inputIds),
                     "attention_mask": try MLFeatureValue(multiArray: mask),
                 ])
                 let clock = ContinuousClock()
                 let d = try clock.measure { _ = try model.prediction(from: input) }
-                return Double(d.components.attoseconds) / 1e12
+                return durationMs(d)
             }
             do {
                 _ = try predict() // 预热（含编译）
@@ -276,7 +300,7 @@ func runRegenPhases(dbPath: String, corpus: String, size: Int) async throws {
     let drafts = Array(persisted.prefix(size))
 
     let clock = ContinuousClock()
-    func ms(_ d: Duration) -> Double { Double(d.components.attoseconds) / 1e12 }
+    func ms(_ d: Duration) -> Double { durationMs(d) }
 
     // 相 1：chunksByDraft()（DB 读 + blob 解码）
     var t = try await clock.measure { _ = try await database.chunksByDraft() }

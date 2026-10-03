@@ -10,6 +10,9 @@ public interface ITextEmbedding
 {
     int Dimension { get; }
 
+    /// <summary>引擎签名（模型 + 前缀约定版本）。签名变化时索引自动重嵌（SemanticIndexStore）。</summary>
+    string Signature { get; }
+
     /// <summary>返回与输入等长的 L2 归一化向量。</summary>
     float[][] Embed(string[] texts);
 }
@@ -23,6 +26,7 @@ public static class TextEmbeddingExtensions
 public sealed class FakeEmbedder : ITextEmbedding
 {
     public int Dimension { get; }
+    public string Signature => "test-fake-v1";
 
     public FakeEmbedder(int dimension = 64) => Dimension = dimension;
 

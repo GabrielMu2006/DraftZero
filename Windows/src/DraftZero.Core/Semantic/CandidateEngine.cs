@@ -256,18 +256,34 @@ public sealed class CandidateEngine
         await _database.WriteAsync(conn =>
         {
             using var tx = conn.BeginTransaction();
+            // 一次取全表现有行，按无序对键聚合（同对取 createdAt 最新——"o" 格式可序）。
+            // 2026-10 性能基线（Windows/evidence/ENGINE-PERF-BASELINE-2026-10-03.md）：
+            // 逐对 SELECT 的往返次数随候选数线性增长，与 Mac 端一并改为批量读，语义不变。
+            var existingByPair = new Dictionary<string, Dictionary<string, object?>>(StringComparer.Ordinal);
+            foreach (var r in Db.ReadRows(conn, "SELECT * FROM candidatePair"))
+            {
+                var ra = Db.Str(r, "draftA") ?? "";
+                var rb = Db.Str(r, "draftB") ?? "";
+                var rkey = string.CompareOrdinal(ra, rb) < 0 ? $"{ra}|{rb}" : $"{rb}|{ra}";
+                if (existingByPair.TryGetValue(rkey, out var prev))
+                {
+                    var prevAt = Db.Str(prev, "createdAt") ?? "";
+                    var curAt = Db.Str(r, "createdAt") ?? "";
+                    if (string.CompareOrdinal(curAt, prevAt) <= 0) continue;
+                }
+                existingByPair[rkey] = r;
+            }
             foreach (var pair in kept.Values)
             {
-                var rows = Db.ReadRows(conn, """
-                    SELECT * FROM candidatePair
-                    WHERE (draftA=@a AND draftB=@b) OR (draftA=@b AND draftB=@a)
-                    ORDER BY createdAt DESC LIMIT 1
-                    """,
-                    Db.P("@a", Db.Uid(pair.A)), Db.P("@b", Db.Uid(pair.B)));
+                var pairKey = string.CompareOrdinal(Db.Uid(pair.A), Db.Uid(pair.B)) < 0
+                    ? $"{Db.Uid(pair.A)}|{Db.Uid(pair.B)}"
+                    : $"{Db.Uid(pair.B)}|{Db.Uid(pair.A)}";
+                existingByPair.TryGetValue(pairKey, out var existingRows);
+                bool hasExisting = existingRows is not null;
                 var kind = pair.IsDuplicate ? CandidateKind.Duplicate : CandidateKind.Lead;
                 var evidenceJson = JsonSerializer.Serialize(pair.Evidence);
 
-                if (rows.Count == 0)
+                if (!hasExisting)
                 {
                     Db.Exec(conn, """
                         INSERT INTO candidatePair (id,draftA,draftB,kind,score,evidence,status,fingerprintA,fingerprintB,lastDecision,createdAt,decidedAt)
@@ -282,7 +298,7 @@ public sealed class CandidateEngine
                     continue;
                 }
 
-                var row = rows[0];
+                var row = existingRows!;
                 var status = CandidateStatusExtensions.FromDb(Db.Str(row, "status")!);
                 if (status == CandidateStatus.Pending)
                 {

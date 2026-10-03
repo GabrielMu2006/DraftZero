@@ -26,6 +26,9 @@ public sealed class E5OnnxEmbedder : ITextEmbedding, IDisposable
 
     public int Dimension => ExpectedDimension;
 
+    /// <summary>引擎签名：fp32 ONNX + "query: " 前缀（与 Mac 端 int8-ONNX 同前缀约定）。</summary>
+    public string Signature => "e5-small-fp32-onnx-query-v1";
+
     public E5OnnxEmbedder(string modelOnnxPath, string tokenizerJsonPath)
         : this(modelOnnxPath, new HuggingFaceTokenizerAdapter(tokenizerJsonPath))
     {

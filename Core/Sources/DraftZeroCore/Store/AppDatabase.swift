@@ -130,6 +130,14 @@ public struct AppDatabase: Sendable {
             }
         }
 
+        migrator.registerMigration("v5") { db in
+            // 引擎签名（2026-10 换栈 ONNX + 前缀统一）：签名变化触发切片自动重嵌。
+            // 旧行为空串（≠ 任何生产签名），首次刷新时全部重嵌一次。
+            try db.alter(table: "indexStatus") { t in
+                t.add(column: "modelSignature", .text).notNull().defaults(to: "")
+            }
+        }
+
         return migrator
     }
 

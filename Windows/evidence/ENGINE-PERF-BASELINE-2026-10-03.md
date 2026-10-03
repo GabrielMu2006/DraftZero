@@ -1,85 +1,70 @@
-# 引擎性能基线（2026-10-03）—— 只测性能，未改任何引擎代码
+# 引擎性能基线与换栈（2026-10-03/04，勘误版）
 
-**方法：** 新增只读基准工具（Mac `Core/Sources/dz-bench`、Windows `Windows/tests/DraftZero.Bench`），
-全部调用**生产 API**（E5EmbeddingEngine / E5OnnxEmbedder / SemanticIndexStore / CandidateEngine），
-引擎源码零改动。合成语料由冻结 30 份集派生（每篇 = 种子段落 + 本文唯一收尾句，指纹唯一），
-规模 30/100/300/1000 稿，平均 516 B/篇，与真实集篇幅同量级。
-**机器：** Apple M5，macOS 26.6.2，同机跑双端；C# 用仓库内 .NET 10.0.401 + ONNX Runtime 1.30.0 CPU。
+**本文档取代 2026-10-03 版本的数据结论（原文数值单位有误，见 §5 勘误）。**
+**性质：** 只读基准 + 引擎换栈实施记录；质量关口全部重验。
 
-> 如实说明：合成语料由 30 个种子派生，共享段落使「可能重复」远多于真实工作区
-> （n=1000 时 dups=4273）。这对**计时偏保守**（候选量更大、写入更多），但重复/线索
-> 计数本身不代表真实分布；n≥100 时 leads=0 亦为语料伪影。
+## 0. 换栈摘要（2026-10-04 批次）
 
-## 1. 推理微基准（每切片延迟，n=30，预热后）
+Mac 生产推理从 **CoreML（动态 shape int8 mlprogram）** 换为 **ONNX Runtime（int8 `model_quantized.onnx`，经 OrtBridge 纯 C 桥）**，同时修复两处历史偏差：
 
-| 文本桶 | Mac 生产 CoreML（int8, cpuOnly） | C# ONNX fp32 | C# ONNX int8 |
+1. **`"query: "` 前缀缺失**：原 CoreML 路径定义了 `queryPrefix` 但从未使用（`dz-eval golden` 与 t011 配方都带前缀）；Windows 端一直带前缀。现两端统一 `"query: "`。
+2. **跨平台向量分叉大幅收敛**：黄金样本实测 Windows fp32-ONNX vs Mac int8-ONNX 余弦 **0.9988–0.9993（9/9 全过 0.995 关口，M0 GOLDEN: PASS）**；旧 Mac int8-CoreML vs Windows fp32 为 0.947–0.992（未达 0.995）。M0 §3 的量化偏差问题实质关闭。
+
+架构：`Core/Sources/OrtBridge`（纯 C 翻译单元：dlopen dylib + C API 会话 + mask 均值池化 + L2，内置互斥串行）+ `E5EmbeddingEngine` 重写（swift-transformers 分词 + 前缀/截断 + 桥调用）。dylib 与模型均取自已锁定制品：ONNX Runtime 1.30.0（与 Windows 同一 NuGet 包，dylib SHA-256 `bffaa6ef…`）、`model_quantized.onnx`（SHA-256 `f80102d3…`，M0-eval-int8 已验证同达标）。
+
+## 1. 推理微基准（Mac，M5，修正单位后）
+
+| 文本桶 | 旧 CoreML（动态 shape，cpuOnly） | 新 ONNX（OrtBridge） | C# ONNX fp32（同机参照） |
 | --- | --- | --- | --- |
-| zh 50 字（~26 tok） | 1654 ms | 5.6 ms | 3.3 ms |
-| zh 200 字（~67 tok） | 3237 ms | 7.2 ms | 6.5 ms |
-| zh 600 字（~391 tok） | 21017 ms | 38.7 ms | 34.2 ms |
-| en 40 字符（~14 tok） | 1450 ms | 3.1 ms | 2.0 ms |
-| en 600 字符（~118 tok） | 5032 ms | 9.2 ms | 9.7 ms |
-| **批量 300 切片** | **972 s（0.3 切片/s）** | **3.3 s（90 切片/s）** | **3.3 s（90 切片/s）** |
+| zh 50 字 | ~2.0–2.7 s | **2.6 ms** | 5.6 ms |
+| zh 200 字 | ~3.2 s | **6.1 ms** | 7.2 ms |
+| zh 600 字 | ~38 s | **36 ms** | 38.7 ms |
+| en 40 字符 | ~1.5 s | **2.1 ms** | 3.1 ms |
+| en 600 字符 | ~5.0 s | **10.4 ms** | 9.2 ms |
 
-**差距约 300-600 倍。** 变体诊断（`dz-bench variant`，~200 tok 输入）：
+CoreML 旧值为量级推断（见 §5 单位勘误：整秒部分从打印值不可恢复，但与墙钟/取样观察一致）；新值与 C# 同机对照同级。
 
-| 模型 × 计算单元 | 均值 |
-| --- | --- |
-| 生产 e5_small.mlmodelc + cpuOnly（=生产路径） | 2879 ms |
-| 生产 e5_small.mlmodelc + cpuAndGPU | 14463 ms |
-| 生产 e5_small.mlmodelc + all（含 ANE） | 13863 ms |
+## 2. 规模曲线（合成语料，修正单位后；C# 为 Stopwatch 实测）
 
-**根因指向动态 shape：** 模型按动态序列长度导出（诊断中出现
-`Espresso exception: "Invalid blob shape": Data-dependent shapes were disabled: embedding - [?, 384]`）。
-动态 shape 使 ANE/GPU 无法Specialize（反而更慢），CPU 路径对 int8 权重量化 mlprogram 亦病态。
-对照：同一台机器上 ONNX Runtime（CPU EP，10 线程）同为逐条推理只需毫秒级。
+| n | 切片 | Mac 新引擎 索引 | Mac regen（批量 SELECT 修复后） | C# 索引 | C# regen |
+| --- | --- | --- | --- | --- | --- |
+| 30 | 90 | 0.42 s | 19 ms | 0.67 s | 28 ms |
+| 100 | 316 | 1.4 s | 168 ms | 1.3 s | 118 ms |
+| 300 | 908 | 4.3 s | 1.3 s | 3.9 s | 409 ms |
+| 1000 | 3044 | **14.8 s** | **14.1 s** | **13.6 s** | 3.5–5.5 s |
 
-## 2. 规模曲线（全新库：切片+索引 与 候选生成分相计时）
+千稿级两端均可用（原 CoreML 路径 n=100 即 ~13 分钟，n=1000 不可用）。
+Mac regen 在 n=1000 比 C# 慢 ~4x（标量余弦循环 vs .NET 向量化内联），后续可用预归一化 + SIMD 点积收敛，非阻塞项。
 
-| 平台/模型 | n | 切片 | 索引耗时 | ms/切片 | 候选生成 | 第二遍 |
-| --- | --- | --- | --- | --- | --- | --- |
-| Mac CoreML（生产） | 30 | 90 | 331.8 s | 3687 | 21.9 s | 22.8 s |
-| Mac CoreML（生产） | 100 | 316 | 785.5 s | 2486 | **192.3 s** | 196.4 s |
-| C# ONNX fp32 | 30 | 90 | 0.67 s | 7.4 | 0.028 s | 0.021 s |
-| C# ONNX fp32 | 100 | 316 | 1.34 s | 4.3 | 0.118 s | 0.111 s |
-| C# ONNX fp32 | 300 | 908 | 3.91 s | 4.3 | 0.409 s | 0.448 s |
-| C# ONNX fp32 | 1000 | 3044 | 13.6 s | 4.5 | 3.53 s | 5.52 s |
-| C# ONNX int8 | 1000 | 3044 | 18.0 s | 5.9 | 3.78 s | 6.47 s |
+## 3. 评分阶段修复（修②）与正则缓存（修③）
 
-## 3. Mac 候选生成慢的归因（`dz-bench regen` 分相复刻，n=30，与引擎同循环形状）
+- **批量存在性检查**（双端镜像）：regenerate 落库前一次读全表按无序对键聚合，替代逐对 `fetchOne`。语义不变（同对取 createdAt 最新）。修前 Mac regen 常数被 GRDB 异步往返放大（逐对 SELECT ~35ms/条量级），n=100 实测 192s+；修后 n=100 为 168ms。
+- **NSRegularExpression 静态缓存**（Mac）：每次 `tokens()` 调用内编译 ~50ms（ICU），千稿级占分钟级；改为 `nonisolated(unsafe) static let`。C# 端本为手写扫描，无需改。
 
-| 相 | 耗时 | 结论 |
-| --- | --- | --- |
-| chunksByDraft（DB 读+blob 解码） | 255 ms | 非瓶颈 |
-| 对循环复刻（3904 次标量余弦） | 1.16 s | 非瓶颈（常量级） |
-| **逐对存在性 SELECT（435 条）** | **15.3 s（~35 ms/条）** | **主要瓶颈之一** |
-| **SELECT 1 ×100（常数基线）** | **1.88 s（~19 ms/条）** | GRDB 异步往返常数高 |
-| 字面信号（基准自设的每对重分词） | 47.2 s（~54 ms/次分词） | 引擎按稿预计算不成立此项，但暴露 NSRegularExpression 每次调用内编译（~54 ms/篇 × n 稿）|
+## 4. 质量关口（换栈 + 前缀统一后全量重验）
 
-归因链：候选数 ∝ n → 存在性 SELECT 次数 ∝ n²，每次 ~19-35 ms 的 DB 往返常数 →
-n=100 时 regenerate 192 s（实测），n=1000 外推 **数小时级**。C# 同逻辑每对 <1 ms
-（同事务内语句准备便宜），n=1000 仅 3.5-5.5 s。
-
-> 复现注意：`regen` 子命令须先跑 `scale --sizes 30 --db <dir>` 填库，再用
-> `--db-path <dir>/bench-30.sqlite` 分相计时；它读取库内已持久化草稿与切片。
-
-## 4. 外推（按实测斜率，供路线图引用）
-
-| 工作区 | C#（现状可跑） | Mac（现状） | Mac（若索引换 ONNX 级引擎 + 评分去 O(n²) 往返） |
+| 关口 | 结果 | 门槛 | 判定 |
 | --- | --- | --- | --- |
-| 100 稿 | ~1.5 s + 0.1 s | ~13 min + ~3 min | 亚秒 + 亚秒 |
-| 1000 稿 | ~14 s + 4-6 s | ~2-4 h（外推） | ~15 s + <1 s |
-| 10000 稿 | 需两阶段预筛（对循环 O(n²) 余弦开始成为主导） | 不可用 | 需两阶段预筛（同左） |
+| Mac 冻结 30 份集 recall@5 | 81.0%（17/21） | ≥80% | ✅ |
+| Mac 冻结 30 份集 prec@3 | **81.6%（40/49）**（旧 Mac 引擎 76.6%） | ≥70% | ✅ |
+| 黄金 token IDs（新旧引擎对 9 条） | 9/9 一致（分词路径未变） | 全同 | ✅ |
+| 跨平台黄金余弦（Win fp32 vs Mac int8-ONNX） | **0.9988–0.9993** | 0.995 | ✅（历史首次达标） |
+| Mac `swift test` | 77/77（0 失败） | — | ✅ |
+| Windows `dotnet test` | 71/71（0 失败） | — | ✅ |
 
-## 5. 结论与建议排序（本报告只测不改；修复见调研报告）
+证据文件：`Windows/evidence/ENGINE-SWAP-eval-2026-10-04.json`（冻结集报告）、`golden-onnx.json`（新引擎黄金样本，提交入库）、`/tmp/dz-eval-onnx/`（会话产物）。
+索引迁移：`indexStatus` 新增 `modelSignature`（Mac GRDB v5 迁移 / C# 启动时幂等 ALTER）；签名不符的切片在刷新时自动重嵌（新签名 `e5-small-int8-onnx-query-v1`，Windows `e5-small-fp32-onnx-query-v1`）。`.dzarchive` 不含向量，迁移格式不受影响。
 
-1. **Mac 推理换栈是第一优先**：动态 shape CoreML 在所有计算单元上都是 2.8-14.5 s/切片；
-   同机 ONNX 4-40 ms。可选项：ONNX Runtime（osx-arm64 原生库已在 NuGet 依赖内）或
-   重新导出**固定/枚举 shape** 的 CoreML 模型解锁 ANE。此项完成后 Mac 索引速度约 = Windows。
-2. **Mac 评分去逐对 DB 往返**：存在性检查改为一次批量读取 + 内存比对（引擎代码改动，另行评审）。
-3. **NSRegularExpression 移出 `tokens()` 成为静态缓存**（每次调用内编译 ~54 ms）。
-4. Windows 安装包换 int8 ONNX 已再次确认无速度代价（fp32/int8 同级）。
-5. 千稿以上规模：两阶段预筛（文档均值向量粗筛 + SIMD 精算）在两端都是下一步。
+## 5. 勘误（2026-10-03 版数据结论作废项）
 
-**产物：** `/tmp/dzbench/{mac-scale,win-fp32-scale,win-int8-scale}.json`、
-合成语料生成脚本会话记录；基准工具随本仓库提交（`dz-bench`、`DraftZero.Bench`）。
+**错误：** 基准脚本把 `Duration` 换算写错（`attoseconds/1e12` 得到微秒），且 `ContinuousClock.measure` 在 async 上下文里包裹阻塞调用时会显著虚增计时。两层叠加使 10-03 版的全部 Duration 类数值（Mac 推理/评分/regen 分相）**不可直接采信**——部分值虚高约 1000x，部分值丢失整秒部分，同一表内不一致。
+
+**仍然成立（由墙钟、C `clock_gettime`、C# `Stopwatch` 三方独立佐证）：**
+- 旧 CoreML 引擎真实缓慢（短文 ~2-3s/切片；n=100 索引 ~13 分钟——与取样等待的墙钟吻合）；
+- C# 引擎数值（Stopwatch）全部真实；
+- 评分阶段逐对 SELECT 的往返常数问题方向正确（修复后 n=100 从 ~192s 级到 168ms 级）；
+- 正则逐调用编译 ~50ms/次为真（ICU 编译，与 10-03 分相观察一致量级）。
+
+**作废：** 10-03 版 §1/§2/§4 的全部具体毫秒数与"300-600 倍"的精确倍数表述；§4 外推表。真实倍数：短文本 ~1000x（2.65s → 2.6ms），千稿索引从不可用变为 14.8s。据此，当日外部调研报告中引用的对应性能数字一并以本文档为准。
+
+**教训（已固化）：** 基准计时一律 `durationMs()`（seconds×1000 + attoseconds/1e15）或 C/Stopwatch 计时；禁止在 async 上下文用 `measure` 包裹阻塞调用。

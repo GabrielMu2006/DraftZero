@@ -1,3 +1,5 @@
 # Git LFS：运行时模型权重超过 GitHub 普通 Git 的 100 MiB 单文件限制。
 # 克隆前需安装 Git LFS（https://git-lfs.com）；克隆后 `git lfs pull` 拉取权重。
 Core/Sources/DraftZeroCore/Resources/e5-small-onnx/e5_small.mlmodelc/weights/weight.bin filter=lfs diff=lfs merge=lfs -text
+Core/Sources/DraftZeroCore/Resources/e5-small-onnx/onnxruntime/model_quantized.onnx filter=lfs diff=lfs merge=lfs -text
+Core/Sources/DraftZeroCore/Resources/e5-small-onnx/onnxruntime/libonnxruntime.dylib filter=lfs diff=lfs merge=lfs -text

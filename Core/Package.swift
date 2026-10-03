@@ -16,7 +16,11 @@ let package = Package(
         .package(url: "https://github.com/huggingface/swift-transformers.git", exact: "0.1.24"),
     ],
     targets: [
+        // ORT C 桥（纯 C 宿主跑推理；Swift 宿主进程的 ORT 每节点派发放大 ~700x，
+        // 见 Windows/evidence/ENGINE-PERF-BASELINE-2026-10-03.md 附录）。
+        .target(name: "OrtBridge", publicHeadersPath: "include"),
         .target(name: "DraftZeroCore", dependencies: [
+            "OrtBridge",
             .product(name: "GRDB", package: "GRDB.swift"),
             .product(name: "Transformers", package: "swift-transformers"),
         ], resources: [
