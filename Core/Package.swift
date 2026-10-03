@@ -24,6 +24,8 @@ let package = Package(
         ]),
         // R-004 质量关口评估器（收尾方案 P0）：走生产导入/引擎/队列，非 Python spike。
         .executableTarget(name: "dz-eval", dependencies: ["DraftZeroCore"]),
+        // 引擎性能基准（2026-10-03）：生产推理微基准 + 规模曲线；只读生产 API，不改引擎。
+        .executableTarget(name: "dz-bench", dependencies: ["DraftZeroCore"]),
         .testTarget(name: "DraftZeroCoreTests", dependencies: ["DraftZeroCore"], resources: [
             .copy("Fixtures")
         ])
