@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\DraftZero.ico" />
-    <AvaloniaResource Include="Assets\Fonts\LXGWWenKai-Regular.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\SourceHanSansCN-Medium.otf" />
   </ItemGroup>
 
   <ItemGroup>

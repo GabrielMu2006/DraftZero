@@ -28,9 +28,9 @@
     </Application.Styles>
     <Application.Resources>
         <ResourceDictionary>
-            <!-- F-004：霞鹜文楷（LXGW WenKai，OFL）应用级字体；缺失时回退系统黑体 -->
+            <!-- F-004：思源黑体 Medium（Source Han Sans CN，OFL）应用级字体；缺失时回退系统黑体 -->
             <FontFamily x:Key="AppFontFamily">
-                app:///Assets/Fonts/LXGWWenKai-Regular.ttf#LXGW WenKai, Microsoft YaHei UI, Segoe UI, PingFang SC
+                app:///Assets/Fonts/SourceHanSansCN-Medium.otf#Source Han Sans CN, Microsoft YaHei UI, Segoe UI, PingFang SC
             </FontFamily>
             <ResourceDictionary.ThemeDictionaries>
                 <!-- 深色：夜间档案（D-001，产品决定：Windows 预览版固定深色，不随系统切换）。 -->

@@ -30,13 +30,13 @@ Draft Zero 项目本身的许可由产品所有者另行决定；本文件不构
 | SQLite (e_sqlite3) | 随包 | Public Domain | SQLite 引擎 | <https://www.sqlite.org/> |
 | .NET Runtime（self-contained） | 10.0 | MIT | 运行时随安装器分发 | <https://github.com/dotnet/runtime> |
 | CommunityToolkit.Mvvm | 8.4.2 | MIT | MVVM 工具（源生成器） | <https://github.com/CommunityToolkit/dotnet> |
-| 霞鹜文楷 LXGW WenKai（Regular） | 1.522 | SIL Open Font License 1.1 | 应用界面与正文显示字体（随包嵌入） | <https://github.com/lxgw/LxgwWenKai> |
+| 思源黑体 Source Han Sans CN（Medium） | 2.004 | SIL Open Font License 1.1 | 应用界面与正文显示字体（随包嵌入） | <https://github.com/adobe-fonts/source-han-sans> |
 | Inno Setup | 6.0.5（编译工具，不随包分发） | Inno Setup License | 安装器编译 | <https://jrsoftware.org/> |
 
 说明：
 
 - **PDF 应用内页预览**使用 Windows 系统组件 `Windows.Data.Pdf`（Windows.Data.Pdf API，随 Windows 分发），不引入第三方 PDF 渲染控件。
-- **霞鹜文楷**基于 Fontworks Klee One（OFL 1.1）衍生；完整许可文本见 `docs/licenses/LXGW-WENKAI-OFL.txt`，OFL 允许随软件捆绑分发。
+- **思源黑体**为 Adobe 与 Google 联合开发的开源 CJK 字体（OFL 1.1，完整许可文本随 `docs/licenses/` 更新）；OFL 允许随软件捆绑分发。
 - API Key 的用户级受保护存储使用 Windows DPAPI（系统组件）。
 - Inno Setup 只用于编译安装器；其许可文本不随应用分发，安装器本身不含 Inno Setup 代码运行时（卸载器除外，按其许可随包）。
 - DeepSeek 远程分析为可选云服务（默认关闭），不属于随包组件。
