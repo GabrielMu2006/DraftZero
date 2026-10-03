@@ -313,6 +313,23 @@ public sealed class CandidateEngine
                         Db.P("@createdAt", Db.Fmt(DateTime.UtcNow)));
                 }
             }
+
+            // F-008 收回：pending 行是纯机器建议（无用户裁决）。地板重校准、
+            // 阈值调整或内容删除后不再达标的旧 pending 行若不回收，会永久
+            // 占据待审队列（实机反馈 Q1："线索没有减少"的直接根因）。
+            // 已拒绝/暂缓行有裁决记录，保留（R-004 抑制规则依赖）。
+            var keptPairKeys = kept.Keys.ToHashSet(StringComparer.Ordinal);
+            var pendingRows = Db.ReadRows(conn, "SELECT id, draftA, draftB FROM candidatePair WHERE status='pending'");
+            foreach (var row in pendingRows)
+            {
+                var a = Db.Str(row, "draftA") ?? "";
+                var b = Db.Str(row, "draftB") ?? "";
+                var key = string.CompareOrdinal(a, b) < 0 ? $"{a}|{b}" : $"{b}|{a}";
+                if (!keptPairKeys.Contains(key))
+                {
+                    Db.Exec(conn, "DELETE FROM candidatePair WHERE id=@id", Db.P("@id", Db.Str(row, "id")));
+                }
+            }
             tx.Commit();
             return Task.CompletedTask;
         }).ConfigureAwait(false);

@@ -54,6 +54,9 @@ public partial class MainWindow : Window
             if (e.PropertyName is nameof(AppViewModel.SidebarSelection) or nameof(AppViewModel.SelectedDraftId)
                 or nameof(AppViewModel.SelectedProject) or nameof(AppViewModel.ShowNewDraftPage))
             {
+                // F-009：导航发生时自动收起搜索/添加链接浮层（否则页面在浮层下切换，看起来"没反应"）
+                if (QuickSearchSheet.IsVisible) QuickSearchSheet.Close();
+                if (AddLinkSheet.IsVisible) AddLinkSheet.Close();
                 RenderPage();
             }
             if (e.PropertyName is nameof(AppViewModel.LeadPairs) or nameof(AppViewModel.DuplicatePairs)

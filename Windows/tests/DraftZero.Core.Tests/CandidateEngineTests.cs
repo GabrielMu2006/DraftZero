@@ -261,6 +261,43 @@ public sealed class CandidateEngineTests : IDisposable
         }
     }
 
+    // F-011：地板重校准/内容删除后，不再达标的旧 pending 行被回收（实机 Q1 根因）
+    [Fact]
+    public async Task Engine_StalePendingRowsReclaimedOnRefresh()
+    {
+        var embedder = new TopicEmbedder();
+        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此接近，且证据充分。");
+        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此贴近，并且论据完整。");
+        var unrelated = await _db.CreateManualDraftAsync("购物", "鸡蛋 牛奶 洋葱 采购清单，与语义索引毫无关系的日常生活内容记录。");
+        var engine = new CandidateEngine(_db, embedder);
+        await engine.RefreshAsync(await _db.DraftsAsync());
+        var pair = (await engine.QueueAsync(CandidateKind.Lead))[0];
+
+        // 模拟旧地板遗留：手工注入一条不再达标 pair（甲/购物）的 pending 行
+        // （旧 0.45 地板下这类对会入库；重校准后不再生成，但旧行仍留在库里）
+        var staleId = Guid.NewGuid();
+        await _db.WriteAsync(conn =>
+        {
+            Db.Exec(conn, """
+                INSERT INTO candidatePair (id,draftA,draftB,kind,score,evidence,status,fingerprintA,fingerprintB,lastDecision,createdAt,decidedAt)
+                VALUES (@id,@a,@b,'lead',0.5,NULL,'pending',NULL,NULL,NULL,@now,NULL)
+                """,
+                Db.P("@id", Db.Uid(staleId)),
+                Db.P("@a", Db.Uid(d1.Id)),
+                Db.P("@b", Db.Uid(unrelated.Id)),
+                Db.P("@now", Db.Fmt(DateTime.UtcNow)));
+            return Task.CompletedTask;
+        });
+
+        await engine.RefreshAsync(await _db.DraftsAsync());
+        // 真实近亲对仍在待审；手工遗留的 stale 行被收回
+        var pending = await engine.QueueAsync(CandidateKind.Lead);
+        Assert.Contains(pending, p => p.Id == pair.Id);
+        Assert.DoesNotContain(pending, p => p.Id == staleId);
+        Assert.Equal(0, await _db.WriteAsync(conn => Task.FromResult(
+            Db.Long(conn, "SELECT count(*) FROM candidatePair WHERE id=@id", Db.P("@id", Db.Uid(staleId))) ?? 0)));
+    }
+
     /// <summary>字符 bigram 词袋确定性嵌入：相似文本共享 bigram → 高余弦（离线可跑、语义近邻）。</summary>
     private sealed class TopicEmbedder : ITextEmbedding
     {

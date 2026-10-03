@@ -228,9 +228,11 @@ public sealed class QuickSearchSheet : UserControl
     private Action? _openFirstResult;
     private int _searchGeneration;
 
+    private Border? _rootBorder;
+
     public QuickSearchSheet()
     {
-        Content = new Border
+        _rootBorder = new Border
         {
             Background = ArchiveUI.Canvas,
             Child = new Border
@@ -247,6 +249,12 @@ public sealed class QuickSearchSheet : UserControl
                 Child = BuildContent(),
             },
         };
+        // F-009：点击搜索卡片以外的空白区直接关闭（不必按 Esc）
+        _rootBorder.PointerReleased += (_, e) =>
+        {
+            if (e.Source == _rootBorder) Close();
+        };
+        Content = _rootBorder;
     }
 
     public void Show(AppViewModel model)
@@ -331,7 +339,7 @@ public sealed class QuickSearchSheet : UserControl
         }
     }
 
-    private void Close() => IsVisible = false;
+    public void Close() => IsVisible = false;
 }
 
 /// <summary>归入项目浮层（R-005：接受候选必须选现有项目或输入新项目名）。</summary>
@@ -342,7 +350,7 @@ public sealed class JoinProjectSheet : UserControl
     private RemoteSuggestion? _suggestion;
     private Draft? _draft;
     private readonly TextBox _newName = new() { PlaceholderText = "或输入新项目名", FontSize = 14 };
-    private readonly ListBox _projectList = new() { Height = 160, FontSize = 13.5 };
+    private readonly ListBox _projectList = new() { Height = 180, FontSize = 14 };
 
     public JoinProjectSheet()
     {
@@ -405,7 +413,7 @@ public sealed class JoinProjectSheet : UserControl
             Foreground = ArchiveUI.TextBrush,
         };
         panel.Children.Add(title);
-        panel.Children.Add(ArchiveUI.Muted("候选不是归属：只有在这里选择项目后，草稿才会真正加入。", 12));
+        panel.Children.Add(ArchiveUI.Muted("候选不是归属：只有在这里选择项目后，草稿才会真正加入。\n从列表选择，或在下方输入新项目名（确认归入时创建）。", 12));
         panel.Children.Add(new TextBlock { Text = "现有项目：", FontSize = 13, Foreground = ArchiveUI.TextBrush });
         // F-007：代码创建的控件设置 Name 不进名字作用域，FindControl 恒 null → 列表从未填充
         panel.Children.Add(_projectList);
@@ -567,7 +575,7 @@ public sealed class MergeSheet : UserControl
         }
     }
 
-    private void Close() => IsVisible = false;
+    public void Close() => IsVisible = false;
 }
 
 /// <summary>深链写入确认（W-009：拒绝零写入）。</summary>

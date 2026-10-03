@@ -323,6 +323,22 @@ public struct CandidateEngine: Sendable {
                     try row.insert(db)
                 }
             }
+
+            // F-008 收回（与 Windows 端一致）：pending 行是纯机器建议。地板重校准、
+            // 阈值调整或内容删除后不再达标的旧 pending 行若不回收，会永久占据待审
+            // 队列。已拒绝/暂缓行有裁决记录，保留（R-004 抑制规则依赖）。
+            let keptKeys = Set(finalPairs.map { Self.pairKey($0.a, $0.b) })
+            let pendingRows = try Row.fetchAll(db, sql: "SELECT id, draftA, draftB FROM candidatePair WHERE status = ?",
+                                               arguments: [CandidateStatus.pending.rawValue])
+            for row in pendingRows {
+                let id: UUID = row["id"]
+                let a: UUID = row["draftA"]
+                let b: UUID = row["draftB"]
+                let key = Self.pairKey(a, b)
+                if !keptKeys.contains(key) {
+                    _ = try CandidatePair.deleteOne(db, key: id)
+                }
+            }
         }
         _ = draftsById
     }
