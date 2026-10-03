@@ -42,6 +42,8 @@ public partial class MainWindow : Window
         InitializeComponent();
         Model = model;
         PdfRenderer = pdfRenderer;
+        // F-005：浮层内 XAML 绑定依赖 DataContext（缺省为 null → 导入结果列表空白）
+        DataContext = model;
         TryLoadWindowPlacement();
         BuildNavList();
         // F-002：AllowDrop 挂在窗口根（axaml）；DragOver 必须声明效果，否则系统按 None 处理丢不进来
@@ -390,8 +392,8 @@ public partial class MainWindow : Window
     private async void OnDrop(object? sender, DragEventArgs e)
     {
         if (Model.ShowNewDraftPage || Model.SelectedDraft is not null) return;
-        var files = e.DataTransfer.TryGetFiles().ToList();
-        if (files is null || files.Count == 0) return;
+        var files = (e.DataTransfer.TryGetFiles() ?? []).ToList();
+        if (files.Count == 0) return;
         var paths = files
             .Select(f => f.Path.LocalPath)
             .Where(p => LocalFileImporter.SupportedExtensions.Contains(
@@ -427,4 +429,16 @@ public partial class MainWindow : Window
 
     private void OnCloseImportOverlay(object? sender, RoutedEventArgs e) =>
         ImportOverlay.IsVisible = false;
+
+    // ---- 全局顶栏（F-006：新草稿/搜索可见按钮） ----
+
+    private void OnTopNewDraft(object? sender, RoutedEventArgs e)
+    {
+        Model.SelectedDraftId = null;
+        Model.SelectedProject = null;
+        Model.OpenNewDraftPage();
+    }
+
+    private void OnTopSearch(object? sender, RoutedEventArgs e) =>
+        QuickSearchSheet.Show(Model);
 }

@@ -82,8 +82,8 @@ public sealed class CandidateEngineTests : IDisposable
     {
         // 向量器注入确定性假向量：同主题文本向量相近
         var embedder = new TopicEmbedder();
-        var d1 = await _db.CreateManualDraftAsync("基准测试想法", "# 基准测试\n\n讨论任务集与评分口径，用于评估草稿归类质量，基准测试评分口径是本组草稿共同的主题词。");
-        var d2 = await _db.CreateManualDraftAsync("模型测试 prompt", "模型测试提示词，同样讨论基准测试评分口径：评分口径与任务集是共同主题。");
+        var d1 = await _db.CreateManualDraftAsync("基准测试想法", "# 基准测试\n\n讨论任务集与评分口径，用于评估草稿归类质量，基准测试评分口径是本组草稿共同的主题词，反复出现以保证切片之后语义向量彼此贴近。");
+        var d2 = await _db.CreateManualDraftAsync("模型测试 prompt", "# 基准测试\n\n讨论任务集与评分口径，用于评估草稿归类质量，基准测试评分口径是本组草稿共同的主题词，反复出现以保证切片之后语义向量彼此接近，且证据链完整。");
         var dup1 = await _db.CreateManualDraftAsync("重复甲", "完全相同的重复内容用来测试重复队列的行为。");
         var dup2 = await _db.CreateManualDraftAsync("重复乙", "完全相同的重复内容用来测试重复队列的行为。");
         var engine = new CandidateEngine(_db, embedder);
@@ -111,8 +111,8 @@ public sealed class CandidateEngineTests : IDisposable
     public async Task Engine_RejectionSuppressionAndReanalysis()
     {
         var embedder = new TopicEmbedder();
-        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序是这份草稿的核心主题，反复出现以保证切片后语义向量相近。");
-        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的另一段讨论内容：候选排序、本机语义索引同样是核心主题，反复出现以贴近第一份草稿的语义向量。");
+        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此接近，且证据充分。");
+        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此贴近，并且论据完整。");
         var engine = new CandidateEngine(_db, embedder);
         var drafts = await _db.DraftsAsync();
         await engine.RefreshAsync(drafts);
@@ -128,7 +128,7 @@ public sealed class CandidateEngineTests : IDisposable
         Assert.DoesNotContain(await engine.QueueAsync(CandidateKind.Lead), p => p.Id == pair.Id);
 
         // 内容变化 → 新候选行出现，旧记录保留
-        await _db.UpdateDraftContentAsync(d1.Id, "内容已完全改变，变成了新的主题讨论：烘焙面包的配方与发酵时间。");
+        await _db.UpdateDraftContentAsync(d1.Id, "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此接近，证据充分，裁决明确。");
         await engine.RefreshAsync(await _db.DraftsAsync());
         var fresh = await engine.QueueAsync(CandidateKind.Lead);
         var newPair = fresh.FirstOrDefault(p => p.Involves(d1.Id) && p.Involves(d2.Id));
@@ -136,8 +136,9 @@ public sealed class CandidateEngineTests : IDisposable
         {
             Assert.NotEqual(pair.Id, newPair.Id);
             Assert.Equal(CandidateStatus.Pending, newPair.Status);
-            // 旧拒绝记录仍在（状态不变）
-            Assert.Null(await FindPair(pair.Id, CandidateStatus.Pending));
+            // 旧拒绝记录仍在（状态不变：不因内容变化回到 pending）
+            Assert.False(await PairExistsWithStatusAsync(pair.Id, CandidateStatus.Pending));
+            Assert.True(await PairExistsWithStatusAsync(pair.Id, CandidateStatus.Rejected));
         }
 
         // 重新分析：恢复待审并保留裁决记录
@@ -150,12 +151,12 @@ public sealed class CandidateEngineTests : IDisposable
         }
     }
 
-    private async Task<CandidatePair?> FindPair(Guid id, CandidateStatus status)
+    private async Task<bool> PairExistsWithStatusAsync(Guid id, CandidateStatus status)
     {
-        var pairs = await _db.WriteAsync(conn =>
-            Task.FromResult(Db.ReadRows(conn, "SELECT * FROM candidatePair WHERE id=@id",
-                Db.P("@id", Db.Uid(id))).Select(_ => true).ToList()));
-        return pairs.Count > 0 ? new CandidatePair { Id = id, Status = status } : null;
+        var n = await _db.WriteAsync(conn => Task.FromResult(
+            Db.Long(conn, "SELECT count(*) FROM candidatePair WHERE id=@id AND status=@s",
+                Db.P("@id", Db.Uid(id)), Db.P("@s", status.DbValue()))));
+        return n > 0;
     }
 
     // 接受：入项目幂等 + decidedAt
@@ -163,8 +164,8 @@ public sealed class CandidateEngineTests : IDisposable
     public async Task Engine_AcceptAddsToProject()
     {
         var embedder = new TopicEmbedder();
-        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序是这份草稿的核心主题，反复出现以保证切片后语义向量相近。");
-        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的另一段讨论内容：候选排序、本机语义索引同样是核心主题，反复出现以贴近第一份草稿的语义向量。");
+        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此接近，且证据充分。");
+        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此贴近，并且论据完整。");
         var engine = new CandidateEngine(_db, embedder);
         await engine.RefreshAsync(await _db.DraftsAsync());
         var pair = (await engine.QueueAsync()).First();
@@ -222,7 +223,7 @@ public sealed class CandidateEngineTests : IDisposable
         var drafts = new List<Draft>();
         for (int i = 0; i < 8; i++)
         {
-            var draft = await _db.CreateManualDraftAsync($"主题群{i}", $"主题群{i} 的共同讨论文本，用来占据候选槽位。");
+            var draft = await _db.CreateManualDraftAsync($"主题群{i}", $"主题群{i} 的共同讨论文本，用来占据候选槽位，并保证足够的正文长度以进入候选队列。");
             drafts.Add(draft);
         }
         var engine = new CandidateEngine(_db, embedder);
@@ -243,8 +244,8 @@ public sealed class CandidateEngineTests : IDisposable
     public async Task Engine_RejectedThenChanged_CarriesLastDecision()
     {
         var embedder = new TopicEmbedder();
-        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引与候选排序反复出现，确保语义向量相近并进入候选队列。");
-        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的另一段讨论内容：候选排序与本机语义索引反复出现，确保语义向量相近并进入候选队列。");
+        var d1 = await _db.CreateManualDraftAsync("甲", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此接近，且证据充分。");
+        var d2 = await _db.CreateManualDraftAsync("乙", "关于本机语义索引与候选排序的长文本讨论内容：本机语义索引、候选排序、证据片段与人工裁决流程都是这份草稿的核心主题，全文反复出现以保证切片之后语义向量彼此贴近，并且论据完整。");
         var engine = new CandidateEngine(_db, embedder);
         await engine.RefreshAsync(await _db.DraftsAsync());
         var pair = (await engine.QueueAsync(CandidateKind.Lead))[0];

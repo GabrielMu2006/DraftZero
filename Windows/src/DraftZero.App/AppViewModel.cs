@@ -85,8 +85,6 @@ public partial class AppViewModel : ObservableObject
     public string? WorkspaceOverrideDirectory { get; }
     public string WorkspacePath { get; private set; } = "";
 
-    public event Action? RequestCloseNewDraft;
-
     public AppViewModel(ISecretStore secretStore)
     {
         _secretStore = secretStore;

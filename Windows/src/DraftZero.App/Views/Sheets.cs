@@ -10,7 +10,7 @@ namespace DraftZero.App.Views;
 public sealed class AddLinkSheet : UserControl
 {
     private AppViewModel? _model;
-    private readonly TextBox _urlBox = new() { Watermark = "https://… 或 github.com/owner/repo", FontSize = 14 };
+    private readonly TextBox _urlBox = new() { PlaceholderText = "https://… 或 github.com/owner/repo", FontSize = 14 };
     private readonly TextBlock _error = new() { FontSize = 12, Foreground = ArchiveUI.Danger, TextWrapping = TextWrapping.Wrap, IsVisible = false };
 
     public AddLinkSheet()
@@ -223,7 +223,7 @@ public sealed class RepoBrowseSheet : UserControl
 public sealed class QuickSearchSheet : UserControl
 {
     private AppViewModel? _model;
-    private readonly TextBox _query = new() { Watermark = "搜索草稿与项目…", FontSize = 16 };
+    private readonly TextBox _query = new() { PlaceholderText = "搜索草稿与项目…", FontSize = 16 };
     private readonly StackPanel _results = new() { Spacing = 6 };
     private Action? _openFirstResult;
     private int _searchGeneration;
@@ -341,7 +341,8 @@ public sealed class JoinProjectSheet : UserControl
     private CandidatePair? _pair;
     private RemoteSuggestion? _suggestion;
     private Draft? _draft;
-    private readonly TextBox _newName = new() { Watermark = "或输入新项目名", FontSize = 14 };
+    private readonly TextBox _newName = new() { PlaceholderText = "或输入新项目名", FontSize = 14 };
+    private readonly ListBox _projectList = new() { Height = 160, FontSize = 13.5 };
 
     public JoinProjectSheet()
     {
@@ -389,11 +390,8 @@ public sealed class JoinProjectSheet : UserControl
         _draft = draft;
         IsVisible = true;
         _newName.Text = "";
-        var list = this.FindControl<ListBox>("ProjectList");
-        if (list is not null)
-        {
-            list.ItemsSource = model.Projects.Select(p => p.Name).ToList();
-        }
+        // 打开时即时刷新现有项目列表（含本次会话新建的项目）
+        _projectList.ItemsSource = model.Projects.Select(p => p.Name).ToList();
     }
 
     private Control BuildContent()
@@ -409,8 +407,8 @@ public sealed class JoinProjectSheet : UserControl
         panel.Children.Add(title);
         panel.Children.Add(ArchiveUI.Muted("候选不是归属：只有在这里选择项目后，草稿才会真正加入。", 12));
         panel.Children.Add(new TextBlock { Text = "现有项目：", FontSize = 13, Foreground = ArchiveUI.TextBrush });
-        var projectList = new ListBox { Height = 160, FontSize = 13.5, Name = "ProjectList" };
-        panel.Children.Add(projectList);
+        // F-007：代码创建的控件设置 Name 不进名字作用域，FindControl 恒 null → 列表从未填充
+        panel.Children.Add(_projectList);
         panel.Children.Add(new TextBlock { Text = "新建项目：", FontSize = 13, Foreground = ArchiveUI.TextBrush });
         panel.Children.Add(_newName);
 
@@ -423,7 +421,7 @@ public sealed class JoinProjectSheet : UserControl
         {
             if (_model is null) return;
             string? target = _newName.Text?.Trim();
-            if (string.IsNullOrEmpty(target) && projectList.SelectedIndex is int idx && idx >= 0)
+            if (string.IsNullOrEmpty(target) && _projectList.SelectedIndex is int idx && idx >= 0)
             {
                 target = _model.Projects[idx].Name;
             }

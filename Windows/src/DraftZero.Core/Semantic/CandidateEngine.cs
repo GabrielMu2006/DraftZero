@@ -106,13 +106,19 @@ public static class CandidateTuning
     /// <summary>语义近重复阈值（spike：重复文件对 1.000，无关对均值 ~0.80）。</summary>
     public const double DuplicateSemantic = 0.98;
     /// <summary>项目线索地板只负责拦住完全无关的长尾（语义 &lt;0.45）。</summary>
-    public const double LeadSemanticFloor = 0.45;
+    public const double LeadSemanticFloor = 0.90;
     /// <summary>合成分地板：排序已不含字面分量（literalWeight = 0）。</summary>
-    public const double LeadCombined = 0.45;
+    public const double LeadCombined = 0.90;
     public const double SemanticWeight = 1.0;
     public const double LiteralWeight = 0.0;
     /// <summary>每份草稿保留的候选数（质量关口按"前 5"评估，多留一个余量）。</summary>
     public const int TopKPerDraft = 6;
+    /// <summary>
+    /// 产生"项目线索"（语义）候选的最低正文字符数（F-008 实测：短文在 e5-small 下
+    /// 基线相似度高，一句话/名单类草稿会与任何内容形成噪声线索）。
+    /// "可能重复"（指纹判定）不受此限制——两份相同短稿仍应提示。
+    /// </summary>
+    public const int MinLeadCharacters = 30;
 }
 
 public record CandidateReport(int IndexedDrafts, int PendingLeads, int PendingDuplicates);
@@ -186,8 +192,12 @@ public sealed class CandidateEngine
                     + CandidateTuning.LiteralWeight * literal;
                 bool isDuplicate = best >= CandidateTuning.DuplicateSemantic
                     || fingerprints[draftA.Id] == fingerprints[draftB.Id];
-                if (!isDuplicate && !(best >= CandidateTuning.LeadSemanticFloor
-                                      && combined >= CandidateTuning.LeadCombined))
+                // F-008：线索候选要求双方正文达到最低长度；重复候选不受限
+                bool bothLeadEligible =
+                    (draftA.Content?.Trim().Length ?? 0) >= CandidateTuning.MinLeadCharacters
+                    && (draftB.Content?.Trim().Length ?? 0) >= CandidateTuning.MinLeadCharacters;
+                if (!isDuplicate && (!bothLeadEligible || !(best >= CandidateTuning.LeadSemanticFloor
+                                      && combined >= CandidateTuning.LeadCombined)))
                 {
                     continue;
                 }

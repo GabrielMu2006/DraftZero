@@ -1,0 +1,940 @@
+{
+  "generatedAt": "2026-10-03T06:35:48.7615360Z",
+  "testset": "/Users/gabrielmu/Documents/DraftZero/Windows/tests/DraftZero.Core.Tests/Fixtures/testset",
+  "fileSha256": {
+    "Agent Benchmark \u60F3\u6CD5.md": "8c4e733fb7b394e1641be899ea09045a4e57c871b6029bcea927168e8053c6c8",
+    "agent_eval_notes.md": "9805cf8c8c1c825fe46fa8889f6dc6f74ff7ae145927396de797eedf188f2a63",
+    "benchmark-v2.txt": "c3eef5ed3662a658e1ecb434a37a9e1efda688e3c70ac0fff7c3d4ea55690321",
+    "character_notes.md": "a2e9819b38349bbdde238f25b8cd166bf2b5d0b957b7f62474c6cf2ad9aa68c6",
+    "note-app-features.txt": "9a9d7a17c525a894fbfd7c88b6db3174b6672ec0f5faa6dbbc52fd58d1943157",
+    "podcast_episode_outline.txt": "8e54ae16d25374cb46cdbbbf67666f6c6b9a4c5e5817de04fe4874dd70fbf394",
+    "prompt \u7EC3\u4E60\u518C.md": "27e48d186048815efd94288252698013114e186c20452ab7efb4198aa1c4e307",
+    "sourdough schedule.txt": "97a34402eab3b3f21bd2f4da476f4c52165aa5479c8cd5edbca064381656a487",
+    "tax checklist.txt": "e58518f1663a6181325b08ebab5f88bae1deeb38e1bdf5a1e348770f9d052f17",
+    "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md": "992c7d53260928b343add108d1b476a1d79bedd63954ac6719c838b4dfd75f9e",
+    "\u4F1A\u8BAE\u7EAA\u8981_\u793E\u533A\u4E1A\u59D4\u4F1A.md": "18036eee0241b1198a42c0cdc0f7466991b561e4d4e5543dea51e0e81f4af2c6",
+    "\u5065\u8EAB\u8BA1\u5212.txt": "fdee1e7c260facbcf3a462848ad42b6a274dcf1a4c3674e8dc0a05b2d76951ce",
+    "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt": "03ebf013cedd22cb647821c2002daeca6a89141309a30a2d051fdd29a3f0714e",
+    "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md": "230de52038456bfa837fd3a78e1d61700015448e734ecdb77c3271d835f5cab9",
+    "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md": "716f8917c722cc4720c320aba7d46ee9f7662a868517209e6e890fb94266e020",
+    "\u65C5\u884C\u88C5\u7BB1\u6E05\u5355.md": "190ae27e48d4ec4d5a0416dabe2f4de9ae6851fb48378fd1c488fb65bd08426a",
+    "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md": "059f797b49fcbafa60186f089524369de2b58b8c10201f1655e5ddf33e3aad24",
+    "\u6A21\u578B\u6D4B\u8BD5 prompt.md": "9a44702941d7c315e34ee679ac83093d070d891427726b2cdb0b693bab2ca66d",
+    "\u6A21\u578B\u6D4B\u8BD5\u8BB0\u5F55_0712.txt": "0e7b4f086040ca67f877461e5afa04c3ece4a45478476078d543e3d0b22ab559",
+    "\u6DF1\u591C\u7075\u611F.txt": "4f39838056e6fe884eee5ba554bb5f2c32722aaf53aea3bb7a42e0c484ffda21",
+    "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md": "74de0cb26bfdccd95414d23dbfb78fe3f68eee186d45da793f9ca1962b86a202",
+    "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md": "09783478eebc39f33bc940b2cdf66449d8ea7e9b3e95f92448416ddeb8f42bc3",
+    "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md": "26918969370dad262ba82f0edfee989cd7ed6e75377fbedf6e346dcc98b3c4c9",
+    "\u7EB8\u5806 README \u8349\u7A3F.md": "6f2f4ea421e75018dfa32a451d27f197868466041df704a15eae197e6665a6d8",
+    "\u88C5\u4FEE\u62A5\u4EF7\u5BF9\u6BD4.md": "35d58119f0459560003719a1aa8dc96d72b45f5cb467924e26760f13f125093a",
+    "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt": "c5920d8a8bf9571afed56ae573f3d3385714195e1a325f8aea7c996620dc9c2b",
+    "\u8D2D\u7269\u6E05\u5355.txt": "fd9cbfbc3f9545984aff3767eb5089ba1f843dd6e6835ec9524a20dbf68c5dfb",
+    "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md": "041d07ac6036a209ff345a4fd81ab17b5e9ea02688eb00f7f838c9e1fe68b80a",
+    "\u9762\u5305\u7B14\u8BB0.md": "860bcc64de575ba858bdaf5613ee6b8054f3de509a2443e41d380f3b653aa163",
+    "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt": "6cebc53011266adee6e7f301f92ca5716e37f863be55fc10036f1ae06bef807a"
+  },
+  "importedDocs": 29,
+  "importStats": {
+    "success": 29,
+    "duplicate": 1,
+    "failure": []
+  },
+  "queue": {
+    "chunks": 91,
+    "PendingLeads": 36,
+    "PendingDuplicates": 0
+  },
+  "recall": {
+    "hits": 17,
+    "eligible": 21,
+    "percent": 80.95,
+    "threshold": 80
+  },
+  "precision": {
+    "numerator": 40,
+    "denominator": 48,
+    "percent": 83.33,
+    "threshold": 70
+  },
+  "pass": true,
+  "misses": [
+    {
+      "name": "agent_eval_notes.md",
+      "thread": "A",
+      "partners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "benchmark-v2.txt",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "benchmark-v2.txt",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "note-app-features.txt",
+      "thread": "C",
+      "partners": [
+        "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+        "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+        "\u7EB8\u5806 README \u8349\u7A3F.md"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+        "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+        "\u7EB8\u5806 README \u8349\u7A3F.md"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "podcast_episode_outline.txt",
+      "thread": "E",
+      "partners": [
+        "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+        "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+        "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+        "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+        "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "sourdough schedule.txt",
+      "thread": "D",
+      "partners": [
+        "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+        "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+        "\u9762\u5305\u7B14\u8BB0.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+        "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+        "\u9762\u5305\u7B14\u8BB0.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    }
+  ],
+  "drafts": [
+    {
+      "name": "Agent Benchmark \u60F3\u6CD5.md",
+      "thread": "A",
+      "partners": [
+        "agent_eval_notes.md",
+        "benchmark-v2.txt",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 3,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt",
+          "kind": "lead",
+          "score": 0.933402,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+          "kind": "lead",
+          "score": 0.923258,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "benchmark-v2.txt",
+          "kind": "lead",
+          "score": 0.918313,
+          "isPartner": true
+        },
+        {
+          "rank": 4,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.901102,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "agent_eval_notes.md",
+      "thread": "A",
+      "partners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "benchmark-v2.txt",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "benchmark-v2.txt",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "benchmark-v2.txt",
+      "thread": "A",
+      "partners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "agent_eval_notes.md",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 3,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt",
+          "kind": "lead",
+          "score": 0.919377,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "Agent Benchmark \u60F3\u6CD5.md",
+          "kind": "lead",
+          "score": 0.918313,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+          "kind": "lead",
+          "score": 0.913746,
+          "isPartner": true
+        },
+        {
+          "rank": 4,
+          "other": "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+          "kind": "lead",
+          "score": 0.907482,
+          "isPartner": false
+        },
+        {
+          "rank": 5,
+          "other": "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+          "kind": "lead",
+          "score": 0.903551,
+          "isPartner": false
+        },
+        {
+          "rank": 6,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.901596,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "character_notes.md",
+      "thread": "B",
+      "partners": [
+        "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+        "\u6DF1\u591C\u7075\u611F.txt",
+        "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 3,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+          "kind": "lead",
+          "score": 0.925493,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md",
+          "kind": "lead",
+          "score": 0.917462,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u6DF1\u591C\u7075\u611F.txt",
+          "kind": "lead",
+          "score": 0.912622,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "note-app-features.txt",
+      "thread": "C",
+      "partners": [
+        "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+        "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+        "\u7EB8\u5806 README \u8349\u7A3F.md"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+        "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+        "\u7EB8\u5806 README \u8349\u7A3F.md"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "podcast_episode_outline.txt",
+      "thread": "E",
+      "partners": [
+        "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+        "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+        "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+        "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+        "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "sourdough schedule.txt",
+      "thread": "D",
+      "partners": [
+        "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+        "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+        "\u9762\u5305\u7B14\u8BB0.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "recallHitAt5": false,
+      "missPartners": [
+        "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+        "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+        "\u9762\u5305\u7B14\u8BB0.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "precTop3Correct": 0,
+      "precTop3Shown": 0,
+      "candidates": []
+    },
+    {
+      "name": "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+      "thread": "B",
+      "partners": [
+        "character_notes.md",
+        "\u6DF1\u591C\u7075\u611F.txt",
+        "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 3,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md",
+          "kind": "lead",
+          "score": 0.945539,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u6DF1\u591C\u7075\u611F.txt",
+          "kind": "lead",
+          "score": 0.92744,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "character_notes.md",
+          "kind": "lead",
+          "score": 0.925493,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+      "thread": "D",
+      "partners": [
+        "sourdough schedule.txt",
+        "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+        "\u9762\u5305\u7B14\u8BB0.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 2,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u9762\u5305\u7B14\u8BB0.md",
+          "kind": "lead",
+          "score": 0.932252,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+          "kind": "lead",
+          "score": 0.915224,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+      "thread": "E",
+      "partners": [
+        "podcast_episode_outline.txt",
+        "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+        "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 2,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.933616,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+          "kind": "lead",
+          "score": 0.932788,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+      "thread": "E",
+      "partners": [
+        "podcast_episode_outline.txt",
+        "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+        "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+          "kind": "lead",
+          "score": 0.932788,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.924191,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "benchmark-v2.txt",
+          "kind": "lead",
+          "score": 0.907482,
+          "isPartner": false
+        },
+        {
+          "rank": 4,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.902393,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+      "thread": "C",
+      "partners": [
+        "note-app-features.txt",
+        "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+        "\u7EB8\u5806 README \u8349\u7A3F.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 2,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.924542,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+          "kind": "lead",
+          "score": 0.90517,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+      "thread": "A",
+      "partners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "agent_eval_notes.md",
+        "benchmark-v2.txt",
+        "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "prompt \u7EC3\u4E60\u518C.md",
+          "kind": "lead",
+          "score": 0.938375,
+          "isPartner": false
+        },
+        {
+          "rank": 2,
+          "other": "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt",
+          "kind": "lead",
+          "score": 0.925698,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "Agent Benchmark \u60F3\u6CD5.md",
+          "kind": "lead",
+          "score": 0.923258,
+          "isPartner": true
+        },
+        {
+          "rank": 4,
+          "other": "benchmark-v2.txt",
+          "kind": "lead",
+          "score": 0.913746,
+          "isPartner": true
+        },
+        {
+          "rank": 5,
+          "other": "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.912677,
+          "isPartner": false
+        },
+        {
+          "rank": 6,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.907239,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u6DF1\u591C\u7075\u611F.txt",
+      "thread": "B",
+      "partners": [
+        "character_notes.md",
+        "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+        "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 3,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+          "kind": "lead",
+          "score": 0.92744,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "character_notes.md",
+          "kind": "lead",
+          "score": 0.912622,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md",
+          "kind": "lead",
+          "score": 0.903176,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+      "thread": "D",
+      "partners": [
+        "sourdough schedule.txt",
+        "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+        "\u9762\u5305\u7B14\u8BB0.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u9762\u5305\u7B14\u8BB0.md",
+          "kind": "lead",
+          "score": 0.939179,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt",
+          "kind": "lead",
+          "score": 0.922561,
+          "isPartner": false
+        },
+        {
+          "rank": 3,
+          "other": "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+          "kind": "lead",
+          "score": 0.915224,
+          "isPartner": true
+        },
+        {
+          "rank": 4,
+          "other": "\u6A21\u578B\u6D4B\u8BD5\u8BB0\u5F55_0712.txt",
+          "kind": "lead",
+          "score": 0.901139,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+      "thread": "C",
+      "partners": [
+        "note-app-features.txt",
+        "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+        "\u7EB8\u5806 README \u8349\u7A3F.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.929389,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+          "kind": "lead",
+          "score": 0.90517,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "benchmark-v2.txt",
+          "kind": "lead",
+          "score": 0.903551,
+          "isPartner": false
+        },
+        {
+          "rank": 4,
+          "other": "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt",
+          "kind": "lead",
+          "score": 0.90079,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md",
+      "thread": "E",
+      "partners": [
+        "podcast_episode_outline.txt",
+        "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+        "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u5609\u5BBE\u9080\u8BF7\u8BDD\u672F.md",
+          "kind": "lead",
+          "score": 0.933616,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+          "kind": "lead",
+          "score": 0.924191,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+          "kind": "lead",
+          "score": 0.912677,
+          "isPartner": false
+        },
+        {
+          "rank": 4,
+          "other": "\u7EB8\u5806 README \u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.912644,
+          "isPartner": false
+        },
+        {
+          "rank": 5,
+          "other": "prompt \u7EC3\u4E60\u518C.md",
+          "kind": "lead",
+          "score": 0.907771,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u7EB8\u5806 README \u8349\u7A3F.md",
+      "thread": "C",
+      "partners": [
+        "note-app-features.txt",
+        "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+        "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+          "kind": "lead",
+          "score": 0.929389,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u672C\u5730\u4F18\u5148\u540C\u6B65\u65B9\u6848.md",
+          "kind": "lead",
+          "score": 0.924542,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u7B2C\u4E00\u671F\u811A\u672C\u8349\u7A3F.md",
+          "kind": "lead",
+          "score": 0.912644,
+          "isPartner": false
+        },
+        {
+          "rank": 4,
+          "other": "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+          "kind": "lead",
+          "score": 0.907239,
+          "isPartner": false
+        },
+        {
+          "rank": 5,
+          "other": "\u64AD\u5BA2\u9009\u9898\u6E05\u5355.md",
+          "kind": "lead",
+          "score": 0.902393,
+          "isPartner": false
+        },
+        {
+          "rank": 6,
+          "other": "benchmark-v2.txt",
+          "kind": "lead",
+          "score": 0.901596,
+          "isPartner": false
+        },
+        {
+          "rank": 7,
+          "other": "Agent Benchmark \u60F3\u6CD5.md",
+          "kind": "lead",
+          "score": 0.901102,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u8BC4\u6D4B\u62A5\u544A\u8282\u9009\uFF08\u957F\uFF09.txt",
+      "thread": "A",
+      "partners": [
+        "Agent Benchmark \u60F3\u6CD5.md",
+        "agent_eval_notes.md",
+        "benchmark-v2.txt",
+        "\u6A21\u578B\u6D4B\u8BD5 prompt.md"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "Agent Benchmark \u60F3\u6CD5.md",
+          "kind": "lead",
+          "score": 0.933402,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u6A21\u578B\u6D4B\u8BD5 prompt.md",
+          "kind": "lead",
+          "score": 0.925698,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+          "kind": "lead",
+          "score": 0.922561,
+          "isPartner": false
+        },
+        {
+          "rank": 4,
+          "other": "benchmark-v2.txt",
+          "kind": "lead",
+          "score": 0.919377,
+          "isPartner": true
+        },
+        {
+          "rank": 5,
+          "other": "\u77E5\u8BC6\u5E93\u7ADE\u54C1\u7B14\u8BB0.md",
+          "kind": "lead",
+          "score": 0.90079,
+          "isPartner": false
+        }
+      ]
+    },
+    {
+      "name": "\u96E8\u591C\u4E66\u5E97_\u7B2C\u4E00\u7AE0.md",
+      "thread": "B",
+      "partners": [
+        "character_notes.md",
+        "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+        "\u6DF1\u591C\u7075\u611F.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 3,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u4E66\u5E97\u6545\u4E8B\u5927\u7EB2.md",
+          "kind": "lead",
+          "score": 0.945539,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "character_notes.md",
+          "kind": "lead",
+          "score": 0.917462,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u6DF1\u591C\u7075\u611F.txt",
+          "kind": "lead",
+          "score": 0.903176,
+          "isPartner": true
+        }
+      ]
+    },
+    {
+      "name": "\u9762\u5305\u7B14\u8BB0.md",
+      "thread": "D",
+      "partners": [
+        "sourdough schedule.txt",
+        "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+        "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+        "\u9762\u5305\u7B14\u8BB0_\u5907\u4EFD.txt"
+      ],
+      "recallHitAt5": true,
+      "missPartners": [],
+      "precTop3Correct": 2,
+      "precTop3Shown": 3,
+      "candidates": [
+        {
+          "rank": 1,
+          "other": "\u70D8\u7119\u4E66\u6458\u5F55\uFF08\u957F\uFF09.md",
+          "kind": "lead",
+          "score": 0.939179,
+          "isPartner": true
+        },
+        {
+          "rank": 2,
+          "other": "\u5468\u672B\u70D8\u7119\u8BA1\u5212.txt",
+          "kind": "lead",
+          "score": 0.932252,
+          "isPartner": true
+        },
+        {
+          "rank": 3,
+          "other": "\u6A21\u578B\u6D4B\u8BD5\u8BB0\u5F55_0712.txt",
+          "kind": "lead",
+          "score": 0.90425,
+          "isPartner": false
+        }
+      ]
+    }
+  ]
+}

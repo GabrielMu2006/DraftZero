@@ -81,16 +81,23 @@ final class E5IntegrationTests: XCTestCase {
 
         // 评测脉络：综合队列（线索+重复）前 5 候选中命中同项目伙伴，
         // 对齐质量关口的 recall@5；完整 30 份基线的度量在 t011-spike 的 Python 复现里。
+        // F-008 地板 0.90 重校准后，伙伴分低于地板的草稿（如 agent_eval_notes）
+        // 合法地不再产生候选——断言相应放宽为"有候选者必须命中，整组至少一条对"。
         let aGroup = [byName["Agent Benchmark 想法.md"]!, byName["模型测试 prompt.md"]!, byName["agent_eval_notes.md"]!]
         let ranked = (leads + (try await candidateEngine.queue(kind: .duplicate))).sorted { $0.score > $1.score }
+        var aGroupPairsFound = 0
         for draftId in aGroup {
             let partners = ranked.filter { $0.involves(draftId) }
                 .sorted { $0.score > $1.score }
                 .prefix(5)
                 .compactMap { $0.other(draftId) }
-            XCTAssertTrue(partners.contains { aGroup.contains($0) && $0 != draftId },
-                          "A 组草稿前 5 候选未命中同项目伙伴")
+            if !partners.isEmpty {
+                XCTAssertTrue(partners.contains { aGroup.contains($0) && $0 != draftId },
+                              "A 组草稿前 5 候选未命中同项目伙伴")
+            }
+            aGroupPairsFound += ranked.filter { $0.involves(draftId) && aGroup.contains($0.other(draftId)!) }.count
         }
+        XCTAssertGreaterThan(aGroupPairsFound, 0, "A 组之间应至少保留一条候选对")
 
         // 每条待审线索都必须带可定位证据（R-004"给出证据"）。
         for lead in leads {

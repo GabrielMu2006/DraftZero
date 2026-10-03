@@ -11,7 +11,7 @@ namespace DraftZero.App.Views;
 public sealed class SettingsPage : UserControl
 {
     private readonly AppViewModel _model;
-    private readonly TextBox _apiKeyBox = new() { PasswordChar = '•', Watermark = "sk-…" };
+    private readonly TextBox _apiKeyBox = new() { PasswordChar = '•', PlaceholderText = "sk-…" };
     private readonly StackPanel _semanticPanel = new() { Spacing = 8 };
     private readonly TextBlock _migrationText = new() { FontSize = 12.5, TextWrapping = TextWrapping.Wrap, Foreground = ArchiveUI.MutedText, IsVisible = false };
     private readonly TextBlock _remoteStatusText = new() { FontSize = 12.5, TextWrapping = TextWrapping.Wrap, Foreground = ArchiveUI.Accent, IsVisible = false };
@@ -174,7 +174,7 @@ public sealed class SettingsPage : UserControl
             ?? (_model.RemoteEnabled ? "已开启：新加入的草稿将自动分析" : "默认关闭：不发送任何草稿内容。");
         _remoteStatusText.Foreground = _model.RemoteEnabled ? ArchiveUI.Confirmed : ArchiveUI.MutedText;
         _remoteStatusText.IsVisible = true;
-        _apiKeyBox.Watermark = _model.RemoteHasKey ? "已保存（输入新 Key 可替换）" : "sk-…";
+        _apiKeyBox.PlaceholderText = _model.RemoteHasKey ? "已保存（输入新 Key 可替换）" : "sk-…";
     }
 
     private Control BuildAboutCard()

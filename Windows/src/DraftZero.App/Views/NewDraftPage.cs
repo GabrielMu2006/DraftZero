@@ -39,13 +39,13 @@ public sealed class NewDraftPage : UserControl
         var editor = new StackPanel { Spacing = 10, Margin = new Thickness(28, 8, 28, 8) };
         _titleBox = ArchiveUI.ReadingColumn(ArchiveUI.StyleEditor(new TextBox
         {
-            Watermark = "标题（可空）",
+            PlaceholderText = "标题（可空）",
             FontSize = 19,
             MinHeight = 46,
         }));
         _contentBox = ArchiveUI.ReadingColumn(ArchiveUI.StyleEditor(new TextBox
         {
-            Watermark = "正文：一句话、半篇文章、Prompt、笔记都可以。",
+            PlaceholderText = "正文：一句话、半篇文章、Prompt、笔记都可以。",
             AcceptsReturn = true,
             TextWrapping = TextWrapping.Wrap,
             FontSize = 15,

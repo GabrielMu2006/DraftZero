@@ -102,8 +102,8 @@ final class CandidateEngineTests: XCTestCase {
     }
 
     func testSimilarDraftsProducePendingLead() async throws {
-        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma")
-        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta delta")
+        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta iota")
+        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta kappa")
         let unrelated = try await makeDraft("购物", "鸡蛋 牛奶 洋葱 采购")
 
         let engine = CandidateEngine(database: database, embedder: DeterministicEmbedder())
@@ -143,8 +143,8 @@ final class CandidateEngineTests: XCTestCase {
     }
 
     func testRejectionSuppressesUntilContentChanges() async throws {
-        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma")
-        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta delta")
+        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta iota")
+        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta kappa")
         let engine = CandidateEngine(database: database, embedder: DeterministicEmbedder())
         _ = try await engine.refresh(drafts: [a, b])
 
@@ -157,7 +157,7 @@ final class CandidateEngineTests: XCTestCase {
         XCTAssertFalse(pendingAfterReject.contains { $0.id == pair.id })
 
         // 内容变化 → 可产生新候选；旧拒绝记录保留
-        try await database.updateDraftContent(id: a.id, content: "swiftui 界面 mac 开发 笔记 alpha beta gamma epsilon")
+        try await database.updateDraftContent(id: a.id, content: "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta nu")
         let aUpdated = try await database.draft(id: a.id)! // 与应用行为一致：编辑后重读
         _ = try await engine.refresh(drafts: [aUpdated, b])
         let pendingAfterChange = try await engine.queue(kind: .lead)
@@ -167,8 +167,8 @@ final class CandidateEngineTests: XCTestCase {
     }
 
     func testDeferAndReanalyzeKeepDecisionHistory() async throws {
-        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma")
-        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta delta")
+        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta iota")
+        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta kappa")
         let engine = CandidateEngine(database: database, embedder: DeterministicEmbedder())
         _ = try await engine.refresh(drafts: [a, b])
 
@@ -187,8 +187,8 @@ final class CandidateEngineTests: XCTestCase {
     }
 
     func testAcceptAddsDraftsToProjectIdempotently() async throws {
-        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma")
-        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta delta")
+        let a = try await makeDraft("甲", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta iota")
+        let b = try await makeDraft("乙", "swiftui 界面 mac 开发 笔记 alpha beta gamma delta epsilon zeta eta theta kappa")
         let engine = CandidateEngine(database: database, embedder: DeterministicEmbedder())
         _ = try await engine.refresh(drafts: [a, b])
         let pair = try await engine.queue(kind: .lead).first!
@@ -208,20 +208,21 @@ final class CandidateEngineTests: XCTestCase {
     /// union 保留（每稿自己的前 K）下伙伴对必须仍在队列中。
     func testSaturatedHubKeepsCrossLanguagePartnerPair() async throws {
         let hubVector = ScriptedEmbedder.unit(0)
+        // F-008 地板 0.90 后脚本向量同步抬高：噪声 cos(hub)=0.944，伙伴 cos(hub)=0.922
         let zhNoise = (1...6).map { i in
-            ScriptedEmbedder.normalized([(0, 1), (i, 0.5)]) // cos(hub)=0.894
+            ScriptedEmbedder.normalized([(0, 1), (i, 0.35)])
         }
-        let enVector = ScriptedEmbedder.normalized([(0, 1), (7, 0.55)]) // cos(hub)=0.876
+        let enVector = ScriptedEmbedder.normalized([(0, 1), (7, 0.42)])
 
-        var vectors: [String: [Float]] = ["枢纽稿正文": hubVector]
-        var contents: [String] = ["枢纽稿正文"]
+        var vectors: [String: [Float]] = ["枢纽稿正文：跨语言候选保留规则的回归场景，正文需要足够长以满足线索的最低长度门槛要求。": hubVector]
+        var contents: [String] = ["枢纽稿正文：跨语言候选保留规则的回归场景，正文需要足够长以满足线索的最低长度门槛要求。"]
         for (i, v) in zhNoise.enumerated() {
-            let text = "中文噪声\(i) 正文占位 词表"
+            let text = "中文噪声\(i)：正文占位词表填充，用来占满枢纽稿的同语言候选槽位，文本需要足够长以免被门槛过滤。"
             vectors[text] = v
             contents.append(text)
         }
-        vectors["only english partner body text"] = enVector
-        contents.append("only english partner body text")
+        vectors["only english partner body text padded to satisfy the minimum lead character threshold"] = enVector
+        contents.append("only english partner body text padded to satisfy the minimum lead character threshold")
 
         var drafts: [Draft] = []
         for (i, content) in contents.enumerated() {
@@ -242,11 +243,11 @@ final class CandidateEngineTests: XCTestCase {
     func testCrossLanguagePartnerRanksAboveSameLanguageNoise() async throws {
         let zhA = ScriptedEmbedder.normalized([(0, 1), (1, 1)])
         let enB = ScriptedEmbedder.normalized([(0, 1), (1, 1), (2, 0.4)]) // cos(zhA)=0.929
-        let zhN = ScriptedEmbedder.normalized([(0, 1), (1, 1), (3, 0.485)]) // cos(zhA)=0.900
+        let zhN = ScriptedEmbedder.normalized([(0, 1), (1, 1), (3, 0.45)]) // cos(zhA)≈0.91（F-008 地板 0.90 之上）
 
-        let zhAText = "评估方案 词表 数据 整理 正文"
-        let zhNText = "评估方案 词表 无关 填充 正文"
-        let enBText = "completely different english evaluation tokens"
+        let zhAText = "评估方案 词表 数据 整理 正文，补充说明填充内容以达到线索候选的最低长度门槛。"
+        let zhNText = "评估方案 词表 无关 填充 正文，同样补充说明填充内容以达到线索候选的最低长度门槛。"
+        let enBText = "completely different english evaluation tokens padded to satisfy the minimum lead length"
         let vectors = [zhAText: zhA, zhNText: zhN, enBText: enB]
 
         let a = try await makeDraft("甲项目", zhAText)

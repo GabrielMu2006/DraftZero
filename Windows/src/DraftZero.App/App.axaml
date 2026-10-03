@@ -4,6 +4,27 @@
              RequestedThemeVariant="Dark">
     <Application.Styles>
         <FluentTheme />
+        <!-- F-003：全局文本框纸面化（普通/悬停/焦点三态），覆盖 Fluent 焦点态的近黑背景 -->
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RuleBrush}" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="14,11" />
+            <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="TextBox:pointerover">
+            <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RuleBrush}" />
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+        </Style>
     </Application.Styles>
     <Application.Resources>
         <ResourceDictionary>

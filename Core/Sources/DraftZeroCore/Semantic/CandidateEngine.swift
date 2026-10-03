@@ -93,10 +93,11 @@ public struct CandidatePair: Codable, Sendable, Identifiable, Hashable, Fetchabl
 public enum CandidateTuning {
     /// 语义近重复阈值（spike：重复文件对 1.000，无关对均值 ~0.80）。
     public static let duplicateSemantic: Double = 0.98
-    /// 项目线索地板只负责拦住完全无关的长尾（语义 <0.45）。
-    public static let leadSemanticFloor: Double = 0.45
+    /// 项目线索地板（V0.2.0 F-008 重校准：e5-small 绝对余弦挤在 0.82–0.94 窄带，
+    /// 0.45 地板全数放行导致真实使用中噪声线索刷屏；冻结集复测见 Windows/evidence/M0-TECHNICAL-GATE.md 附录）。
+    public static let leadSemanticFloor: Double = 0.90
     /// 合成分地板：排序已不含字面分量（literalWeight = 0），与语义地板一致。
-    public static let leadCombined: Double = 0.45
+    public static let leadCombined: Double = 0.90
     /// 排序权重（2026-09-29 收尾 P1，冻结 30 份集消融）：
     /// 字面分进入合成分会系统性抬升同语言噪声对（任何中中/英英对都共享高频
     /// 字词，字面分 ~0.02–0.10），而跨语言真伙伴字面恒为 0，被稳定压到
@@ -107,6 +108,8 @@ public enum CandidateTuning {
     public static let literalWeight: Double = 0.0
     /// 每份草稿保留的候选数（质量关口按"前 5"评估，多留一个余量）。
     public static let topKPerDraft = 6
+    /// 产生"项目线索"（语义）候选的最低正文字符数（与 Windows 端一致，见 CandidateTuning）。
+    public static let minLeadCharacters = 30
 }
 
 // MARK: - 字面信号（第一层：中英文词、汉字短片段、标题）
@@ -223,8 +226,15 @@ public struct CandidateEngine: Sendable {
                     + CandidateTuning.literalWeight * literal
                 let isDuplicate = best >= CandidateTuning.duplicateSemantic
                     || fingerprints[draftA.id] == fingerprints[draftB.id]
+                // F-008：线索候选要求双方正文达到最低长度（短文语义不可靠）；
+                // "可能重复"（指纹判定）不受限。
+                let bothLeadEligible =
+                    (draftA.content?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0)
+                        >= CandidateTuning.minLeadCharacters
+                    && (draftB.content?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0)
+                        >= CandidateTuning.minLeadCharacters
                 guard isDuplicate
-                        || (best >= CandidateTuning.leadSemanticFloor && combined >= CandidateTuning.leadCombined) else {
+                        || (bothLeadEligible && best >= CandidateTuning.leadSemanticFloor && combined >= CandidateTuning.leadCombined) else {
                     continue
                 }
 
