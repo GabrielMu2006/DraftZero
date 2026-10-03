@@ -25,6 +25,7 @@ public sealed class SettingsPage : UserControl
 
         panel.Children.Add(ArchiveUI.PageHeader("06", "设置", "本机优先；远程分析默认关闭"));
         panel.Children.Add(BuildSemanticCard());
+        panel.Children.Add(BuildExportCard());
         panel.Children.Add(BuildMigrationCard());
         panel.Children.Add(BuildRemoteCard());
         panel.Children.Add(BuildAboutCard());
@@ -71,6 +72,42 @@ public sealed class SettingsPage : UserControl
                     _model.SemanticStateDetail ?? "语义线索暂不可用，当前只显示关键词线索", ArchiveUI.Danger, 13));
                 break;
         }
+    }
+
+    private Control BuildExportCard()
+    {
+        var card = new StackPanel { Spacing = 10 };
+        card.Children.Add(ArchiveUI.SectionTitle("导出当前工作区（供 Mac 导入）"));
+        card.Children.Add(ArchiveUI.Muted(
+            "导出 .dzarchive 工作区档案，供 Mac 版「设置 → 从 Windows 导入」使用。导出是复制：当前工作区保持不变，之后两端不会自动同步。档案未加密，包含全部草稿正文、PDF 快照、项目、版本与你的归类裁决；不包含 DeepSeek Key（需在 Mac 重新填写）与可重建的索引。", 12));
+        var exportButton = ArchiveUI.PrimaryButton("导出当前工作区…");
+        exportButton.Click += async (_, _) =>
+        {
+            var top = TopLevel.GetTopLevel(this);
+            if (top is null) return;
+            var file = await top.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = "选择档案保存位置",
+                SuggestedFileName = "DraftZero-工作区.dzarchive",
+                DefaultExtension = "dzarchive",
+            });
+            if (file is null) return;
+            await _model.ExportWorkspaceAsync(file.Path.LocalPath);
+        };
+        card.Children.Add(exportButton);
+        var exportText = new TextBlock { FontSize = 12.5, TextWrapping = TextWrapping.Wrap, Foreground = ArchiveUI.MutedText, IsVisible = false };
+        _model.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(AppViewModel.ExportMessage) or nameof(AppViewModel.ExportRunning))
+            {
+                exportText.Text = _model.ExportMessage ?? (_model.ExportRunning ? "正在导出…" : null);
+                exportText.Foreground = (_model.ExportMessage ?? "").Contains("失败") ? ArchiveUI.Danger : ArchiveUI.Confirmed;
+                exportText.IsVisible = exportText.Text is not null;
+                exportButton.IsEnabled = !_model.ExportRunning;
+            }
+        };
+        card.Children.Add(exportText);
+        return ArchiveUI.Card(card, ArchiveUI.Surface);
     }
 
     private Control BuildMigrationCard()

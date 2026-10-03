@@ -9,6 +9,8 @@ struct SettingsView: View {
     @State private var apiKeyInput = ""
     @State private var migrationExporting = false
     @State private var migrationMessage: String?
+    @State private var winImportRunning = false
+    @State private var winImportMessage: String?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -18,6 +20,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 18) {
                     localSection
                     migrationSection
+                    winImportSection
                     remoteSection
                 }
                 .padding(24)
@@ -109,6 +112,53 @@ struct SettingsView: View {
                     Text(message)
                         .font(.system(size: 12))
                         .foregroundStyle(message.hasPrefix("导出失败") ? Color.danger : Color.mutedText)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .archiveCard()
+        }
+    }
+
+    // MARK: - 从 Windows 导入（D-002 双向迁移）
+
+    private var winImportSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("从 Windows 导入工作区", systemImage: "arrow.down.square")
+                .font(.archiveSection)
+                .fontDesign(.serif)
+                .foregroundStyle(Color.archiveText)
+            VStack(alignment: .leading, spacing: 10) {
+                Text("导入 Windows 版「设置 → 导出当前工作区」生成的 .dzarchive 档案。**仅支持导入到空工作区**：请先确认本 Mac 工作区为空（或整体备份后清空），失败时零部分写入。导入后本机会自动重建语义索引；DeepSeek Key 需重新填写。")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.mutedText)
+                    .fixedSize(horizontal: false, vertical: true)
+                Button(winImportRunning ? "正在导入…" : "从 Windows 档案导入…") {
+                    let panel = NSOpenPanel()
+                    panel.allowedContentTypes = [.data]
+                    panel.allowedFileTypes = ["dzarchive"]
+                    panel.message = "选择 Windows 导出的 .dzarchive 档案"
+                    guard panel.runModal() == .OK, let url = panel.url else { return }
+                    winImportRunning = true
+                    winImportMessage = nil
+                    Task {
+                        let message = await MigrationImport.runImport(
+                            database: model.database,
+                            snapshotsDirectory: AppDatabase.defaultSnapshotsURL(),
+                            archiveURL: url)
+                        await MainActor.run {
+                            winImportRunning = false
+                            winImportMessage = message
+                        }
+                    }
+                }
+                .buttonStyle(ArchiveSecondaryButtonStyle())
+                .disabled(winImportRunning || model.database == nil)
+                if let message = winImportMessage {
+                    Text(message)
+                        .font(.system(size: 12))
+                        .foregroundStyle(message.hasPrefix("导入失败") ? Color.danger : Color.mutedText)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }

@@ -552,6 +552,34 @@ public partial class AppViewModel
     }
 }
 
+/// <summary>工作区导出（D-002 双向迁移）：当前工作区 → .dzarchive，供 Mac 导入。</summary>
+public partial class AppViewModel
+{
+    public async Task ExportWorkspaceAsync(string destination)
+    {
+        if (_database is null) return;
+        ExportRunning = true;
+        ExportMessage = null;
+        try
+        {
+            IProgress<string> progress = new Progress<string>(msg => ExportMessage = msg);
+            var db = _database;
+            var result = await Task.Run(() =>
+                WorkspaceExporter.ExportAsync(db, destination, progress.Report));
+            ExportMessage = $"导出完成：{Path.GetFileName(result.Destination)}（{result.SizeBytes / 1024 / 1024} MB）。" +
+                "档案未加密，含草稿正文与 PDF，请妥善保管；在 Mac 版设置中选择该档案导入。";
+        }
+        catch (Exception ex)
+        {
+            ExportMessage = $"导出失败：{ex.Message}";
+        }
+        finally
+        {
+            ExportRunning = false;
+        }
+    }
+}
+
 /// <summary>迁移导入（W-011）：Windows 首次启动空工作区的一次性导入。</summary>
 public partial class AppViewModel
 {

@@ -201,6 +201,30 @@ public static class ProjectStore
             return Task.CompletedTask;
         });
 
+    public static async Task<List<Tag>> TagsAsync(this AppDatabase db) =>
+        await db.WriteAsync(conn =>
+            Task.FromResult(Db.ReadRows(conn, "SELECT * FROM tag ORDER BY name ASC").Select(r => new Tag
+            {
+                Id = Db.Uid(Db.Str(r, "id")!),
+                Name = Db.Str(r, "name") ?? "",
+            }).ToList())).ConfigureAwait(false);
+
+    /// <summary>全部项目-草稿成员关系（导出用）。</summary>
+    public static async Task<List<(Guid ProjectId, Guid DraftId)>> MembershipsAsync(this AppDatabase db) =>
+        await db.WriteAsync(conn =>
+        {
+            var rows = Db.ReadRows(conn, "SELECT projectId, draftId FROM projectDraft ORDER BY projectId, draftId");
+            var list = new List<(Guid, Guid)>(rows.Count);
+            foreach (var r in rows)
+            {
+                if (Db.Str(r, "projectId") is { } p && Db.Str(r, "draftId") is { } d)
+                {
+                    list.Add((Db.Uid(p), Db.Uid(d)));
+                }
+            }
+            return Task.FromResult(list);
+        }).ConfigureAwait(false);
+
     public static async Task<List<Tag>> TagsOnProjectAsync(this AppDatabase db, Guid projectId) =>
         await db.WriteAsync(conn =>
         {

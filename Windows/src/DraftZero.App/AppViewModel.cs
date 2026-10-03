@@ -81,6 +81,8 @@ public partial class AppViewModel : ObservableObject
     // 迁移导入（W-011）
     [ObservableProperty] private string? _migrationMessage;
     [ObservableProperty] private bool _migrationRunning;
+    [ObservableProperty] private string? _exportMessage;
+    [ObservableProperty] private bool _exportRunning;
 
     public string? WorkspaceOverrideDirectory { get; }
     public string WorkspacePath { get; private set; } = "";
