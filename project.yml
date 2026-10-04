@@ -28,8 +28,8 @@ targets:
       properties:
         CFBundleDisplayName: Draft Zero
         CFBundleIconFile: AppIcon
-        CFBundleShortVersionString: 0.2.0
-        CFBundleVersion: 3
+        CFBundleShortVersionString: 0.2.1
+        CFBundleVersion: 4
         LSMinimumSystemVersion: "26.0"
         LSApplicationCategoryType: public.app-category.productivity
         CFBundleURLTypes:
@@ -64,8 +64,8 @@ targets:
       path: Widget/Info.plist
       properties:
         CFBundleDisplayName: Draft Zero Widget
-        CFBundleShortVersionString: 0.2.0
-        CFBundleVersion: 3
+        CFBundleShortVersionString: 0.2.1
+        CFBundleVersion: 4
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     settings:

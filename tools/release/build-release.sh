@@ -93,12 +93,22 @@ for BIN in "$APP/Contents/MacOS/${APP_NAME}" "$APP/Contents/PlugIns/DraftZeroWid
     [[ "$ARCHS_OUT" == "arm64" ]] || fail "$BIN 架构非 arm64-only：$ARCHS_OUT"
 done
 
-# 离线模型在包内（主应用与扩展各一份为已知成本，见 RELEASE-NOTES）
-find "$APP" -name "e5_small.mlmodelc" -type d | grep -q . || fail "包内未找到 e5_small.mlmodelc"
-MODEL_WEIGHTS=$(find "$APP" -path "*e5_small.mlmodelc/weights/weight.bin" | head -1)
-[[ -n "$MODEL_WEIGHTS" ]] || fail "包内未找到模型权重 weight.bin"
-ACTUAL_HASH=$(shasum -a 256 "$MODEL_WEIGHTS" | awk '{print $1}')
-[[ "$ACTUAL_HASH" == "7397889b9a97ebb83004fab7380c403d7bd4fddb475a952923c3eb21151bf69f" ]] || fail "模型权重哈希不符：$ACTUAL_HASH"
+# 离线模型在包内（V0.2.1 起为 ONNX int8 模型 + ORT dylib；主应用与组件各一份为
+# 已知成本——但组件不做语义工作，打包后剥离组件内副本，见下）。
+find "$APP" -name "model_quantized.onnx" -type f | grep -q . || fail "包内未找到 model_quantized.onnx"
+ACTUAL_HASH=$(shasum -a 256 "$(find "$APP" -name "model_quantized.onnx" -type f | head -1)" | awk '{print $1}')
+[[ "$ACTUAL_HASH" == "f80102d3f2a1229f387d3c81909990d8945513e347b0eab049f7de3c6f98c193" ]] || fail "模型哈希不符：$ACTUAL_HASH"
+find "$APP" -name "libonnxruntime.dylib" | grep -q . || fail "包内未找到 libonnxruntime.dylib"
+
+# 剥离 Widget 扩展内的模型/推理库副本：Widget 链接 DraftZeroCore 仅用存储模型，
+# 从不初始化嵌入引擎（Widget 源码无 E5Embedding/TextEmbedding 引用）；SPM 会把
+# DraftZeroCore 资源包同时嵌入 appex，剥离可省 ~155MB。主应用副本保留。
+WPLIST_DIR="$APP/Contents/PlugIns/DraftZeroWidget.appex"
+find "$WPLIST_DIR" -name "DraftZeroCore_DraftZeroCore.bundle" -type d -exec rm -rf {} + 2>/dev/null || true
+find "$WPLIST_DIR" \( -name "model_quantized.onnx" -o -name "libonnxruntime.dylib" \) | grep -q . && fail "appex 内仍残留模型/推理库副本" || true
+# 剥离破坏了签名封条：按构建同口径（ad hoc "-"）重签 appex 与主应用
+codesign --force --sign - "$WPLIST_DIR" || fail "appex 重签失败"
+codesign --force --deep --sign - "$APP" || fail "剥离后重签失败"
 
 # ad hoc 签名完整性（CODE_SIGN_IDENTITY="-"；不是可分发签名，V0.1.0 已知边界）
 codesign --verify --deep --strict "$APP" || fail "codesign 校验失败"

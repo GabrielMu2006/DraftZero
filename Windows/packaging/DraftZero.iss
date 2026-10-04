@@ -10,7 +10,7 @@
 ; - 未经签名分发（预览版）：安装说明须如实写明 SmartScreen 提示。
 
 #define MyAppName "Draft Zero"
-#define MyAppVersion "0.2.0"
+#define MyAppVersion "0.2.1"
 #define MyAppPublisher "GabrielMu"
 #define MyAppExeName "DraftZero.exe"
 #ifndef AppDir

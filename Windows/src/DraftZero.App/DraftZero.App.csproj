@@ -13,8 +13,8 @@
     <OutputType>WinExe</OutputType>
     <ApplicationIcon Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">Assets\DraftZero.ico</ApplicationIcon>
     <AssemblyName>DraftZero</AssemblyName>
-    <Version>0.2.0</Version>
-    <InformationalVersion>0.2.0</InformationalVersion>
+    <Version>0.2.1</Version>
+    <InformationalVersion>0.2.1</InformationalVersion>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
