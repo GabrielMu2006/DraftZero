@@ -16,8 +16,6 @@ SKIP_DOUBLE=0
 [[ "${1:-}" == "--skip-double-build" ]] && SKIP_DOUBLE=1
 
 APP_NAME="DraftZero"
-VERSION=$(defaults read "$ROOT/App/Info.plist" CFBundleShortVersionString 2>/dev/null || echo "0.1.0")
-ZIP_NAME="DraftZero-v${VERSION}-arm64.zip"
 STAMP=$(date +%Y%m%d-%H%M%S)
 
 echo "== Draft Zero 发布构建 $STAMP"
@@ -25,6 +23,10 @@ command -v xcodebuild >/dev/null || { echo "需要 Xcode xcodebuild"; exit 1; }
 
 echo "== [1/6] 生成 Xcode 工程"
 tools/xcodegen/bin/xcodegen generate
+# 版本以 project.yml 为唯一事实源（xcodegen 生成 Info.plist 后读取）
+VERSION=$(defaults read "$ROOT/App/Info.plist" CFBundleShortVersionString 2>/dev/null || echo "0.1.0")
+ZIP_NAME="DraftZero-v${VERSION}-arm64.zip"
+echo "VERSION=$VERSION"
 
 echo "== [2/6] 解析并校验 SwiftPM 锁定（真实上游 + 精确版本）"
 (cd Core && swift package resolve >/dev/null 2>&1)
